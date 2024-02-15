@@ -111,21 +111,19 @@ const Sidebar = () => {
                                         </Link>
                                     </li>
                                     <li className="nav-item">
-                                        <Link href="/" className="group">
+                                        <Link href="/add-news" className="group">
                                             <div className="flex items-center">
                                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <rect x="11" y="5" width="2" height="14" rx="1" fill="currentColor"/>
                                                     <rect x="5" y="11" width="14" height="2" rx="1" fill="currentColor"/>
                                                 </svg>
 
-
-
                                                 <span className="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">{t('Add New News')}</span>
                                             </div>
                                         </Link>
                                     </li>
                                     <li className="nav-item">
-                                        <Link href="/" className="group">
+                                        <Link href="/categories" className="group">
                                             <div className="flex items-center">
                                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <circle cx="6" cy="6" r="2" fill="currentColor"/>
