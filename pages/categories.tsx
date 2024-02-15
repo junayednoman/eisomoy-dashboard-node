@@ -657,8 +657,8 @@ const Categories = () => {
 
     return (
         <div>
-            <div className='grid grid-cols-3 gap-6'>
-                <div className='col-span-1 border border-[#e6e6e6] dark:border-0 rounded-md mt-5 p-4 shadow-sm bg-white dark:bg-[#0E1726]'>
+            <div className='grid lg:grid-cols-3 grid-cols-1 gap-6'>
+                <div className='lg:col-span-1 col-span-1 border border-[#e6e6e6] dark:border-0 rounded-md mt-5 p-4 shadow-sm bg-white dark:bg-[#0E1726]'>
                     <Formik
                         initialValues={{
                             categoryName: '',
@@ -681,7 +681,7 @@ const Categories = () => {
                                     </div>
                                     {/* category description */}
                                     <label className='mt-3' htmlFor="description">Description </label>
-                                    <Field name="description" as="textarea" id="description" placeholder="Enter Category Description" className="form-input h-32" />
+                                    <Field name="description" as="textarea" id="description" placeholder="Enter Category Description" className="h-32 w-full border rounded-md p-3 dark:bg-[#121E32] dark:border-0" />
 
                                 </div>
                                 <button
@@ -693,13 +693,13 @@ const Categories = () => {
                                         }
                                     }}
                                 >
-                                    Publish
+                                    Add Now
                                 </button>
                             </Form>
                         )}
                     </Formik>
                 </div>
-                <div className='col-span-2'>
+                <div className='lg:col-span-2 col-span-1'>
                     <div className="panel mt-5">
                         <div className="mb-5 flex flex-col gap-5 md:flex-row md:items-center">
                             <h5 className="text-lg font-semibold dark:text-white-light">News Categories</h5>
@@ -734,7 +734,7 @@ const Categories = () => {
                                                 </div>
                                             ),
                                         },
-                                        { accessor: 'company', title: 'slug', sortable: true },
+                                        { accessor: 'company', title: 'Parent', sortable: true },
                                         { accessor: 'email', title: 'Count', sortable: true }, {
                                             accessor: 'action',
                                             title: 'Action',
