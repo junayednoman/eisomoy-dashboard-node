@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 import { Field, Form, Formik } from 'formik';
 import Swal from 'sweetalert2';
 import * as Yup from 'yup';
+import Select from 'react-select';
 
 
 const rowData = [
@@ -514,6 +515,11 @@ const rowData = [
 ];
 
 const Categories = () => {
+    const categoryOptions = [
+        { value: 'orange', label: 'Orange' },
+        { value: 'white', label: 'White' },
+        { value: 'purple', label: 'Purple' },
+    ];
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(setPageTitle('Multiple Tables'));
@@ -656,6 +662,7 @@ const Categories = () => {
                     <Formik
                         initialValues={{
                             categoryName: '',
+                            description: '',
                         }}
                         validationSchema={SubmittedForm}
                         onSubmit={() => { }}
@@ -667,7 +674,11 @@ const Categories = () => {
                                     <label htmlFor="title">Title </label>
                                     <Field name="categoryName" type="text" id="title" placeholder="Enter Category Name" className="form-input h-12" />
                                     {submitCount ? errors.categoryName ? <div className="text-danger mt-1">{errors.categoryName}</div> : <div className="text-success mt-1">Looks Good!</div> : ''}
-
+                                    {/* category parent */}
+                                    <div className="mt-3">
+                                        <label htmlFor="fullName">Parent</label>
+                                        <Select placeholder="Select a parent" options={categoryOptions} />
+                                    </div>
                                     {/* category description */}
                                     <label className='mt-3' htmlFor="description">Description </label>
                                     <Field name="description" as="textarea" id="description" placeholder="Enter Category Description" className="form-input h-32" />

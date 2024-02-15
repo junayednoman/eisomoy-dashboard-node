@@ -4,7 +4,6 @@ import { Field, Form, Formik } from "formik";
 import * as Yup from 'yup';
 import Swal from "sweetalert2";
 import Select from 'react-select';
-import 'react-quill/dist/quill.snow.css';
 import { useCallback, useState } from "react";
 import AnimateHeight from "react-animate-height";
 import SimpleMdeReact from "react-simplemde-editor";
