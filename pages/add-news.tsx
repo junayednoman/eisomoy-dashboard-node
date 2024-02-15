@@ -151,32 +151,32 @@ const AddNews = () => {
                                         </div>
                                         <AnimateHeight duration={50} height={active === 2 ? 'auto' : 0}>
                                             <div className="p-4 pt-1 font-semibold text-white-dark">
-                                                <label className="flex gap-2">
-                                                    <Field name="Sports" type="checkbox" id="Sports" className="mb-2 h-5 w-5" />
+                                                <label className="flex items-center gap-[6px]">
+                                                    <Field name="Sports" type="checkbox" id="Sports" className="h-4 w-4" />
                                                     <span>Sports</span>
                                                 </label>
-                                                <label className="flex gap-2">
-                                                    <Field name="Politics" type="checkbox" id="Politics" className="mb-2 h-5 w-5" />
+                                                <label className="flex items-center gap-[6px]">
+                                                    <Field name="Politics" type="checkbox" id="Politics" className="h-4 w-4" />
                                                     <span>Politics</span>
                                                 </label>
-                                                <label className="flex gap-2">
-                                                    <Field name="National" type="checkbox" id="National" className="mb-2 h-5 w-5" />
+                                                <label className="flex items-center gap-[6px]">
+                                                    <Field name="National" type="checkbox" id="National" className="h-4 w-4" />
                                                     <span>National</span>
                                                 </label>
-                                                <label className="flex gap-2">
-                                                    <Field name="International" type="checkbox" id="International" className="mb-2 h-5 w-5" />
+                                                <label className="flex items-center gap-[6px]">
+                                                    <Field name="International" type="checkbox" id="International" className="h-4 w-4" />
                                                     <span>International</span>
                                                 </label>
-                                                <label className="flex gap-2">
-                                                    <Field name="Business" type="checkbox" id="Business" className="mb-2 h-5 w-5" />
+                                                <label className="flex items-center gap-[6px]">
+                                                    <Field name="Business" type="checkbox" id="Business" className="h-4 w-4" />
                                                     <span>Business</span>
                                                 </label>
-                                                <label className="flex gap-2">
-                                                    <Field name="Economy" type="checkbox" id="Economy" className="mb-2 h-5 w-5" />
+                                                <label className="flex items-center gap-[6px]">
+                                                    <Field name="Economy" type="checkbox" id="Economy" className="h-4 w-4" />
                                                     <span>Economy</span>
                                                 </label>
-                                                <label className="flex gap-2">
-                                                    <Field name="Science" type="checkbox" id="Science" className="mb-2 h-5 w-5" />
+                                                <label className="flex items-center gap-[6px]">
+                                                    <Field name="Science" type="checkbox" id="Science" className="h-4 w-4" />
                                                     <span>Science</span>
                                                 </label>
                                             </div>
@@ -184,15 +184,15 @@ const AddNews = () => {
                                     </div>
                                     {/* featured image */}
                                     <div className="border-b border-[#ebedf2] bg-white dark:border-[#191e3a] dark:bg-black">
-                                        <div className={`flex cursor-pointer p-4  font-semibold hover:bg-[#EBEBEB]`} onClick={() => togglePara(2)}>
+                                        <div className={`flex cursor-pointer p-4  font-semibold hover:bg-[#EBEBEB]`} onClick={() => togglePara(3)}>
                                             <span>Featured Image</span>
                                             <div className="flex ltr:ml-auto rtl:mr-auto">
-                                                <svg className={`h-5 w-5 ${active === 2 ? 'rotate-180' : ''}`} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <svg className={`h-5 w-5 ${active === 3 ? 'rotate-180' : ''}`} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M19 9L12 15L5 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                                                 </svg>
                                             </div>
                                         </div>
-                                        <AnimateHeight duration={50} height={active === 2 ? 'auto' : 0}>
+                                        <AnimateHeight duration={50} height={active === 3 ? 'auto' : 0}>
                                             <div className="p-4 pt-1 font-semibold text-white-dark">
                                                 <Field name="feature-img" type="file" id="feature-img" placeholder="Set featured image" className="form-input h-12 mb-2" ></Field>
                                             </div>
