@@ -644,7 +644,7 @@ const MultipleTables = () => {
                             columns={[
                                 {
                                     accessor: 'id',
-                                    title: 'ID',
+                                    title: 'News ID',
                                     sortable: true,
                                     render: ({ firstName, lastName, id }) => (
                                         <div className="flex w-max items-center">
@@ -663,15 +663,15 @@ const MultipleTables = () => {
                                         </div>
                                     ),
                                 },
-                                { accessor: 'company', title: 'Author', sortable: true },
-                                { accessor: 'email', title: 'Categories', sortable: true },
-                                { accessor: 'phone', title: 'Tags', sortable: true },
-                                {
-                                    accessor: 'post-date',
-                                    title: 'Date',
-                                    sortable: true,
-                                    render: ({ dob }) => <div>{formatDate(dob)}</div>,
-                                },
+                                { accessor: 'email', title: 'Category', sortable: true },
+                                { accessor: 'company', title: 'Reporter Name', sortable: true },
+                                { accessor: 'phone', title: 'Publish Status', sortable: true },
+                                { accessor: 'phone', title: 'Created By', sortable: true },
+                                { accessor: 'phone', title: 'Publish By', sortable: true },
+                                { accessor: 'phone', title: 'Last Modified By', sortable: true },
+                                { accessor: 'phone', title: 'Created Datetime', sortable: true },
+                                { accessor: 'phone', title: 'Published Datetime', sortable: true },
+                                { accessor: 'phone', title: 'Modified Datetime', sortable: true },
                                 {
                                     accessor: 'action',
                                     title: 'Action',
