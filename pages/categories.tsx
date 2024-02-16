@@ -725,7 +725,7 @@ const Categories = () => {
                                 </div>
                                 <button
                                     type="submit"
-                                    className="btn btn-primary !mt-6"
+                                    className="btn btn-primary !mt-6 mx-4"
                                     onClick={() => {
                                         if (touched.categoryName && !errors.categoryName) {
                                             submitForm();

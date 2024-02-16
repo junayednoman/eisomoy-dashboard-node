@@ -66,7 +66,7 @@ const Sidebar = () => {
                     <div className="flex items-center justify-between px-4 py-3">
                         <Link href="/" className="main-logo flex shrink-0 items-center">
                             <img className="ml-[5px] w-20 flex-none" src="/assets/images/logo.webp" alt="logo" />
-                            
+
                         </Link>
 
                         <button
@@ -99,12 +99,12 @@ const Sidebar = () => {
                                         <Link href="/viewallnews" className="group">
                                             <div className="flex items-center">
                                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <rect x="2" y="4" width="20" height="16" rx="2" fill="currentColor"/>
-                                                    <rect x="4" y="6" width="16" height="2" rx="1" fill="white"/>
-                                                    <rect x="4" y="10" width="16" height="1" rx="0.5" fill="white"/>
-                                                    <rect x="4" y="12" width="16" height="1" rx="0.5" fill="white"/>
-                                                    <rect x="4" y="14" width="16" height="1" rx="0.5" fill="white"/>
-                                                    <rect x="4" y="16" width="16" height="1" rx="0.5" fill="white"/>
+                                                    <rect x="2" y="4" width="20" height="16" rx="2" fill="currentColor" />
+                                                    <rect x="4" y="6" width="16" height="2" rx="1" fill="white" />
+                                                    <rect x="4" y="10" width="16" height="1" rx="0.5" fill="white" />
+                                                    <rect x="4" y="12" width="16" height="1" rx="0.5" fill="white" />
+                                                    <rect x="4" y="14" width="16" height="1" rx="0.5" fill="white" />
+                                                    <rect x="4" y="16" width="16" height="1" rx="0.5" fill="white" />
                                                 </svg>
                                                 <span className="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">{t('View All News')}</span>
                                             </div>
@@ -114,8 +114,8 @@ const Sidebar = () => {
                                         <Link href="/add-news" className="group">
                                             <div className="flex items-center">
                                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <rect x="11" y="5" width="2" height="14" rx="1" fill="currentColor"/>
-                                                    <rect x="5" y="11" width="14" height="2" rx="1" fill="currentColor"/>
+                                                    <rect x="11" y="5" width="2" height="14" rx="1" fill="currentColor" />
+                                                    <rect x="5" y="11" width="14" height="2" rx="1" fill="currentColor" />
                                                 </svg>
 
                                                 <span className="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">{t('Add New News')}</span>
@@ -126,14 +126,14 @@ const Sidebar = () => {
                                         <Link href="/categories" className="group">
                                             <div className="flex items-center">
                                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <circle cx="6" cy="6" r="2" fill="currentColor"/>
-                                                    <circle cx="18" cy="6" r="2" fill="currentColor"/>
-                                                    <circle cx="6" cy="18" r="2" fill="currentColor"/>
-                                                    <circle cx="18" cy="18" r="2" fill="currentColor"/>
-                                                    <rect x="7" y="6" width="10" height="1" fill="currentColor"/>
-                                                    <rect x="7" y="18" width="10" height="1" fill="currentColor"/>
-                                                    <rect x="6" y="7" width="1" height="10" fill="currentColor"/>
-                                                    <rect x="18" y="7" width="1" height="10" fill="currentColor"/>
+                                                    <circle cx="6" cy="6" r="2" fill="currentColor" />
+                                                    <circle cx="18" cy="6" r="2" fill="currentColor" />
+                                                    <circle cx="6" cy="18" r="2" fill="currentColor" />
+                                                    <circle cx="18" cy="18" r="2" fill="currentColor" />
+                                                    <rect x="7" y="6" width="10" height="1" fill="currentColor" />
+                                                    <rect x="7" y="18" width="10" height="1" fill="currentColor" />
+                                                    <rect x="6" y="7" width="1" height="10" fill="currentColor" />
+                                                    <rect x="18" y="7" width="1" height="10" fill="currentColor" />
                                                 </svg>
 
                                                 <span className="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">{t('News Categories')}</span>
@@ -145,10 +145,10 @@ const Sidebar = () => {
                                         <Link href="/news-scroll" className="group">
                                             <div className="flex items-center">
                                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <rect x="2" y="8" width="20" height="8" rx="2" stroke="currentColor" strokeWidth="2"/>
-                                                    <line x1="4" y1="10" x2="20" y2="10" stroke="currentColor" strokeWidth="2"/>
-                                                    <line x1="4" y1="14" x2="20" y2="14" stroke="currentColor" strokeWidth="2"/>
-                                                    <path d="M6 12H18" stroke="currentColor" strokeWidth="2"/>
+                                                    <rect x="2" y="8" width="20" height="8" rx="2" stroke="currentColor" strokeWidth="2" />
+                                                    <line x1="4" y1="10" x2="20" y2="10" stroke="currentColor" strokeWidth="2" />
+                                                    <line x1="4" y1="14" x2="20" y2="14" stroke="currentColor" strokeWidth="2" />
+                                                    <path d="M6 12H18" stroke="currentColor" strokeWidth="2" />
                                                 </svg>
 
 
@@ -161,12 +161,12 @@ const Sidebar = () => {
                                         <Link href="/event-news" className="group">
                                             <div className="flex items-center">
                                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="2"/>
-                                                    <line x1="3" y1="7" x2="21" y2="7" stroke="currentColor" strokeWidth="2"/>
-                                                    <circle cx="7" cy="5" r="1.5" stroke="currentColor" strokeWidth="2"/>
-                                                    <path d="M5 12H19" stroke="currentColor" strokeWidth="2"/>
-                                                    <path d="M5 15H19" stroke="currentColor" strokeWidth="2"/>
-                                                    <path d="M5 18H19" stroke="currentColor" strokeWidth="2"/>
+                                                    <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="2" />
+                                                    <line x1="3" y1="7" x2="21" y2="7" stroke="currentColor" strokeWidth="2" />
+                                                    <circle cx="7" cy="5" r="1.5" stroke="currentColor" strokeWidth="2" />
+                                                    <path d="M5 12H19" stroke="currentColor" strokeWidth="2" />
+                                                    <path d="M5 15H19" stroke="currentColor" strokeWidth="2" />
+                                                    <path d="M5 18H19" stroke="currentColor" strokeWidth="2" />
                                                 </svg>
 
 
@@ -176,15 +176,15 @@ const Sidebar = () => {
                                     </li>
 
                                     <li className="nav-item">
-                                        <Link href="/" className="group">
+                                        <Link href="/featured-news" className="group">
                                             <div className="flex items-center">
                                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="2"/>
-                                                    <line x1="3" y1="7" x2="21" y2="7" stroke="currentColor" strokeWidth="2"/>
-                                                    <circle cx="7" cy="5" r="1.5" stroke="currentColor" strokeWidth="2"/>
-                                                    <path d="M5 12H19" stroke="currentColor" strokeWidth="2"/>
-                                                    <path d="M5 15H19" stroke="currentColor" strokeWidth="2"/>
-                                                    <path d="M5 18H19" stroke="currentColor" strokeWidth="2"/>
+                                                    <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="2" />
+                                                    <line x1="3" y1="7" x2="21" y2="7" stroke="currentColor" strokeWidth="2" />
+                                                    <circle cx="7" cy="5" r="1.5" stroke="currentColor" strokeWidth="2" />
+                                                    <path d="M5 12H19" stroke="currentColor" strokeWidth="2" />
+                                                    <path d="M5 15H19" stroke="currentColor" strokeWidth="2" />
+                                                    <path d="M5 18H19" stroke="currentColor" strokeWidth="2" />
                                                 </svg>
 
 
@@ -193,9 +193,9 @@ const Sidebar = () => {
                                         </Link>
                                     </li>
 
-                                    
 
-                                    
+
+
                                 </ul>
                             </li>
 
@@ -212,11 +212,11 @@ const Sidebar = () => {
                                         <Link href="/" className="group">
                                             <div className="flex items-center">
                                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <rect x="3" y="7" width="18" height="10" rx="2" stroke="currentColor" strokeWidth="2"/>
-                                                    <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="2"/>
-                                                    <rect x="9" y="6" width="6" height="2" rx="1" stroke="currentColor" strokeWidth="2"/>
-                                                    <line x1="6" y1="7" x2="6" y2="17" stroke="currentColor" strokeWidth="2"/>
-                                                    <line x1="18" y1="7" x2="18" y2="17" stroke="currentColor" strokeWidth="2"/>
+                                                    <rect x="3" y="7" width="18" height="10" rx="2" stroke="currentColor" strokeWidth="2" />
+                                                    <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="2" />
+                                                    <rect x="9" y="6" width="6" height="2" rx="1" stroke="currentColor" strokeWidth="2" />
+                                                    <line x1="6" y1="7" x2="6" y2="17" stroke="currentColor" strokeWidth="2" />
+                                                    <line x1="18" y1="7" x2="18" y2="17" stroke="currentColor" strokeWidth="2" />
                                                 </svg>
                                                 <span className="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">{t('All Photo Galleries')}</span>
                                             </div>
@@ -226,8 +226,8 @@ const Sidebar = () => {
                                         <Link href="/" className="group">
                                             <div className="flex items-center">
                                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <rect x="11" y="5" width="2" height="14" rx="1" fill="currentColor"/>
-                                                    <rect x="5" y="11" width="14" height="2" rx="1" fill="currentColor"/>
+                                                    <rect x="11" y="5" width="2" height="14" rx="1" fill="currentColor" />
+                                                    <rect x="5" y="11" width="14" height="2" rx="1" fill="currentColor" />
                                                 </svg>
                                                 <span className="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">{t('Add New Photo Gallery')}</span>
                                             </div>
@@ -237,14 +237,14 @@ const Sidebar = () => {
                                         <Link href="/" className="group">
                                             <div className="flex items-center">
                                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <circle cx="6" cy="6" r="2" fill="currentColor"/>
-                                                    <circle cx="18" cy="6" r="2" fill="currentColor"/>
-                                                    <circle cx="6" cy="18" r="2" fill="currentColor"/>
-                                                    <circle cx="18" cy="18" r="2" fill="currentColor"/>
-                                                    <rect x="7" y="6" width="10" height="1" fill="currentColor"/>
-                                                    <rect x="7" y="18" width="10" height="1" fill="currentColor"/>
-                                                    <rect x="6" y="7" width="1" height="10" fill="currentColor"/>
-                                                    <rect x="18" y="7" width="1" height="10" fill="currentColor"/>
+                                                    <circle cx="6" cy="6" r="2" fill="currentColor" />
+                                                    <circle cx="18" cy="6" r="2" fill="currentColor" />
+                                                    <circle cx="6" cy="18" r="2" fill="currentColor" />
+                                                    <circle cx="18" cy="18" r="2" fill="currentColor" />
+                                                    <rect x="7" y="6" width="10" height="1" fill="currentColor" />
+                                                    <rect x="7" y="18" width="10" height="1" fill="currentColor" />
+                                                    <rect x="6" y="7" width="1" height="10" fill="currentColor" />
+                                                    <rect x="18" y="7" width="1" height="10" fill="currentColor" />
                                                 </svg>
 
                                                 <span className="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">{t('Photo Categories')}</span>
@@ -255,13 +255,13 @@ const Sidebar = () => {
                                         <Link href="/" className="group">
                                             <div className="flex items-center">
                                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <rect x="2" y="7" width="16" height="10" rx="2" stroke="currentColor" strokeWidth="2"/>
-                                                    <path d="M18 9L22 11V13L18 15V9Z" stroke="currentColor" strokeWidth="2"/>
-                                                    <circle cx="10" cy="12" r="3" stroke="currentColor" strokeWidth="2"/>
-                                                    <line x1="2" y1="12" x2="7" y2="12" stroke="currentColor" strokeWidth="2"/>
-                                                    <line x1="13" y1="12" x2="16" y2="12" stroke="currentColor" strokeWidth="2"/>
-                                                    <line x1="4" y1="7" x2="4" y2="17" stroke="currentColor" strokeWidth="2"/>
-                                                    <line x1="16" y1="7" x2="16" y2="17" stroke="currentColor" strokeWidth="2"/>
+                                                    <rect x="2" y="7" width="16" height="10" rx="2" stroke="currentColor" strokeWidth="2" />
+                                                    <path d="M18 9L22 11V13L18 15V9Z" stroke="currentColor" strokeWidth="2" />
+                                                    <circle cx="10" cy="12" r="3" stroke="currentColor" strokeWidth="2" />
+                                                    <line x1="2" y1="12" x2="7" y2="12" stroke="currentColor" strokeWidth="2" />
+                                                    <line x1="13" y1="12" x2="16" y2="12" stroke="currentColor" strokeWidth="2" />
+                                                    <line x1="4" y1="7" x2="4" y2="17" stroke="currentColor" strokeWidth="2" />
+                                                    <line x1="16" y1="7" x2="16" y2="17" stroke="currentColor" strokeWidth="2" />
                                                 </svg>
 
 
@@ -274,8 +274,8 @@ const Sidebar = () => {
                                         <Link href="/" className="group">
                                             <div className="flex items-center">
                                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <rect x="11" y="5" width="2" height="14" rx="1" fill="currentColor"/>
-                                                    <rect x="5" y="11" width="14" height="2" rx="1" fill="currentColor"/>
+                                                    <rect x="11" y="5" width="2" height="14" rx="1" fill="currentColor" />
+                                                    <rect x="5" y="11" width="14" height="2" rx="1" fill="currentColor" />
                                                 </svg>
 
 
@@ -288,14 +288,14 @@ const Sidebar = () => {
                                         <Link href="/" className="group">
                                             <div className="flex items-center">
                                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <circle cx="6" cy="6" r="2" fill="currentColor"/>
-                                                    <circle cx="18" cy="6" r="2" fill="currentColor"/>
-                                                    <circle cx="6" cy="18" r="2" fill="currentColor"/>
-                                                    <circle cx="18" cy="18" r="2" fill="currentColor"/>
-                                                    <rect x="7" y="6" width="10" height="1" fill="currentColor"/>
-                                                    <rect x="7" y="18" width="10" height="1" fill="currentColor"/>
-                                                    <rect x="6" y="7" width="1" height="10" fill="currentColor"/>
-                                                    <rect x="18" y="7" width="1" height="10" fill="currentColor"/>
+                                                    <circle cx="6" cy="6" r="2" fill="currentColor" />
+                                                    <circle cx="18" cy="6" r="2" fill="currentColor" />
+                                                    <circle cx="6" cy="18" r="2" fill="currentColor" />
+                                                    <circle cx="18" cy="18" r="2" fill="currentColor" />
+                                                    <rect x="7" y="6" width="10" height="1" fill="currentColor" />
+                                                    <rect x="7" y="18" width="10" height="1" fill="currentColor" />
+                                                    <rect x="6" y="7" width="1" height="10" fill="currentColor" />
+                                                    <rect x="18" y="7" width="1" height="10" fill="currentColor" />
                                                 </svg>
 
                                                 <span className="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">{t('Video Categories')}</span>
@@ -303,9 +303,9 @@ const Sidebar = () => {
                                         </Link>
                                     </li>
 
-                                    
 
-                                    
+
+
                                 </ul>
                             </li>
 
@@ -595,9 +595,8 @@ const Sidebar = () => {
                                         <li className="menu nav-item">
                                             <button
                                                 type="button"
-                                                className={`${
-                                                    errorSubMenu ? 'open' : ''
-                                                } w-full before:h-[5px] before:w-[5px] before:rounded before:bg-gray-300 hover:bg-gray-100 ltr:before:mr-2 rtl:before:ml-2 dark:text-[#888ea8] dark:hover:bg-gray-900`}
+                                                className={`${errorSubMenu ? 'open' : ''
+                                                    } w-full before:h-[5px] before:w-[5px] before:rounded before:bg-gray-300 hover:bg-gray-100 ltr:before:mr-2 rtl:before:ml-2 dark:text-[#888ea8] dark:hover:bg-gray-900`}
                                                 onClick={() => setErrorSubMenu(!errorSubMenu)}
                                             >
                                                 {t('error')}

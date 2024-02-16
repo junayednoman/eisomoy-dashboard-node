@@ -10,7 +10,7 @@ const NewsScroll = () => {
     ];
     return (
         <div className='mt-5'>
-            <div className='md:p-8 p-5 border rounded-md xl:w-[800px] lg:w-[600px] mx-auto'>
+            <div className='md:p-8 p-5 border rounded-md xl:w-[800px] lg:w-[600px]'>
                 <h4 className="text-2xl font-semibold mb-8">News Scroll</h4>
                 <Formik
                     initialValues={{
