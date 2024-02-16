@@ -6,15 +6,23 @@ import { useCallback, useState } from "react";
 import AnimateHeight from "react-animate-height";
 import SimpleMdeReact from "react-simplemde-editor";
 import 'easymde/dist/easymde.min.css';
+// import 'file-upload-with-preview/dist/file-upload-with-preview.min.css';
+import ImageUploading, { ImageListType } from 'react-images-uploading';
 
 const AddNews = () => {
     const [fileType, setFileType] = useState(true);
     const [urlType, setUrlType] = useState(false);
     const [active, setActive] = useState<Number>();
+    const [images, setImages] = useState<any>([]);
     const categoryOptions = [
         { value: 'Publish', label: 'Publish' },
         { value: 'Draft', label: 'Draft' },
     ];
+    // image file upload
+    const maxNumber = 69;
+    const handleImageUpload = (imageList: ImageListType, addUpdateIndex: number[] | undefined) => {
+        setImages(imageList as never[]);
+    };
 
     const submitForm = () => {
         const toast = Swal.mixin({
@@ -221,7 +229,40 @@ const AddNews = () => {
 
                                                 {
                                                     fileType &&
-                                                    <Field name="feature-img" type="file" id="feature-img" placeholder="Set featured image" className="form-input h-12 mb-2" ></Field>
+                                                    <div className="custom-file-container" data-upload-id="myFirstImage">
+                                                        <div className="label-container">
+                                                            <label>Upload </label>
+                                                            <button
+                                                                type="button"
+                                                                className="custom-file-container__image-clear"
+                                                                title="Clear Image"
+                                                                onClick={() => {
+                                                                    setImages([]);
+                                                                }}
+                                                            >
+                                                                ×
+                                                            </button>
+                                                        </div>
+                                                        <label className="custom-file-container__custom-file"></label>
+                                                        <input type="file" className="custom-file-container__custom-file__custom-file-input" accept="image/*" />
+                                                        <input type="hidden" name="MAX_FILE_SIZE" value="10485760" />
+                                                        <ImageUploading value={images} onChange={handleImageUpload} maxNumber={maxNumber}>
+                                                            {({ imageList, onImageUpload, onImageRemoveAll, onImageUpdate, onImageRemove, isDragging, dragProps }) => (
+                                                                <div className="upload__image-wrapper -mt-12">
+                                                                    <button className="custom-file-container__custom-file__custom-file-control" onClick={onImageUpload}>
+                                                                        Choose File...
+                                                                    </button>
+                                                                    &nbsp;
+                                                                    {imageList.map((image, index) => (
+                                                                        <div key={index} className="custom-file-container__image-preview relative">
+                                                                            <img src={image.dataURL} alt="img" className="m-auto" />
+                                                                        </div>
+                                                                    ))}
+                                                                </div>
+                                                            )}
+                                                        </ImageUploading>
+                                                        {images.length === 0 ? <img src="/assets/images/file-preview.svg" className="max-w-md w-full m-auto" alt="" /> : ''}
+                                                    </div>
                                                 }
                                                 {
                                                     urlType &&

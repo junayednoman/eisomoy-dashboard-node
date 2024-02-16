@@ -66,9 +66,7 @@ const Sidebar = () => {
                     <div className="flex items-center justify-between px-4 py-3">
                         <Link href="/" className="main-logo flex shrink-0 items-center">
                             <img className="ml-[5px] w-20 flex-none" src="/assets/images/logo.webp" alt="logo" />
-
                         </Link>
-
                         <button
                             type="button"
                             className="collapse-icon flex h-8 w-8 items-center rounded-full transition duration-300 hover:bg-gray-500/10 rtl:rotate-180 dark:text-white-light dark:hover:bg-dark-light/10"
@@ -198,7 +196,7 @@ const Sidebar = () => {
 
                                 </ul>
                             </li>
-
+                            {/* galleries */}
                             <h2 className="-mx-4 mb-1 flex items-center bg-white-light/30 py-3 px-7 font-extrabold uppercase dark:bg-dark dark:bg-opacity-[0.08]">
                                 <svg className="hidden h-5 w-4 flex-none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
                                     <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -299,6 +297,32 @@ const Sidebar = () => {
                                                 </svg>
 
                                                 <span className="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">{t('Video Categories')}</span>
+                                            </div>
+                                        </Link>
+                                    </li>
+                                </ul>
+                            </li>
+                            {/* Settings */}
+                            <h2 className="-mx-4 mb-1 flex items-center bg-white-light/30 py-3 px-7 font-extrabold uppercase dark:bg-dark dark:bg-opacity-[0.08]">
+                                <svg className="hidden h-5 w-4 flex-none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                                <span>{t('Settings')}</span>
+                            </h2>
+
+                            <li className="nav-item">
+                                <ul>
+                                    <li className="nav-item">
+                                        <Link href="/settings/general" className="group">
+                                            <div className="flex items-center">
+                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <rect x="3" y="7" width="18" height="10" rx="2" stroke="currentColor" strokeWidth="2" />
+                                                    <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="2" />
+                                                    <rect x="9" y="6" width="6" height="2" rx="1" stroke="currentColor" strokeWidth="2" />
+                                                    <line x1="6" y1="7" x2="6" y2="17" stroke="currentColor" strokeWidth="2" />
+                                                    <line x1="18" y1="7" x2="18" y2="17" stroke="currentColor" strokeWidth="2" />
+                                                </svg>
+                                                <span className="text-black ltr:pl-3 rtl:pr-3 dark:text-[#506690] dark:group-hover:text-white-dark">{t('General')}</span>
                                             </div>
                                         </Link>
                                     </li>
