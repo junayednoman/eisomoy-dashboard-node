@@ -671,7 +671,7 @@ const MultipleTables = () => {
                                 { accessor: 'phone', title: 'Last Modified By', sortable: true },
                                 { accessor: 'phone', title: 'Created Datetime', sortable: true },
                                 { accessor: 'phone', title: 'Published Datetime', sortable: true },
-                                { accessor: 'phone', title: 'Modified Datetime', sortable: true },
+                                { accessor: 'phone', title: 'Modified Datetime', sortable: true },c
                                 {
                                     accessor: 'action',
                                     title: 'Action',
