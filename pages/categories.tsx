@@ -722,18 +722,17 @@ const Categories = () => {
                                             </div>
                                         </AnimateHeight>
                                     </div>
-
                                 </div>
                                 <button
                                     type="submit"
-                                    className="btn btn-primary !mt-6 mx-4"
+                                    className="btn btn-primary !mt-6"
                                     onClick={() => {
                                         if (touched.categoryName && !errors.categoryName) {
                                             submitForm();
                                         }
                                     }}
                                 >
-                                    Save Now
+                                    Add Now
                                 </button>
                             </Form>
                         )}
