@@ -9,6 +9,7 @@ import { Field, Form, Formik } from 'formik';
 import Swal from 'sweetalert2';
 import * as Yup from 'yup';
 import Select from 'react-select';
+import AnimateHeight from 'react-animate-height';
 
 
 const rowData = [
@@ -515,6 +516,7 @@ const rowData = [
 ];
 
 const Categories = () => {
+    const [active, setActive] = useState<Number>();
     const categoryOptions = [
         { value: 'orange', label: 'Orange' },
         { value: 'white', label: 'White' },
@@ -653,40 +655,77 @@ const Categories = () => {
     const SubmittedForm = Yup.object().shape({
         categoryName: Yup.string().required('Please fill the name'),
     });
-
+    const togglePara = (value: Number) => {
+        setActive((oldValue) => {
+            return oldValue === value ? 0 : value;
+        });
+    };
 
     return (
         <div>
             <div className='grid lg:grid-cols-3 grid-cols-1 gap-6'>
-                <div className='lg:col-span-1 col-span-1 border border-[#e6e6e6] dark:border-0 rounded-md mt-5 p-4 shadow-sm bg-white dark:bg-[#0E1726]'>
+                <div className='lg:col-span-1 col-span-1 border border-[#e6e6e6] dark:border-0 rounded-md mt-5 py-4 shadow-sm bg-white dark:bg-[#0E1726] h-fit'>
                     <Formik
                         initialValues={{
                             categoryName: '',
                             description: '',
+                            slug: '',
+                            parent: '',
                         }}
                         validationSchema={SubmittedForm}
                         onSubmit={() => { }}
                     >
                         {({ errors, submitCount, touched }) => (
                             <Form className="space-y-5">
-                                <div className={submitCount ? (errors.categoryName ? 'has-error' : 'has-success') : ''}>
+                                <div>
                                     {/* category name */}
-                                    <label htmlFor="title">Title </label>
-                                    <Field name="categoryName" type="text" id="title" placeholder="Enter Category Name" className="form-input h-12" />
-                                    {submitCount ? errors.categoryName ? <div className="text-danger mt-1">{errors.categoryName}</div> : <div className="text-success mt-1">Looks Good!</div> : ''}
-                                    {/* category parent */}
-                                    <div className="mt-3">
-                                        <label htmlFor="fullName">Parent</label>
-                                        <Select placeholder="Select a parent" options={categoryOptions} />
+                                    <div className='px-4'>
+                                        <label htmlFor="title">Title </label>
+                                        <Field name="categoryName" type="text" id="title" placeholder="Enter Category Name" className="form-input h-10" />
                                     </div>
-                                    {/* category description */}
-                                    <label className='mt-3' htmlFor="description">Description </label>
-                                    <Field name="description" as="textarea" id="description" placeholder="Enter Category Description" className="h-32 w-full border rounded-md p-3 dark:bg-[#121E32] dark:border-0" />
+                                    {/* category slug */}
+                                    <div className='mt-3 px-4'>
+                                        <label htmlFor="slug">Slug</label>
+                                        <Field name="slug" type="text" id="slug" placeholder="Enter Category Slug" className="form-input h-10" />
+                                    </div>
 
+                                    {/* category parent */}
+                                    <div className="mt-3 px-4 mb-5">
+                                        <label htmlFor="parent">Parent</label>
+                                        <Select name='parent' placeholder="Select a parent" options={categoryOptions} />
+                                    </div>
+                                    {/* SEO */}
+                                    <div className="border-y border-[#ebedf2] bg-white dark:border-[#191e3a] dark:bg-black">
+                                        <div className={`flex cursor-pointer p-4 font-semibold hover:bg-[#EBEBEB] ${active === 1 && 'bg-[#EBEBEB]'}`} onClick={() => togglePara(1)}>
+                                            <span>SEO</span>
+                                            <div className="flex  ltr:ml-auto rtl:mr-auto">
+                                                <svg className={`h-5 w-5 ${active === 1 ? 'rotate-180' : ''}`} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M19 9L12 15L5 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                                </svg>
+                                            </div>
+                                        </div>
+                                        <AnimateHeight duration={50} height={active === 1 ? 'auto' : 0}>
+                                            <div className="p-4 pt-3 font-semibold">
+                                                {/* SEO */}
+                                                <div>
+                                                    <label htmlFor="metaTitle">Meta Title</label>
+                                                    <Field name="metaTitle" type="text" id="metaTitle" placeholder="Enter Meta Title" className="form-input h-10" />
+                                                </div>
+                                                <div className='mt-3'>
+                                                    <label htmlFor="metaDescription">Meta Description</label>
+                                                    <Field name="metaDescription" as="textarea" id="metaDescription" placeholder="Enter Meta Description" className="form-input h-24" />
+                                                </div>
+                                                <div className='mt-3'>
+                                                    <label htmlFor="focusKeyword">Focus Keyword</label>
+                                                    <Field name="focusKeyword" type="text" id="focusKeyword" placeholder="Enter Focus Keyword" className="form-input h-10" />
+                                                </div>
+                                            </div>
+                                        </AnimateHeight>
+                                    </div>
                                 </div>
                                 <button
                                     type="submit"
-                                    className="btn btn-primary !mt-6"
+                                    className="btn btn-primary !mt-6 mx-4"
                                     onClick={() => {
                                         if (touched.categoryName && !errors.categoryName) {
                                             submitForm();
@@ -725,8 +764,8 @@ const Categories = () => {
                                             ),
                                         },
                                         {
-                                            accessor: 'description',
-                                            title: 'Description',
+                                            accessor: 'parent',
+                                            title: 'Parent',
                                             sortable: true,
                                             render: ({ age }) => (
                                                 <div className="flex h-2.5 w-4/5 min-w-[100px] rounded-full bg-[#ebedf2] dark:bg-dark/40">
@@ -734,8 +773,8 @@ const Categories = () => {
                                                 </div>
                                             ),
                                         },
-                                        { accessor: 'company', title: 'Parent', sortable: true },
-                                        { accessor: 'email', title: 'Count', sortable: true }, {
+                                        { accessor: 'company', title: 'News Count', sortable: true },
+                                        {
                                             accessor: 'action',
                                             title: 'Action',
                                             titleClassName: '!text-center',
