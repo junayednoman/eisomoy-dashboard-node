@@ -3,8 +3,11 @@ import { useEffect, useState } from 'react';
 import sortBy from 'lodash/sortBy';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
-import { setPageTitle } from '../store/themeConfigSlice';
+import { setPageTitle } from '@/store/themeConfigSlice';
 import { useDispatch } from 'react-redux';
+import { useDisclosure } from '@mantine/hooks';
+import { Modal } from '@mantine/core';
+import { Field, Form, Formik } from 'formik';
 
 
 
@@ -249,266 +252,6 @@ const rowData = [
         age: 28,
         company: 'ORBOID',
     },
-    {
-        id: 13,
-        firstName: 'Wendi',
-        lastName: 'Powers',
-        email: 'wendipowers@orboid.com',
-        dob: '1979-06-02',
-        address: {
-            street: '376 Greenpoint Avenue',
-            city: 'Elliott',
-            zipcode: 9149,
-            geo: {
-                lat: -78.159578,
-                lng: -9.835103,
-            },
-        },
-        phone: '+1 (863) 457-2088',
-        isActive: true,
-        age: 31,
-        company: 'SNORUS',
-    },
-    {
-        id: 14,
-        firstName: 'Sophie',
-        lastName: 'Horn',
-        email: 'sophiehorn@snorus.com',
-        dob: '2018-09-20',
-        address: {
-            street: '343 Doughty Street',
-            city: 'Homestead',
-            zipcode: 330,
-            geo: {
-                lat: 65.484087,
-                lng: 137.413998,
-            },
-        },
-        phone: '+1 (885) 418-3948',
-        isActive: true,
-        age: 22,
-        company: 'XTH',
-    },
-    {
-        id: 15,
-        firstName: 'Levine',
-        lastName: 'Rodriquez',
-        email: 'levinerodriquez@xth.com',
-        dob: '1973-02-08',
-        address: {
-            street: '643 Allen Avenue',
-            city: 'Weedville',
-            zipcode: 8931,
-            geo: {
-                lat: -63.185586,
-                lng: 117.327808,
-            },
-        },
-        phone: '+1 (999) 565-3239',
-        isActive: true,
-        age: 27,
-        company: 'COMTRACT',
-    },
-    {
-        id: 16,
-        firstName: 'Little',
-        lastName: 'Hatfield',
-        email: 'littlehatfield@comtract.com',
-        dob: '2012-01-03',
-        address: {
-            street: '194 Anthony Street',
-            city: 'Williston',
-            zipcode: 7456,
-            geo: {
-                lat: 47.480837,
-                lng: 6.085909,
-            },
-        },
-        phone: '+1 (812) 488-3011',
-        isActive: false,
-        age: 33,
-        company: 'ZIDANT',
-    },
-    {
-        id: 17,
-        firstName: 'Larson',
-        lastName: 'Kelly',
-        email: 'larsonkelly@zidant.com',
-        dob: '2010-06-14',
-        address: {
-            street: '978 Indiana Place',
-            city: 'Innsbrook',
-            zipcode: 639,
-            geo: {
-                lat: -71.766732,
-                lng: 150.854345,
-            },
-        },
-        phone: '+1 (892) 484-2162',
-        isActive: true,
-        age: 20,
-        company: 'SUREPLEX',
-    },
-    {
-        id: 18,
-        firstName: 'Kendra',
-        lastName: 'Molina',
-        email: 'kendramolina@sureplex.com',
-        dob: '2002-07-19',
-        address: {
-            street: '567 Charles Place',
-            city: 'Kimmell',
-            zipcode: 1966,
-            geo: {
-                lat: 50.765816,
-                lng: -117.106499,
-            },
-        },
-        phone: '+1 (920) 528-3330',
-        isActive: false,
-        age: 31,
-        company: 'DANJA',
-    },
-    {
-        id: 19,
-        firstName: 'Ebony',
-        lastName: 'Livingston',
-        email: 'ebonylivingston@danja.com',
-        dob: '1994-10-18',
-        address: {
-            street: '284 Cass Place',
-            city: 'Navarre',
-            zipcode: 948,
-            geo: {
-                lat: 65.271256,
-                lng: -83.064729,
-            },
-        },
-        phone: '+1 (970) 591-3039',
-        isActive: false,
-        age: 33,
-        company: 'EURON',
-    },
-    {
-        id: 20,
-        firstName: 'Kaufman',
-        lastName: 'Rush',
-        email: 'kaufmanrush@euron.com',
-        dob: '2011-07-10',
-        address: {
-            street: '408 Kingsland Avenue',
-            city: 'Beaulieu',
-            zipcode: 7911,
-            geo: {
-                lat: 41.513153,
-                lng: 54.821641,
-            },
-        },
-        phone: '+1 (924) 463-2934',
-        isActive: false,
-        age: 39,
-        company: 'ILLUMITY',
-    },
-    {
-        id: 21,
-        firstName: 'Frank',
-        lastName: 'Hays',
-        email: 'frankhays@illumity.com',
-        dob: '2005-06-15',
-        address: {
-            street: '973 Caton Place',
-            city: 'Dargan',
-            zipcode: 4104,
-            geo: {
-                lat: 63.314988,
-                lng: -138.771323,
-            },
-        },
-        phone: '+1 (930) 577-2670',
-        isActive: false,
-        age: 31,
-        company: 'SYBIXTEX',
-    },
-    {
-        id: 22,
-        firstName: 'Carmella',
-        lastName: 'Mccarty',
-        email: 'carmellamccarty@sybixtex.com',
-        dob: '1980-03-06',
-        address: {
-            street: '919 Judge Street',
-            city: 'Canby',
-            zipcode: 8283,
-            geo: {
-                lat: 9.198597,
-                lng: -138.809971,
-            },
-        },
-        phone: '+1 (876) 456-3218',
-        isActive: true,
-        age: 21,
-        company: 'ZEDALIS',
-    },
-    {
-        id: 23,
-        firstName: 'Massey',
-        lastName: 'Owen',
-        email: 'masseyowen@zedalis.com',
-        dob: '2012-03-01',
-        address: {
-            street: '108 Seaview Avenue',
-            city: 'Slovan',
-            zipcode: 3599,
-            geo: {
-                lat: -74.648318,
-                lng: 99.620699,
-            },
-        },
-        phone: '+1 (917) 567-3786',
-        isActive: false,
-        age: 40,
-        company: 'DYNO',
-    },
-    {
-        id: 24,
-        firstName: 'Lottie',
-        lastName: 'Lowery',
-        email: 'lottielowery@dyno.com',
-        dob: '1982-10-10',
-        address: {
-            street: '557 Meserole Avenue',
-            city: 'Fowlerville',
-            zipcode: 4991,
-            geo: {
-                lat: 54.811546,
-                lng: -20.996515,
-            },
-        },
-        phone: '+1 (912) 539-3498',
-        isActive: true,
-        age: 36,
-        company: 'MULTIFLEX',
-    },
-    {
-        id: 25,
-        firstName: 'Addie',
-        lastName: 'Luna',
-        email: 'addieluna@multiflex.com',
-        dob: '1988-05-01',
-        address: {
-            street: '688 Bulwer Place',
-            city: 'Harmon',
-            zipcode: 7664,
-            geo: {
-                lat: -12.762766,
-                lng: -39.924497,
-            },
-        },
-        phone: '+1 (962) 537-2981',
-        isActive: true,
-        age: 32,
-        company: 'PHARMACON',
-    },
 ];
 
 const MultipleTables = () => {
@@ -628,12 +371,14 @@ const MultipleTables = () => {
         return status[random];
     };
 
+    const [opened, { open, close }] = useDisclosure(false);
     return (
         <div>
             <div className="panel mt-5">
                 <div className="mb-5 flex flex-col gap-5 md:flex-row md:items-center">
-                    <h5 className="text-lg font-semibold dark:text-white-light">All News</h5>
-                    <div className="ltr:ml-auto rtl:mr-auto">
+                    <h5 className="text-lg font-semibold dark:text-white-light">Users</h5>
+                    <div className="ltr:ml-auto rtl:mr-auto flex items-center gap-4">
+                        <button onClick={open} type="submit" className="btn btn-primary">Add User</button>
                         <input type="text" className="form-input w-auto" placeholder="Search..." value={search2} onChange={(e) => setSearch2(e.target.value)} />
                     </div>
                 </div>
@@ -645,7 +390,7 @@ const MultipleTables = () => {
                             columns={[
                                 {
                                     accessor: 'id',
-                                    title: 'News ID',
+                                    title: 'ID',
                                     sortable: true,
                                     render: ({ firstName, lastName, id }) => (
                                         <div className="flex w-max items-center">
@@ -655,8 +400,8 @@ const MultipleTables = () => {
                                     ),
                                 },
                                 {
-                                    accessor: 'title',
-                                    title: 'Title',
+                                    accessor: 'user-id',
+                                    title: 'User ID',
                                     sortable: true,
                                     render: ({ age }) => (
                                         <div className="flex h-2.5 w-4/5 min-w-[100px] rounded-full bg-[#ebedf2] dark:bg-dark/40">
@@ -664,15 +409,12 @@ const MultipleTables = () => {
                                         </div>
                                     ),
                                 },
-                                { accessor: 'email', title: 'Category', sortable: true },
-                                { accessor: 'company', title: 'Reporter Name', sortable: true },
-                                { accessor: 'phone', title: 'Publish Status', sortable: true },
-                                { accessor: 'phone', title: 'Created By', sortable: true },
-                                { accessor: 'phone', title: 'Publish By', sortable: true },
-                                { accessor: 'phone', title: 'Last Modified By', sortable: true },
-                                { accessor: 'phone', title: 'Created Datetime', sortable: true },
-                                { accessor: 'phone', title: 'Published Datetime', sortable: true },
-                                { accessor: 'phone', title: 'Modified Datetime', sortable: true },
+                                { accessor: 'email', title: 'Name', sortable: true },
+                                { accessor: 'phone', title: 'Display Name', sortable: true },
+                                { accessor: 'email', title: 'Email', sortable: true },
+                                { accessor: 'phone', title: 'Role', sortable: true },
+                                { accessor: 'phone', title: 'Updated At', sortable: true },
+                                { accessor: 'company', title: 'Created At', sortable: true },
                                 {
                                     accessor: 'action',
                                     title: 'Action',
@@ -736,6 +478,46 @@ const MultipleTables = () => {
                     )}
                 </div>
             </div>
+            <Modal opened={opened} onClose={close} title="Add New User">
+                {/* Modal content */}
+                <Formik
+                    initialValues={{
+                        image: '',
+                        link: '',
+                        status: '',
+                    }}
+                    onSubmit={() => { }}
+                >
+                    <Form>
+                        <div className='mb-3'>
+                            <label htmlFor="name">Name</label>
+                            <Field className="form-input h-10" type="text" id="name" name="name" placeholder="Enter User Name" />
+                        </div>
+                        <div className='mb-3'>
+                            <label htmlFor="email">Email</label>
+                            <Field className="form-input h-10" type="email" id="email" name="email" placeholder="Enter User Email" />
+                        </div>
+                        <div className='mb-3'>
+                            <label htmlFor="password">Password</label>
+                            <Field className="form-input h-10" type="password" id="password" name="password" placeholder="Enter Password" />
+                        </div>
+                        <div className='mb-3'>
+                            <label htmlFor="displayName">Display Name</label>
+                            <Field className="form-input h-10" type="text" id="displayName" name="displayName" placeholder="Enter Display Name" />
+                        </div>
+                        <div className='mb-3'>
+                            <label htmlFor="role">User Role</label>
+                            <Field className="form-input h-10" type="text" id="role" name="role" placeholder="Enter Password" />
+                        </div>
+                        <button
+                            type="submit"
+                            className="btn btn-primary !mt-6"
+                        >
+                            Add Now
+                        </button>
+                    </Form>
+                </Formik>
+            </Modal>
         </div>
     );
 };
