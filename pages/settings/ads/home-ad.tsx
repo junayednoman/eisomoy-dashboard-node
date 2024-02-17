@@ -75,7 +75,7 @@ const HomeAd = () => {
                     <div>
                         <div className="grid md:grid-cols-2 grid-cols-1 md:gap-8 gap-6">
                             <div className="md:p-8 p-5 border rounded-md">
-                                <h5 className="text-lg font-semibold dark:text-white-light mb-5">Home Ad 1</h5>
+                                <h5 className="text-lg font-semibold dark:text-white-light mb-5">Event Ad 1</h5>
                                 <div className='mb-4'>
                                     <div className="flex items-center justify-between gap-4">
                                         <label htmlFor="image">Image</label>
@@ -109,7 +109,7 @@ const HomeAd = () => {
                             </div>
 
                             <div className="md:p-8 p-5 border rounded-md">
-                                <h5 className="text-lg font-semibold dark:text-white-light mb-5">Home Ad 2</h5>
+                                <h5 className="text-lg font-semibold dark:text-white-light mb-5">Event Ad 2</h5>
                                 <div className='mb-4'>
                                     <div className="flex items-center justify-between gap-4">
                                         <label htmlFor="image2">Image</label>
@@ -379,7 +379,6 @@ const HomeAd = () => {
                                     <Select name="status9" id='status9' placeholder="Choose..." options={adStatusOptions} isSearchable={false} />
                                 </div>
                             </div>
-
 
                         </div>
                         <button
