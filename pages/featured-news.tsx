@@ -12,6 +12,14 @@ const featuredNews = () => {
                         newsId2: '',
                         newsId3: '',
                         newsId4: '',
+                        newsId5: '',
+                        newsId6: '',
+                        newsId7: '',
+                        newsId8: '',
+                        newsId9: '',
+                        newsId10: '',
+                        newsId11: '',
+                        newsId12: '',
                     }}
                     onSubmit={() => { }}
                 >
