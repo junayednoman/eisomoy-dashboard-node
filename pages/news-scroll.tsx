@@ -1,6 +1,5 @@
 import Select from 'react-select';
 import { Field, Form, Formik } from 'formik';
-import { title } from 'process';
 import React from 'react';
 
 const NewsScroll = () => {
