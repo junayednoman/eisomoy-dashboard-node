@@ -104,7 +104,7 @@ const HomeAd = () => {
                                 </div>
                                 <div className='mb-4'>
                                     <label htmlFor="status">Ad Status</label>
-                                    <Select name="status" id='status' placeholder="Choose..." options={adStatusOptions} isSearchable={false} />
+                                    <Select className='dark:mySelect mySelect'  name="status" id='status' placeholder="Choose..." options={adStatusOptions} isSearchable={false} />
                                 </div>
                             </div>
 
@@ -138,7 +138,7 @@ const HomeAd = () => {
                                 </div>
                                 <div className='mb-4'>
                                     <label htmlFor="status2">Ad Status</label>
-                                    <Select name="status2" id='status2' placeholder="Choose..." options={adStatusOptions} isSearchable={false} />
+                                    <Select className='dark:mySelect mySelect'  name="status2" id='status2' placeholder="Choose..." options={adStatusOptions} isSearchable={false} />
                                 </div>
                             </div>
 
@@ -172,7 +172,7 @@ const HomeAd = () => {
                                 </div>
                                 <div className='mb-4'>
                                     <label htmlFor="status3">Ad Status</label>
-                                    <Select name="status3" id='status3' placeholder="Choose..." options={adStatusOptions} isSearchable={false} />
+                                    <Select className='dark:mySelect mySelect'  name="status3" id='status3' placeholder="Choose..." options={adStatusOptions} isSearchable={false} />
                                 </div>
                             </div>
 
@@ -206,7 +206,7 @@ const HomeAd = () => {
                                 </div>
                                 <div className='mb-4'>
                                     <label htmlFor="status4">Ad Status</label>
-                                    <Select name="status4" id='status4' placeholder="Choose..." options={adStatusOptions} isSearchable={false} />
+                                    <Select className='dark:mySelect mySelect'  name="status4" id='status4' placeholder="Choose..." options={adStatusOptions} isSearchable={false} />
                                 </div>
                             </div>
 
@@ -240,7 +240,7 @@ const HomeAd = () => {
                                 </div>
                                 <div className='mb-4'>
                                     <label htmlFor="status5">Ad Status</label>
-                                    <Select name="status5" id='status5' placeholder="Choose..." options={adStatusOptions} isSearchable={false} />
+                                    <Select className='dark:mySelect mySelect'  name="status5" id='status5' placeholder="Choose..." options={adStatusOptions} isSearchable={false} />
                                 </div>
                             </div>
 
@@ -274,7 +274,7 @@ const HomeAd = () => {
                                 </div>
                                 <div className='mb-4'>
                                     <label htmlFor="status6">Ad Status</label>
-                                    <Select name="status6" id='status6' placeholder="Choose..." options={adStatusOptions} isSearchable={false} />
+                                    <Select className='dark:mySelect mySelect'  name="status6" id='status6' placeholder="Choose..." options={adStatusOptions} isSearchable={false} />
                                 </div>
                             </div>
 
@@ -308,7 +308,7 @@ const HomeAd = () => {
                                 </div>
                                 <div className='mb-4'>
                                     <label htmlFor="status7">Ad Status</label>
-                                    <Select name="status7" id='status7' placeholder="Choose..." options={adStatusOptions} isSearchable={false} />
+                                    <Select className='dark:mySelect mySelect'  name="status7" id='status7' placeholder="Choose..." options={adStatusOptions} isSearchable={false} />
                                 </div>
                             </div>
 
@@ -342,7 +342,7 @@ const HomeAd = () => {
                                 </div>
                                 <div className='mb-4'>
                                     <label htmlFor="status8">Ad Status</label>
-                                    <Select name="status8" id='status8' placeholder="Choose..." options={adStatusOptions} isSearchable={false} />
+                                    <Select className='dark:mySelect mySelect'  name="status8" id='status8' placeholder="Choose..." options={adStatusOptions} isSearchable={false} />
                                 </div>
                             </div>
 
@@ -376,7 +376,7 @@ const HomeAd = () => {
                                 </div>
                                 <div className='mb-4'>
                                     <label htmlFor="status9">Ad Status</label>
-                                    <Select name="status9" id='status9' placeholder="Choose..." options={adStatusOptions} isSearchable={false} />
+                                    <Select className='dark:mySelect mySelect'  name="status9" id='status9' placeholder="Choose..." options={adStatusOptions} isSearchable={false} />
                                 </div>
                             </div>
 
