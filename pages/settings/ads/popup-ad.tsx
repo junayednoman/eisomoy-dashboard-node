@@ -57,7 +57,7 @@ const PopupAd = () => {
                         </div>
                         <div className='mb-4'>
                             <label htmlFor="status">Ad Status</label>
-                            <Select name="status" id='status' placeholder="Choose..." options={adStatusOptions} isSearchable={false} />
+                            <Select className='dark:mySelect mySelect' name="status" id='status' placeholder="Choose..." options={adStatusOptions} isSearchable={false} />
                         </div>
                         <button
                             type="submit"

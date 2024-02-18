@@ -692,11 +692,11 @@ const Categories = () => {
                                     {/* category parent */}
                                     <div className="mt-3 px-4 mb-5">
                                         <label htmlFor="parent">Parent</label>
-                                        <Select name='parent' placeholder="Select a parent" options={categoryOptions} />
+                                        <Select className='dark:mySelect mySelect' name='parent' placeholder="Select a parent" options={categoryOptions} />
                                     </div>
                                     {/* SEO */}
                                     <div className="border-y border-[#ebedf2] bg-white dark:border-[#191e3a] dark:bg-black">
-                                        <div className={`flex cursor-pointer p-4 font-semibold hover:bg-[#EBEBEB] ${active === 1 && 'bg-[#EBEBEB]'}`} onClick={() => togglePara(1)}>
+                                        <div className={`flex cursor-pointer p-4 font-semibold hover:bg-[#EBEBEB] dark:bg-[#0E1726] dark:hover:bg-[#0E1726] ${active === 1 && 'bg-[#EBEBEB]'}`} onClick={() => togglePara(1)}>
                                             <span>SEO</span>
                                             <div className="flex  ltr:ml-auto rtl:mr-auto">
                                                 <svg className={`h-5 w-5 ${active === 1 ? 'rotate-180' : ''}`} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

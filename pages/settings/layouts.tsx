@@ -13,7 +13,7 @@ const Layouts = () => {
                     onSubmit={() => { }}
                 >
                     <Form>
-                        <div className='md:p-8 p-5 border rounded-md grid md:grid-cols-2 grid-cols-1 md:gap-x-8 gap-x-6'>
+                        <div className='md:p-8 p-5 border dark:border-gray-600 rounded-md grid md:grid-cols-2 grid-cols-1 md:gap-x-8 gap-x-6'>
                             <div className='mb-4'>
                                 <label htmlFor="category1">Category 1</label>
                                 <Field className="form-input h-10" type="text" id="category1" name="category1" placeholder="Enter Category ID" />

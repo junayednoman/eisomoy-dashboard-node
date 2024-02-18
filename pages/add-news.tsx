@@ -45,27 +45,7 @@ const AddNews = () => {
         });
     };
 
-    const [value, setValue] = useState(
-        `# Basic Example
-        Go ahead, play around with the editor! Be sure to check out **bold** and *italic* styling, or even[links](https://google.com). You can type the Markdown syntax, use the toolbar, or use shortcuts like 'cmd-b' or 'ctrl-b'.
-        
-        ## Lists
-        Unordered lists can be started using the toolbar or by typing '*', '-', or '+'. Ordered lists can be started by typing '1.'.
-        
-        #### Unordered
-        * Lists are a piece of cake
-        * They even auto continue as you type
-        * A double enter will end them
-        * Tabs and shift - tabs work too
-        
-        #### Ordered
-        1. Numbered lists...
-        2. ...work too!
-        
-        ## What about images?
-        ![Yes](https://i.imgur.com/sZlktY7.png)
-        `
-    );
+    const [value, setValue] = useState();
     const onChange = useCallback((value: string) => {
         setValue(value);
     }, []);
@@ -94,7 +74,7 @@ const AddNews = () => {
                                     <Field name="newsTitle" type="text" id="title" placeholder="Enter News Title" className="form-input h-12" />
 
                                     <label htmlFor="desc" className=" mt-4">Description </label>
-                                    <SimpleMdeReact value={value} onChange={onChange} />
+                                    <SimpleMdeReact className="dark:myEditor" value={value} onChange={onChange} />
                                 </div>
                                 <button
                                     type="submit"
@@ -122,8 +102,8 @@ const AddNews = () => {
                             <Form className="space-y-5">
                                 <div>
                                     {/* general info */}
-                                    <div className={`rounded-t-md bg-white dark:bg-black`}>
-                                        <div className={`flex cursor-pointer p-4 font-semibold hover:bg-[#EBEBEB] ${active === 1 && 'bg-[#EBEBEB]'}`} onClick={() => togglePara(1)}>
+                                    <div className={`rounded-t-md bg-white dark:bg-black dark:myAccordian`}>
+                                        <div className={`flex cursor-pointer p-4 font-semibold dark:bg-[#0E1726] dark:hover:bg-[#0E1726] hover:bg-[#EBEBEB] ${active === 1 && 'bg-[#EBEBEB]'}`} onClick={() => togglePara(1)}>
                                             <span>General</span>
                                             <div className="flex  ltr:ml-auto rtl:mr-auto">
                                                 <svg className={`h-5 w-5 ${active === 1 ? 'rotate-180' : ''}`} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -139,14 +119,14 @@ const AddNews = () => {
                                                 </div>
                                                 <div className="mb-3">
                                                     <label htmlFor="fullName">Publish Status</label>
-                                                    <Select placeholder="Choose..." options={categoryOptions} isSearchable={false} />
+                                                    <Select className='dark:mySelect mySelect' placeholder="Choose..." options={categoryOptions} isSearchable={false} />
                                                 </div>
                                             </div>
                                         </AnimateHeight>
                                     </div>
                                     {/* add tags */}
-                                    <div className="border-y border-[#ebedf2] bg-white dark:border-[#191e3a] dark:bg-black">
-                                        <div className={`flex cursor-pointer p-4  font-semibold hover:bg-[#EBEBEB] ${active === 2 && 'bg-[#EBEBEB]'}`} onClick={() => togglePara(2)}>
+                                    <div className="border-y border-[#ebedf2] bg-white dark:border-[#191e3a] dark:bg-black dark:myAccordian">
+                                        <div className={`flex cursor-pointer p-4  font-semibold  dark:bg-[#0E1726] dark:hover:bg-[#0E1726] ${active === 2 && 'bg-[#EBEBEB]'}`} onClick={() => togglePara(2)}>
                                             <span>Tags</span>
                                             <div className="flex  ltr:ml-auto rtl:mr-auto">
                                                 <svg className={`h-5 w-5 ${active === 2 ? 'rotate-180' : ''}`} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -164,8 +144,8 @@ const AddNews = () => {
                                     </div>
 
                                     {/* news categories */}
-                                    <div className="border-b border-[#ebedf2] bg-white dark:border-[#191e3a] dark:bg-black">
-                                        <div className={`flex cursor-pointer p-4  font-semibold hover:bg-[#EBEBEB] ${active === 3 && 'bg-[#EBEBEB]'}`} onClick={() => togglePara(3)}>
+                                    <div className="border-b border-[#ebedf2] bg-white dark:border-[#191e3a] dark:bg-black dark:myAccordian">
+                                        <div className={`flex cursor-pointer p-4  font-semibold hover:bg-[#EBEBEB] dark:bg-[#0E1726] dark:hover:bg-[#0E1726] ${active === 3 && 'bg-[#EBEBEB] myAccordianHeading'}`} onClick={() => togglePara(3)}>
                                             <span>Categories</span>
                                             <div className="flex ltr:ml-auto rtl:mr-auto">
                                                 <svg className={`h-5 w-5 ${active === 3 ? 'rotate-180' : ''}`} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -207,8 +187,8 @@ const AddNews = () => {
                                         </AnimateHeight>
                                     </div>
                                     {/* featured image */}
-                                    <div className="border-b border-[#ebedf2] bg-white dark:border-[#191e3a] dark:bg-black">
-                                        <div className={`flex cursor-pointer p-4 font-semibold hover:bg-[#EBEBEB] ${active === 4 && 'bg-[#EBEBEB]'}`} onClick={() => togglePara(4)}>
+                                    <div className="border-b border-[#ebedf2] bg-white dark:border-[#191e3a] dark:bg-black dark:myAccordian">
+                                        <div className={`flex cursor-pointer p-4 font-semibold hover:bg-[#EBEBEB] dark:bg-[#0E1726] dark:hover:bg-[#0E1726] ${active === 4 && 'bg-[#EBEBEB] myAccordianHeading'}`} onClick={() => togglePara(4)}>
                                             <span>Featured Image</span>
                                             <div className="flex ltr:ml-auto rtl:mr-auto">
                                                 <svg className={`h-5 w-5 ${active === 4 ? 'rotate-180' : ''}`} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -273,8 +253,8 @@ const AddNews = () => {
                                         </AnimateHeight>
                                     </div>
                                     {/* SEO */}
-                                    <div className="border-b border-[#ebedf2] bg-white dark:border-[#191e3a] dark:bg-black">
-                                        <div className={`flex cursor-pointer p-4 font-semibold hover:bg-[#EBEBEB] ${active === 5 && 'bg-[#EBEBEB]'}`} onClick={() => togglePara(5)}>
+                                    <div className="border-b border-[#ebedf2] bg-white dark:border-[#191e3a] dark:bg-black dark:myAccordian">
+                                        <div className={`flex cursor-pointer p-4 font-semibold hover:bg-[#EBEBEB] dark:bg-[#0E1726] dark:hover:bg-[#0E1726] ${active === 5 && 'bg-[#EBEBEB] myAccordianHeading'}`} onClick={() => togglePara(5)}>
                                             <span>SEO</span>
                                             <div className="flex ltr:ml-auto rtl:mr-auto">
                                                 <svg className={`h-5 w-5 ${active === 5 ? 'rotate-180' : ''}`} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

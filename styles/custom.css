@@ -6,6 +6,43 @@
 .dark .dark\:addUserModal label {
     color: #888ea8e1;
 }
+
 .dark .dark\:addUserModal .mantine-Modal-title {
     color: #888ea8e1;
+}
+
+.dark .dark\:mySelect .css-13cymwt-control {
+    border: .1px solid #888ea818;
+    background-color: #121E32;
+}
+
+.dark .dark\:mySelect .css-t3ipsp-control {
+    border: .1px solid #888ea818;
+    background-color: #121E32;
+}
+
+.dark .dark\:mySelect .css-1nmdiq5-menu {
+    border: .1px solid #888ea818;
+    background-color: #121E32;
+}
+
+.dark .dark\:mySelect .css-1hb7zxy-IndicatorsContainer {
+    color: red;
+}
+
+.dark .dark\:myEditor .CodeMirror-wrap {
+    background-color: #121E32;
+    border: .1px solid #888ea86d;
+}
+.dark .dark\:myEditor .editor-toolbar {
+    background-color: #121E32;
+    border: .1px solid #888ea86d;
+    border-bottom: none;
+}
+.dark .dark\:myEditor .editor-toolbar .separator {
+    border-right: none;
+}
+
+.mySelect .css-13cymwt-control {
+    border: .1px solid #06081818;
 }
