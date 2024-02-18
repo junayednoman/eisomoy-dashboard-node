@@ -60,7 +60,7 @@ const EventAd = () => {
                                 </div>
                                 <div className='mb-4'>
                                     <label htmlFor="status">Ad Status</label>
-                                    <Select name="status" id='status' placeholder="Choose..." options={adStatusOptions} isSearchable={false} />
+                                    <Select  className='dark:mySelect mySelect'  name="status" id='status' placeholder="Choose..." options={adStatusOptions} isSearchable={false} />
                                 </div>
                             </div>
 
@@ -94,7 +94,7 @@ const EventAd = () => {
                                 </div>
                                 <div className='mb-4'>
                                     <label htmlFor="status2">Ad Status</label>
-                                    <Select name="status2" id='status2' placeholder="Choose..." options={adStatusOptions} isSearchable={false} />
+                                    <Select  className='dark:mySelect mySelect' name="status2" id='status2' placeholder="Choose..." options={adStatusOptions} isSearchable={false} />
                                 </div>
                             </div>
 

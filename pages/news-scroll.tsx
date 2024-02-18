@@ -25,7 +25,7 @@ const NewsScroll = () => {
                         </div>
                         <div className='mb-2'>
                             <label htmlFor="scrollStatus">Scroll Status</label>
-                            <Select id='scrollStatus' placeholder="Choose..." options={scrollStatusOptions} isSearchable={false} />
+                            <Select className='dark:mySelect mySelect' id='scrollStatus' placeholder="Choose..." options={scrollStatusOptions} isSearchable={false} />
                         </div>
                         <button
                             type="submit"

@@ -97,11 +97,11 @@ const General = () => {
                     </div>
                     <div className='mb-4'>
                         <label htmlFor="scrollStatus">News Scroll Status</label>
-                        <Select id='scrollStatus' placeholder="Choose..." options={scrollStatusOptions} isSearchable={false} />
+                        <Select  className='dark:mySelect mySelect' id='scrollStatus' placeholder="Choose..." options={scrollStatusOptions} isSearchable={false} />
                     </div>
                     <div className='mb-4'>
                         <label htmlFor="eventNewsStatus">Event News Status</label>
-                        <Select id='eventNewsStatus' placeholder="Choose..." options={eventNewsStatus} isSearchable={false} />
+                        <Select className='dark:mySelect mySelect'  id='eventNewsStatus' placeholder="Choose..." options={eventNewsStatus} isSearchable={false} />
                     </div>
                     <button
                         type="submit"
