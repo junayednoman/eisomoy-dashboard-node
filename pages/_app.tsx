@@ -4,6 +4,7 @@ import DefaultLayout from '../components/Layouts/DefaultLayout';
 import { Provider } from 'react-redux';
 import store from '../store/index';
 import Head from 'next/head';
+import "@/styles/custom.css"
 
 import { appWithI18Next } from 'ni18n';
 import { ni18nConfig } from 'ni18n.config.ts';
