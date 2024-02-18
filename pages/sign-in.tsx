@@ -19,7 +19,7 @@ const SignIn = () => {
     // Get router object
     const router = useRouter();
 
-    const apiUrl = process.env.API_URL || 'http://127.0.0.1:3000';
+    const apiUrl = process.env.API_URL || 'https://eismoy-api.vercel.app';
 
     // Create Axios instance with withCredentials set to true
     const api = axios.create({
@@ -28,7 +28,7 @@ const SignIn = () => {
     });
 
     // Function to handle form submission
-    const submitForm = async (e) => {
+    const submitForm = async (e: any) => {
         e.preventDefault();
 
         try {
@@ -52,7 +52,7 @@ const SignIn = () => {
         }
     };
 
-    const handleLoginError = (errorMessage) => {
+    const handleLoginError = (errorMessage: any) => {
         // Log error to console
         console.error('Login Error:', errorMessage);
         // Set error state to display error message in UI
@@ -95,7 +95,7 @@ const SignIn = () => {
 };
 
 // Specify the layout for the SignIn component
-SignIn.getLayout = (page) => {
+SignIn.getLayout = (page: any) => {
     return <BlankLayout>{page}</BlankLayout>;
 };
 
