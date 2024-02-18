@@ -45,7 +45,7 @@ const AddNews = () => {
         });
     };
 
-    const [value, setValue] = useState();
+    const [value, setValue] = useState<string>("");
     const onChange = useCallback((value: string) => {
         setValue(value);
     }, []);
