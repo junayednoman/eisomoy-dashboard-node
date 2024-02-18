@@ -588,7 +588,10 @@ const Export = () => {
         let filename = 'table';
 
         let newVariable: any;
-        newVariable = window.navigator;
+
+        if (typeof window !== 'undefined') {
+            newVariable = window.navigator;
+        }
 
         if (type === 'csv') {
             let coldelimiter = ';';
