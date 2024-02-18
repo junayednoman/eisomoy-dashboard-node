@@ -478,7 +478,7 @@ const MultipleTables = () => {
                     )}
                 </div>
             </div>
-            <Modal opened={opened} onClose={close} title="Add New User">
+            <Modal className='bg-red-500' opened={opened} onClose={close} title="Add New User">
                 {/* Modal content */}
                 <Formik
                     initialValues={{
