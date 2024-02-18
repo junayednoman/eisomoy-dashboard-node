@@ -5,6 +5,9 @@ import { Modal } from '@mantine/core';
 import { Field, Form, Formik } from 'formik';
 import Tippy from '@tippyjs/react';
 
+import withAuth from '../../utils/withAuth';
+
+
 const AllUsers = () => {
     const [userData, setUserData] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -144,7 +147,11 @@ const AllUsers = () => {
                         </div>
                         <div className="mb-3">
                             <label htmlFor="role">Role</label>
-                            <Field className="form-input h-10" type="text" id="role" name="role" placeholder="Enter User Role" />
+                            <Field as="select" className="form-select h-10" id="role" name="role">
+                                <option value="admin">Admin</option>
+                                <option value="editor">Editor</option>
+                                <option value="reporter">Reporter</option>
+                            </Field>
                         </div>
                         <div className="mb-3">
                             <label htmlFor="display_name">Display Name</label>
@@ -167,4 +174,4 @@ const AllUsers = () => {
     );
 };
 
-export default AllUsers;
+export default withAuth(AllUsers);
