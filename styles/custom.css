@@ -2,3 +2,10 @@
     background-color: #060818;
     border: .5px solid #888ea8e1;
 }
+
+.dark .dark\:addUserModal label {
+    color: #888ea8e1;
+}
+.dark .dark\:addUserModal .mantine-Modal-title {
+    color: #888ea8e1;
+}
