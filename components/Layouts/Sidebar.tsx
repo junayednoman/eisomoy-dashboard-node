@@ -397,6 +397,8 @@ const Sidebar = () => {
                                                     <Link href="/settings/ads/popup-ad">{t('Popup Ad')}</Link>
                                                     <Link href="/settings/ads/home-ad">{t('Home Ad')}</Link>
                                                     <Link href="/settings/ads/event-ad">{t('Event Ad')}</Link>
+                                                    <Link href="/settings/ads/categorypage-ad">{t('Category Page Ad')}</Link>
+                                                    <Link href="/settings/ads/newspage-ad">{t('News Page Ad')}</Link>
                                                 </li>
                                             </ul>
                                         </AnimateHeight>
