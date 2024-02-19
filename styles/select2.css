@@ -8,7 +8,7 @@
     @apply !pl-4;
 }
 .custom-select .css-b62m3t-container > div {
-    @apply bg-white dark:bg-[#1b2e4b] border-[rgb(224,230,237)] dark:border-[#253b5c] hover:border-inherit;
+    @apply bg-white dark:bg-[#1b2e4b] border-[rgb(137,148,160)] dark:border-[#253b5c] hover:border-inherit;
 }
 .custom-select .css-b62m3t-container > div:first-of-type {
     @apply shadow-none;
