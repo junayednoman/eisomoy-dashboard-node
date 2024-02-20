@@ -19,6 +19,6 @@
             "@/*": ["./*"]
         }
     },
-    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/apps/todolist.tsx"],
+    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/apps/todolist.tsx", "ckeditor5/build/ckeditor.js"],
     "exclude": ["node_modules"]
 }
