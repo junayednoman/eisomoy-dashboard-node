@@ -7,7 +7,6 @@ import { setPageTitle } from '../store/themeConfigSlice';
 import { useDispatch } from 'react-redux';
 import { Field, Form, Formik } from 'formik';
 import Swal from 'sweetalert2';
-import * as Yup from 'yup';
 import Select from 'react-select';
 import AnimateHeight from 'react-animate-height';
 
@@ -651,10 +650,7 @@ const Categories = () => {
             padding: '10px 20px',
         });
     };
-
-    const SubmittedForm = Yup.object().shape({
-        categoryName: Yup.string().required('Please fill the name'),
-    });
+    
     const togglePara = (value: Number) => {
         setActive((oldValue) => {
             return oldValue === value ? 0 : value;
@@ -672,7 +668,6 @@ const Categories = () => {
                             slug: '',
                             parent: '',
                         }}
-                        validationSchema={SubmittedForm}
                         onSubmit={() => { }}
                     >
                         {({ errors, submitCount, touched }) => (
