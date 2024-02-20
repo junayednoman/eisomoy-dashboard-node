@@ -14,7 +14,7 @@ const withAuth = (WrappedComponent) => {
         try {
           // Create Axios instance with withCredentials set to true
           const api = axios.create({
-            baseURL: process.env.API_URL || 'http://127.0.0.1:3000',
+            baseURL: process.env.API_URL || 'https://eismoy-api.vercel.app',
             withCredentials: true,
           });
 
