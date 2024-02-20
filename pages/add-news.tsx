@@ -4,10 +4,13 @@ import Swal from "sweetalert2";
 import Select from 'react-select';
 import { useCallback, useState } from "react";
 import AnimateHeight from "react-animate-height";
-import SimpleMdeReact from "react-simplemde-editor";
+//import SimpleMdeReact from "react-simplemde-editor";
 import 'easymde/dist/easymde.min.css';
 // import 'file-upload-with-preview/dist/file-upload-with-preview.min.css';
 import ImageUploading, { ImageListType } from 'react-images-uploading';
+
+import dynamic from 'next/dynamic'
+const SimpleMdeReact = dynamic(() => import('react-simplemde-editor'), { ssr: false });
 
 const AddNews = () => {
     const [fileType, setFileType] = useState(true);
