@@ -34,15 +34,30 @@
     background-color: #121E32;
     border: .1px solid #888ea86d;
 }
+
 .dark .dark\:myEditor .editor-toolbar {
     background-color: #121E32;
     border: .1px solid #888ea86d;
     border-bottom: none;
 }
+
 .dark .dark\:myEditor .editor-toolbar .separator {
     border-right: none;
 }
 
 .mySelect .css-13cymwt-control {
     border: .1px solid #06081818;
+}
+
+.ck-content {
+    height: 500px;
+}
+
+.dark .dark\:myTextEditor .ck-content {
+    background-color: #121E32 !important;
+    border-color: rgba(128, 128, 128, 0.301) !important;
+}
+.dark .dark\:myTextEditor .ck-toolbar {
+    background-color: #121E32 !important;
+    border-color: rgba(128, 128, 128, 0.301) !important;
 }

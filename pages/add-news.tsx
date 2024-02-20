@@ -2,12 +2,11 @@
 import { Field, Form, Formik } from "formik";
 import Swal from "sweetalert2";
 import Select from 'react-select';
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import AnimateHeight from "react-animate-height";
-import SimpleMdeReact from "react-simplemde-editor";
 import 'easymde/dist/easymde.min.css';
-// import 'file-upload-with-preview/dist/file-upload-with-preview.min.css';
 import ImageUploading, { ImageListType } from 'react-images-uploading';
+import dynamic from "next/dynamic";
 
 const AddNews = () => {
     const [fileType, setFileType] = useState(true);
@@ -18,6 +17,10 @@ const AddNews = () => {
         { value: 'Publish', label: 'Publish' },
         { value: 'Draft', label: 'Draft' },
     ];
+    const CustomEditor = dynamic(() => {
+        return import('@/components/CustomEditor');
+    }, { ssr: false });
+    
     // image file upload
     const maxNumber = 69;
     const handleImageUpload = (imageList: ImageListType, addUpdateIndex: number[] | undefined) => {
@@ -38,17 +41,11 @@ const AddNews = () => {
         });
     };
 
-
     const togglePara = (value: Number) => {
         setActive((oldValue) => {
             return oldValue === value ? 0 : value;
         });
     };
-
-    const [value, setValue] = useState();
-    const onChange = useCallback((value: string) => {
-        setValue(value);
-    }, []);
 
     const handleToggleImgType = () => {
         // console.log(e.target.value);
@@ -74,7 +71,10 @@ const AddNews = () => {
                                     <Field name="newsTitle" type="text" id="title" placeholder="Enter News Title" className="form-input h-12" />
 
                                     <label htmlFor="desc" className=" mt-4">Description </label>
-                                    <SimpleMdeReact className="dark:myEditor" value={value} onChange={onChange} />
+                                    {/* here will be the CKE text editor */}
+                                    <CustomEditor
+                                        initialData='<h1>Hello from CKEditor in Next.js!</h1>'
+                                    />
                                 </div>
                                 <button
                                     type="submit"
