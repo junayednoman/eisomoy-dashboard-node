@@ -2,11 +2,13 @@
 import { Field, Form, Formik } from "formik";
 import Swal from "sweetalert2";
 import Select from 'react-select';
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import AnimateHeight from "react-animate-height";
 import 'easymde/dist/easymde.min.css';
 import ImageUploading, { ImageListType } from 'react-images-uploading';
-import dynamic from "next/dynamic";
+
+import dynamic from 'next/dynamic'
+const SimpleMdeReact = dynamic(() => import('react-simplemde-editor'), { ssr: false });
 
 const AddNews = () => {
     const [fileType, setFileType] = useState(true);
@@ -17,9 +19,8 @@ const AddNews = () => {
         { value: 'Publish', label: 'Publish' },
         { value: 'Draft', label: 'Draft' },
     ];
-    const CustomEditor = dynamic(() => {
-        return import('@/components/CustomEditor');
-    }, { ssr: false });
+
+    
     
     // image file upload
     const maxNumber = 69;
@@ -47,6 +48,11 @@ const AddNews = () => {
         });
     };
 
+    const [value, setValue] = useState<string>("");
+    const onChange = useCallback((value: string) => {
+        setValue(value);
+    }, []);
+
     const handleToggleImgType = () => {
         // console.log(e.target.value);
         setFileType(!fileType)
@@ -72,9 +78,7 @@ const AddNews = () => {
 
                                     <label htmlFor="desc" className=" mt-4">Description </label>
                                     {/* here will be the CKE text editor */}
-                                    <CustomEditor
-                                        initialData='<h1>Hello from CKEditor in Next.js!</h1>'
-                                    />
+                                    <SimpleMdeReact className="dark:myEditor" value={value} onChange={onChange} />
                                 </div>
                                 <button
                                     type="submit"
