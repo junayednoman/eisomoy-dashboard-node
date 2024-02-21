@@ -49,15 +49,26 @@
     border: .1px solid #06081818;
 }
 
-.ck-content {
-    height: 500px;
+/* .cm-header {
+    background-color: white;
 }
 
-.dark .dark\:myTextEditor .ck-content {
-    background-color: #121E32 !important;
-    border-color: rgba(128, 128, 128, 0.301) !important;
+.cm-header::selection {
+    background-color: red !important;
+} */
+
+.CodeMirror .cm-spell-error:not(.cm-url):not(.cm-comment):not(.cm-tag):not(.cm-word) {
+    background-color: white !important;
 }
-.dark .dark\:myTextEditor .ck-toolbar {
+.CodeMirror .cm-spell-error:not(.cm-url):not(.cm-comment):not(.cm-tag):not(.cm-word)::selection {
+    background-color: transparent !important;
+    color: #fff !important;
+}
+/* .CodeMirror .cm-spell-error:not(.cm-url):not(.cm-comment):not(.cm-tag):not(.cm-word) {
+    background-color: white !important;
+    
+} */
+.dark .dark\:myEditor .CodeMirror .cm-spell-error:not(.cm-url):not(.cm-comment):not(.cm-tag):not(.cm-word) {
     background-color: #121E32 !important;
-    border-color: rgba(128, 128, 128, 0.301) !important;
+    color: #888EA8;
 }

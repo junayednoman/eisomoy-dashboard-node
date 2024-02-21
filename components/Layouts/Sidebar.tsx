@@ -207,7 +207,7 @@ const Sidebar = () => {
                             <li className="nav-item">
                                 <ul>
                                     <li className="nav-item">
-                                        <Link href="/" className="group">
+                                        <Link href="/galleries/photo-galleries" className="group">
                                             <div className="flex items-center">
                                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <rect x="3" y="7" width="18" height="10" rx="2" stroke="currentColor" strokeWidth="2" />
@@ -221,7 +221,7 @@ const Sidebar = () => {
                                         </Link>
                                     </li>
                                     <li className="nav-item">
-                                        <Link href="/" className="group">
+                                        <Link href="/galleries/add-gallery" className="group">
                                             <div className="flex items-center">
                                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <rect x="11" y="5" width="2" height="14" rx="1" fill="currentColor" />
@@ -232,7 +232,7 @@ const Sidebar = () => {
                                         </Link>
                                     </li>
                                     <li className="nav-item">
-                                        <Link href="/" className="group">
+                                        <Link href="/galleries/photo-categories" className="group">
                                             <div className="flex items-center">
                                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <circle cx="6" cy="6" r="2" fill="currentColor" />
@@ -250,7 +250,7 @@ const Sidebar = () => {
                                         </Link>
                                     </li>
                                     <li className="nav-item">
-                                        <Link href="/" className="group">
+                                        <Link href="/galleries/videos" className="group">
                                             <div className="flex items-center">
                                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <rect x="2" y="7" width="16" height="10" rx="2" stroke="currentColor" strokeWidth="2" />
@@ -269,7 +269,7 @@ const Sidebar = () => {
                                     </li>
 
                                     <li className="nav-item">
-                                        <Link href="/" className="group">
+                                        <Link href="/galleries/add-video" className="group">
                                             <div className="flex items-center">
                                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <rect x="11" y="5" width="2" height="14" rx="1" fill="currentColor" />
@@ -283,7 +283,7 @@ const Sidebar = () => {
                                     </li>
 
                                     <li className="nav-item">
-                                        <Link href="/" className="group">
+                                        <Link href="/galleries/video-categories" className="group">
                                             <div className="flex items-center">
                                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <circle cx="6" cy="6" r="2" fill="currentColor" />
