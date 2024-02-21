@@ -5,12 +5,10 @@ import Link from 'next/link';
 import { toggleSidebar } from '../../store/themeConfigSlice';
 import AnimateHeight from 'react-animate-height';
 import { IRootState } from '../../store';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
 const Sidebar = () => {
-    const scrollbarRef = useRef<HTMLDivElement>(null);
-    let ps: PerfectScrollbar | null = null;
     const router = useRouter();
     const [currentMenu, setCurrentMenu] = useState<string>('');
     const [errorSubMenu, setErrorSubMenu] = useState(false);
@@ -21,19 +19,6 @@ const Sidebar = () => {
             return oldValue === value ? '' : value;
         });
     };
-
-    useEffect(() => {
-        if (scrollbarRef.current) {
-          ps = new PerfectScrollbar(scrollbarRef.current as any); // Explicitly cast to 'any'
-        }
-    
-        return () => {
-          // Cleanup PerfectScrollbar on component unmount
-          if (ps) {
-            (ps as any).destroy();
-          }
-        };
-      }, []);
 
     useEffect(() => {
         const selector = document.querySelector('.sidebar ul a[href="' + window.location.pathname + '"]');
@@ -93,7 +78,7 @@ const Sidebar = () => {
                             </svg>
                         </button>
                     </div>
-                    <div ref={scrollbarRef} className="relative h-[calc(100vh-80px)]">
+                    <PerfectScrollbar className="relative h-[calc(100vh-80px)]">
                         <ul className="relative space-y-0.5 p-4 py-0 font-semibold">
                             <li className="menu nav-item">
                                 <Link href="/">{t('Dashboard')}</Link>
@@ -449,7 +434,7 @@ const Sidebar = () => {
                                 </button>
                             </li>
                         </ul>
-                    </div>
+                    </PerfectScrollbar>
                 </div>
             </nav>
         </div>
