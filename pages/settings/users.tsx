@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Modal } from '@mantine/core';
 import { Field, Form, Formik } from 'formik';
 import Tippy from '@tippyjs/react';
-
+import 'tippy.js/dist/tippy.css';
 import withAuth from '../../utils/withAuth';
 
 
