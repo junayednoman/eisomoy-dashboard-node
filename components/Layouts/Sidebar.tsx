@@ -1,4 +1,3 @@
-import PerfectScrollbar from 'react-perfect-scrollbar';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import Link from 'next/link';
@@ -7,6 +6,9 @@ import AnimateHeight from 'react-animate-height';
 import { IRootState } from '../../store';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+
+import dynamic from 'next/dynamic'
+const PerfectScrollbar = dynamic(() => import('react-perfect-scrollbar'), { ssr: false });
 
 const Sidebar = () => {
     const router = useRouter();
