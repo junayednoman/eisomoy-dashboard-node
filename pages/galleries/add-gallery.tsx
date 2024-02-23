@@ -6,6 +6,8 @@ import { useCallback, useState } from "react";
 import AnimateHeight from "react-animate-height";
 import 'easymde/dist/easymde.min.css';
 import ImageUploading, { ImageListType } from 'react-images-uploading';
+// import '@/file-upload-with-preview/dist/file-upload-with-preview.min.css';
+
 
 const AddGallery = () => {
     const [fileType, setFileType] = useState(true);
@@ -20,9 +22,11 @@ const AddGallery = () => {
 
 
     // image file upload
+    const [images2, setImages2] = useState<any>([]);
     const maxNumber = 69;
+
     const handleImageUpload = (imageList: ImageListType, addUpdateIndex: number[] | undefined) => {
-        setImages(imageList as never[]);
+        setImages2(imageList as never[]);
     };
 
     const submitForm = () => {
@@ -73,7 +77,7 @@ const AddGallery = () => {
                                     <label htmlFor="title">Title </label>
                                     <Field name="newsTitle" type="text" id="title" placeholder="Enter Gallery Title" className="form-input h-12" />
 
-                                    <div className="custom-file-container mt-4" data-upload-id="myFirstImage">
+                                    {/* <div className="custom-file-container mt-4" data-upload-id="myFirstImage">
                                         <div className="label-container">
                                             <label>Upload Images</label>
                                             <button
@@ -106,7 +110,54 @@ const AddGallery = () => {
                                             )}
                                         </ImageUploading>
                                         {images.length === 0 ? <img src="/assets/images/file-preview.svg" className="max-w-md w-full m-auto" alt="" /> : ''}
+                                    </div> */}
+
+                                    <div className="custom-file-container" data-upload-id="mySecondImage">
+                                        <div className="label-container">
+                                            <label>Upload </label>
+                                            <button
+                                                type="button"
+                                                className="custom-file-container__image-clear"
+                                                title="Clear Image"
+                                                onClick={() => {
+                                                    setImages2([]);
+                                                }}
+                                            >
+                                                ×
+                                            </button>
+                                        </div>
+                                        <label className="custom-file-container__custom-file"></label>
+                                        <input type="file" className="custom-file-container__custom-file__custom-file-input" accept="image/*" />
+                                        <input type="hidden" name="MAX_FILE_SIZE" value="10485760" />
+                                        <ImageUploading multiple value={images2} onChange={handleImageUpload} maxNumber={maxNumber}>
+                                            {({ imageList, onImageUpload, onImageRemoveAll, onImageUpdate, onImageRemove, isDragging, dragProps }) => (
+                                                <div className="upload__image-wrapper">
+                                                    <button className="custom-file-container__custom-file__custom-file-control" onClick={onImageUpload}>
+                                                        Choose File...
+                                                    </button>
+                                                    &nbsp;
+                                                    <div className="grid gap-4 sm:grid-cols-3 grid-cols-1">
+                                                        {imageList.map((image, index) => (
+                                                            <div key={index} className="custom-file-container__image-preview relative">
+                                                                <button
+                                                                    type="button"
+                                                                    className="custom-file-container__image-clear bg-[#ccc] dark:bg-dark dark:text-white-dark rounded-full block w-fit p-0.5 absolute top-0 left-0 font-semibold"
+                                                                    title="Clear Image"
+                                                                    onClick={() => onImageRemove(index)}
+                                                                >
+                                                                      ✖  
+                                                                </button>
+                                                                <img src={image.dataURL} alt="img" className="object-cover shadow rounded w-full !max-h-48" />
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </ImageUploading>
+                                        {images2.length === 0 ? <img src="/assets/images/file-preview.svg" className="max-w-md w-full m-auto" alt="" /> : ''}
                                     </div>
+
+
                                 </div>
                                 <button
                                     type="submit"
