@@ -13,6 +13,14 @@ const AllUsers = () => {
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [error, setError] = useState('');
+
+    const handleError = (errorMessage: any) => {
+        // Log error to console
+        console.error('Error:', errorMessage);
+        // Set error state to display error message in UI
+        setError(errorMessage);
+    };
 
     // const cookieStore = cookies();
     // const token = cookieStore.get('token'); // Retrieve the token from cookies
@@ -20,6 +28,7 @@ const AllUsers = () => {
     const apiUrl = process.env.API_URL || 'https://eismoy-api.vercel.app';
 
     const fetchUserData = async () => {
+        setLoading(true);
         try {
             const response = await axios.get(`${apiUrl}/api/user/all-users`, {
                 withCredentials: true // Include cookies with the request
@@ -71,6 +80,7 @@ const AllUsers = () => {
             fetchUserData(); // Refetch user data after adding a new user
         } catch (error) {
             console.error('Error adding user:', error);
+            handleError('Something Went Wrong!');
         }
     };
     
@@ -193,6 +203,8 @@ const AllUsers = () => {
                                 placeholder="Enter Display Name"
                             />
                         </div>
+
+                        {error && <p className="text-red-500">{error}</p>}
 
                         <button type="submit" className="btn btn-primary !mt-6">
                             Add User
