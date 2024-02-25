@@ -171,19 +171,23 @@ const AllUsers = () => {
                 </div>
             </div>
             <Modal className='dark:addUserModal' opened={isModalOpen} onClose={() => setIsModalOpen(false)} title="Add New User">
-                <Formik initialValues={{ name: '', email: '', password: '', role: '', display_name: '' }} onSubmit={handleSubmit} validationSchema={validationSchema}>
+            <Formik initialValues={{ name: '', email: '', password: '', role: '', display_name: '' }} onSubmit={handleSubmit} validationSchema={validationSchema}>
+                {({ errors, touched }) => (
                     <Form>
                         <div className="mb-3">
                             <label htmlFor="name">Name</label>
                             <Field className="form-input h-10" type="text" id="name" name="name" placeholder="Enter User Name" />
+                            {errors.name && touched.name && <p className="text-red-500">{errors.name}</p>}
                         </div>
                         <div className="mb-3">
                             <label htmlFor="email">Email</label>
                             <Field className="form-input h-10" type="email" id="email" name="email" placeholder="Enter User Email" />
+                            {errors.email && touched.email && <p className="text-red-500">{errors.email}</p>}
                         </div>
                         <div className="mb-3">
                             <label htmlFor="password">Password</label>
                             <Field className="form-input h-10" type="password" id="password" name="password" placeholder="Enter Password" />
+                            {errors.password && touched.password && <p className="text-red-500">{errors.password}</p>}
                         </div>
                         <div className="mb-3">
                             <label htmlFor="role">Role</label>
@@ -192,6 +196,7 @@ const AllUsers = () => {
                                 <option value="editor">Editor</option>
                                 <option value="reporter">Reporter</option>
                             </Field>
+                            {errors.role && touched.role && <p className="text-red-500">{errors.role}</p>}
                         </div>
                         <div className="mb-3">
                             <label htmlFor="display_name">Display Name</label>
@@ -202,6 +207,7 @@ const AllUsers = () => {
                                 name="display_name"
                                 placeholder="Enter Display Name"
                             />
+                            {errors.display_name && touched.display_name && <p className="text-red-500">{errors.display_name}</p>}
                         </div>
 
                         {error && <p className="text-red-500">{error}</p>}
@@ -210,7 +216,8 @@ const AllUsers = () => {
                             Add User
                         </button>
                     </Form>
-                </Formik>
+                )}
+            </Formik>
             </Modal>
         </div>
     );
