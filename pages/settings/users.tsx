@@ -5,7 +5,7 @@ import { Modal } from '@mantine/core';
 import { Field, Form, Formik } from 'formik';
 import Tippy from '@tippyjs/react';
 import withAuth from '../../utils/withAuth';
-import { cookies } from 'next/headers'
+// import { cookies } from 'next/headers'
 
 
 const AllUsers = () => {
@@ -14,8 +14,8 @@ const AllUsers = () => {
     const [search, setSearch] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const cookieStore = cookies();
-    const token = cookieStore.get('token'); // Retrieve the token from cookies
+    // const cookieStore = cookies();
+    // const token = cookieStore.get('token'); // Retrieve the token from cookies
 
     const apiUrl = process.env.API_URL || 'https://eismoy-api.vercel.app';
 
