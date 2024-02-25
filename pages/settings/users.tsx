@@ -149,7 +149,7 @@ const AllUsers = () => {
                 </div>
             </div>
             <Modal className='dark:addUserModal' opened={isModalOpen} onClose={() => setIsModalOpen(false)} title="Add New User">
-                <Formik initialValues={{ name: '', email: '', role: '', display_name: '' }} onSubmit={handleSubmit}>
+                <Formik initialValues={{ name: '', email: '', password: '', role: '', display_name: '' }} onSubmit={handleSubmit}>
                     <Form>
                         <div className="mb-3">
                             <label htmlFor="name">Name</label>
@@ -158,6 +158,10 @@ const AllUsers = () => {
                         <div className="mb-3">
                             <label htmlFor="email">Email</label>
                             <Field className="form-input h-10" type="email" id="email" name="email" placeholder="Enter User Email" />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="password">Password</label>
+                            <Field className="form-input h-10" type="password" id="password" name="password" placeholder="Enter Password" />
                         </div>
                         <div className="mb-3">
                             <label htmlFor="role">Role</label>
