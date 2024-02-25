@@ -5,8 +5,15 @@ import { Modal } from '@mantine/core';
 import { Field, Form, Formik } from 'formik';
 import Tippy from '@tippyjs/react';
 import withAuth from '../../utils/withAuth';
-// import { cookies } from 'next/headers'
+import * as Yup from 'yup';
 
+const validationSchema = Yup.object().shape({
+    name: Yup.string().required('Name is required'),
+    email: Yup.string().email('Invalid email').required('Email is required'),
+    password: Yup.string().required('Password is required').min(8, 'Password must be at least 8 characters'),
+    role: Yup.string().required('Role is required'),
+    display_name: Yup.string().required('Display Name is required'),
+});
 
 const AllUsers = () => {
     const [userData, setUserData] = useState([]);
@@ -15,23 +22,13 @@ const AllUsers = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [error, setError] = useState('');
 
-    const handleError = (errorMessage: any) => {
-        // Log error to console
-        console.error('Error:', errorMessage);
-        // Set error state to display error message in UI
-        setError(errorMessage);
-    };
-
-    // const cookieStore = cookies();
-    // const token = cookieStore.get('token'); // Retrieve the token from cookies
-
     const apiUrl = process.env.API_URL || 'https://eismoy-api.vercel.app';
 
     const fetchUserData = async () => {
         setLoading(true);
         try {
             const response = await axios.get(`${apiUrl}/api/user/all-users`, {
-                withCredentials: true // Include cookies with the request
+                withCredentials: true
             });
     
             const formattedData = response.data.map((user: any) => ({
@@ -47,7 +44,6 @@ const AllUsers = () => {
         }
     };
     
-
     useEffect(() => {
         fetchUserData();
     }, []);
@@ -78,9 +74,13 @@ const AllUsers = () => {
             console.log(response.data); // Log the response from the API
             setIsModalOpen(false); // Close the modal on successful submission
             fetchUserData(); // Refetch user data after adding a new user
-        } catch (error) {
+        } catch (error: any) {
             console.error('Error adding user:', error);
-            handleError('Something Went Wrong!');
+            if (error.response) {
+                setError(error.response.data.message || 'Server Error');
+            } else {
+                setError('Something Went Wrong!');
+            }
         }
     };
     
@@ -171,7 +171,7 @@ const AllUsers = () => {
                 </div>
             </div>
             <Modal className='dark:addUserModal' opened={isModalOpen} onClose={() => setIsModalOpen(false)} title="Add New User">
-                <Formik initialValues={{ name: '', email: '', password: '', role: '', display_name: '' }} onSubmit={handleSubmit}>
+                <Formik initialValues={{ name: '', email: '', password: '', role: '', display_name: '' }} onSubmit={handleSubmit} validationSchema={validationSchema}>
                     <Form>
                         <div className="mb-3">
                             <label htmlFor="name">Name</label>
