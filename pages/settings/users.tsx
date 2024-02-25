@@ -5,6 +5,7 @@ import { Modal } from '@mantine/core';
 import { Field, Form, Formik } from 'formik';
 import Tippy from '@tippyjs/react';
 import withAuth from '../../utils/withAuth';
+import { cookies } from 'next/headers'
 
 
 const AllUsers = () => {
@@ -13,12 +14,17 @@ const AllUsers = () => {
     const [search, setSearch] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
 
+    const cookieStore = cookies();
+    const token = cookieStore.get('token'); // Retrieve the token from cookies
+
     const apiUrl = process.env.API_URL || 'https://eismoy-api.vercel.app';
 
     const fetchUserData = async () => {
         try {
-            const response = await axios.get(`${apiUrl}/api/user/all-users`);
-
+            const response = await axios.get(`${apiUrl}/api/user/all-users`, {
+                withCredentials: true // Include cookies with the request
+            });
+    
             const formattedData = response.data.map((user: any) => ({
                 ...user,
                 created_at: formatDateTime(user.created_at),
@@ -31,6 +37,7 @@ const AllUsers = () => {
             setLoading(false);
         }
     };
+    
 
     useEffect(() => {
         fetchUserData();
@@ -54,7 +61,11 @@ const AllUsers = () => {
 
     const handleSubmit = async (values: any) => {
         try {
-            const response = await axios.post(`${apiUrl}/api/user/add`, values);
+            const response = await axios.post(
+                `${apiUrl}/api/user/add`,
+                values,
+                { withCredentials: true }
+            );
             console.log(response.data); // Log the response from the API
             setIsModalOpen(false); // Close the modal on successful submission
             fetchUserData(); // Refetch user data after adding a new user
@@ -62,6 +73,7 @@ const AllUsers = () => {
             console.error('Error adding user:', error);
         }
     };
+    
 
     return (
         <div>
