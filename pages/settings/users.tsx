@@ -19,6 +19,12 @@ const validationSchema = Yup.object().shape({
 const updateUserValidationSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
     email: Yup.string().email('Invalid email').required('Email is required'),
+    password: Yup.string().test('password', 'Password must be at least 8 characters', function (value) {
+        if (value && value.length > 0) {
+            return value.length >= 8;
+        }
+        return true; // No validation when password is empty
+    }),
     role: Yup.string().required('Role is required'),
     display_name: Yup.string().required('Display Name is required'),
 });
@@ -354,6 +360,11 @@ const AllUsers = () => {
                         <Field className="form-input h-10" type="email" id="email" name="email" placeholder="Enter User Email" />
                         {errors.email && touched.email && <p className="text-red-500">{errors.email as string}</p>}
                     </div>
+                    <div className="mb-3">
+                            <label htmlFor="password">Password</label>
+                            <Field className="form-input h-10" type="password" id="password" name="password" placeholder="Enter Password" />
+                            {errors.password && touched.password && <p className="text-red-500">{errors.password as string}</p>}
+                        </div>
                     <div className="mb-3">
                         <label htmlFor="role">Role</label>
                         <Field as="select" className="form-select h-10" id="role" name="role">
