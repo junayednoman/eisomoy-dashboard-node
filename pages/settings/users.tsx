@@ -36,28 +36,7 @@ const AllUsers = () => {
 
     useEffect(() => {
         fetchUserData();
-    }, []);
-
-    useEffect(() => {
-        setPage(1);
-    }, [pageSize]);
-
-    useEffect(() => {
-        const from = (page - 1) * pageSize;
-        const to = from + pageSize;
-        setUserData([...userData.slice(from, to)]);
-    }, [page, pageSize, userData]);
-
-    useEffect(() => {
-        if (userData.length > 0) {
-            // Sort the user data when it's available
-            const sortedData = sortBy(userData, sortStatus.columnAccessor);
-            if (sortStatus.direction === 'desc') {
-                sortedData.reverse();
-            }
-            setUserData(sortedData);
-        }
-    }, [userData, sortStatus]);
+    }, [page, pageSize, sortStatus, search]);
 
     const fetchUserData = async () => {
         setLoading(true);
@@ -65,22 +44,40 @@ const AllUsers = () => {
             const response = await axios.get(`${apiUrl}/api/user/all-users`, {
                 withCredentials: true
             });
-    
+
             const formattedData = response.data.map((user: any) => ({
                 ...user,
                 created_at: formatDateTime(user.created_at),
                 updated_at: formatDateTime(user.updated_at),
             }));
-            setUserData(formattedData);
+
+            // Apply search filter
+            const filteredData = formattedData.filter(item =>
+                Object.values(item).some(val => typeof val === 'string' && val.toLowerCase().includes(search.toLowerCase()))
+            );
+
+            // Apply sorting
+            const sortedData = sortBy(filteredData, sortStatus.columnAccessor);
+            if (sortStatus.direction === 'desc') {
+                sortedData.reverse();
+            }
+
+            // Apply pagination
+            const from = (page - 1) * pageSize;
+            const to = from + pageSize;
+            const paginatedData = sortedData.slice(from, to);
+
+            setUserData(paginatedData);
             setLoading(false);
         } catch (error) {
             console.error('Error fetching user data:', error);
             setLoading(false);
         }
     };
-    
+
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearch(e.target.value);
+        setPage(1); // Reset page when search changes
     };
 
     const formatDateTime = (dateTimeString: any) => {
@@ -163,9 +160,7 @@ const AllUsers = () => {
                     {!loading && (
                         <DataTable
                             className="table-hover whitespace-nowrap"
-                            records={userData.filter(item =>
-                                Object.values(item).some(val => typeof val === 'string' && val.toLowerCase().includes(search.toLowerCase()))
-                            )}
+                            records={userData}
                             columns={[
                                 { accessor: 'userid', title: 'User ID', sortable: true },
                                 { accessor: 'name', title: 'Name', sortable: true },
