@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { DataTable } from 'mantine-datatable';
+import { DataTable, DataTableSortStatus } from 'mantine-datatable';
+import sortBy from 'lodash/sortBy';
 import axios from 'axios';
 import { Modal } from '@mantine/core';
 import { Field, Form, Formik } from 'formik';
@@ -23,8 +24,40 @@ const AllUsers = () => {
     const [error, setError] = useState('');
     const [deleteUserId, setDeleteUserId] = useState(null);
     const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+    const [sortStatus, setSortStatus] = useState<DataTableSortStatus>({
+        columnAccessor: 'userid',
+        direction: 'asc',
+    });
+    const [page, setPage] = useState(1);
+    const PAGE_SIZES = [10, 20, 30, 50, 100];
+    const [pageSize, setPageSize] = useState(PAGE_SIZES[0]);
 
     const apiUrl = process.env.API_URL || 'https://eismoy-api.vercel.app';
+
+    useEffect(() => {
+        fetchUserData();
+    }, []);
+
+    useEffect(() => {
+        setPage(1);
+    }, [pageSize]);
+
+    useEffect(() => {
+        const from = (page - 1) * pageSize;
+        const to = from + pageSize;
+        setUserData([...userData.slice(from, to)]);
+    }, [page, pageSize, userData]);
+
+    useEffect(() => {
+        if (userData.length > 0) {
+            // Sort the user data when it's available
+            const sortedData = sortBy(userData, sortStatus.columnAccessor);
+            if (sortStatus.direction === 'desc') {
+                sortedData.reverse();
+            }
+            setUserData(sortedData);
+        }
+    }, [userData, sortStatus]);
 
     const fetchUserData = async () => {
         setLoading(true);
@@ -46,11 +79,7 @@ const AllUsers = () => {
         }
     };
     
-    useEffect(() => {
-        fetchUserData();
-    }, []);
-
-    const handleSearchChange = (e: any) => {
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearch(e.target.value);
     };
 
@@ -112,8 +141,6 @@ const AllUsers = () => {
         setShowDeleteConfirmation(false);
     };
 
-    
-
     return (
         <div>
             <div className="panel mt-5">
@@ -136,7 +163,9 @@ const AllUsers = () => {
                     {!loading && (
                         <DataTable
                             className="table-hover whitespace-nowrap"
-                            records={userData}
+                            records={userData.filter(item =>
+                                Object.values(item).some(val => typeof val === 'string' && val.toLowerCase().includes(search.toLowerCase()))
+                            )}
                             columns={[
                                 { accessor: 'userid', title: 'User ID', sortable: true },
                                 { accessor: 'name', title: 'Name', sortable: true },
@@ -192,9 +221,14 @@ const AllUsers = () => {
                             totalRecords={userData.length}
                             minHeight={200}
                             withBorder={false} // Add the withBorder prop
-                            page={1} // Add the page prop
-                            onPageChange={(page) => console.log('Page changed:', page)} // Add the onPageChange prop
-                            recordsPerPage={10} // Add the recordsPerPage prop
+                            page={page} // Add the page prop
+                            onPageChange={(p) => setPage(p)}
+                            recordsPerPageOptions={PAGE_SIZES}
+                            onRecordsPerPageChange={setPageSize}
+                            recordsPerPage={pageSize} // Add the recordsPerPage prop
+                            sortStatus={sortStatus} // Add the sortStatus prop
+                            onSortStatusChange={(newSortStatus) => setSortStatus(newSortStatus)} // Add the onSortChange prop
+                            paginationText={({ from, to, totalRecords }) => `Showing  ${from} to ${to} of ${totalRecords} entries`}
                         />
                     )}
                 </div>
