@@ -52,8 +52,8 @@ const AllUsers = () => {
             }));
 
             // Apply search filter
-            const filteredData = formattedData.filter(item =>
-                Object.values(item).some(val => typeof val === 'string' && val.toLowerCase().includes(search.toLowerCase()))
+            const filteredData = formattedData.filter((item: { [key: string]: any }) =>
+            Object.values(item).some((val: any) => typeof val === 'string' && val.toLowerCase().includes(search.toLowerCase()))
             );
 
             // Apply sorting
