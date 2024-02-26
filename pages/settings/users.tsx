@@ -88,8 +88,9 @@ const AllUsers = () => {
 
     const handleDelete = async () => {
         try {
-            const response = await axios.delete(
-                `${apiUrl}/api/user/delete/${deleteUserId}`,
+            const response = await axios.post(
+                `${apiUrl}/api/user/delete`,
+                { userId: deleteUserId },
                 { withCredentials: true }
             );
             console.log(response.data); // Log the response from the API
