@@ -16,11 +16,19 @@ const validationSchema = Yup.object().shape({
     display_name: Yup.string().required('Display Name is required'),
 });
 
+const updateUserValidationSchema = Yup.object().shape({
+    name: Yup.string().required('Name is required'),
+    email: Yup.string().email('Invalid email').required('Email is required'),
+    role: Yup.string().required('Role is required'),
+    display_name: Yup.string().required('Display Name is required'),
+});
+
 const AllUsers = () => {
     const [userData, setUserData] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
     const [error, setError] = useState('');
     const [deleteUserId, setDeleteUserId] = useState(null);
     const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
@@ -31,6 +39,7 @@ const AllUsers = () => {
     const [page, setPage] = useState(1);
     const PAGE_SIZES = [10, 20, 30, 50, 100];
     const [pageSize, setPageSize] = useState(PAGE_SIZES[0]);
+    const [userDataToUpdate, setUserDataToUpdate] = useState<any>(null);
 
     const apiUrl = process.env.API_URL || 'https://eismoy-api.vercel.app';
 
@@ -92,7 +101,7 @@ const AllUsers = () => {
         return new Date(dateTimeString).toLocaleString('en-US', options);
     };
 
-    const handleSubmit = async (values: any) => {
+    const handleAdd = async (values: any) => {
         try {
             const response = await axios.post(
                 `${apiUrl}/api/user/add`,
@@ -104,6 +113,26 @@ const AllUsers = () => {
             fetchUserData(); // Refetch user data after adding a new user
         } catch (error: any) {
             console.error('Error adding user:', error);
+            if (error.response) {
+                setError(error.response.data.message || 'Server Error');
+            } else {
+                setError('Something Went Wrong!');
+            }
+        }
+    };
+
+    const handleUpdate = async (values: any) => {
+        try {
+            const response = await axios.post(
+                `${apiUrl}/api/user/update`,
+                values,
+                { withCredentials: true }
+            );
+            console.log(response.data); // Log the response from the API
+            setIsUpdateModalOpen(false); // Close the modal on successful update
+            fetchUserData(); // Refetch user data after updating
+        } catch (error: any) {
+            console.error('Error updating user:', error);
             if (error.response) {
                 setError(error.response.data.message || 'Server Error');
             } else {
@@ -136,6 +165,16 @@ const AllUsers = () => {
 
     const handleCloseDeleteConfirmation = () => {
         setShowDeleteConfirmation(false);
+    };
+
+    const handleOpenUpdateModal = (userData: any) => {
+        setUserDataToUpdate(userData);
+        setIsUpdateModalOpen(true);
+    };
+
+    const handleCloseUpdateModal = () => {
+        setUserDataToUpdate(null);
+        setIsUpdateModalOpen(false);
     };
 
     return (
@@ -175,7 +214,7 @@ const AllUsers = () => {
                                     render: (rowData) => (
                                         <div className="flex gap-2">
                                             <Tippy content="Edit">
-                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-5 w-5">
+                                                <svg onClick={() => handleOpenUpdateModal(rowData)} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-5 w-5">
                                                     <path
                                                         d="M15.2869 3.15178L14.3601 4.07866L5.83882 12.5999L5.83881 12.5999C5.26166 13.1771 4.97308 13.4656 4.7249 13.7838C4.43213 14.1592 4.18114 14.5653 3.97634 14.995C3.80273 15.3593 3.67368 15.7465 3.41556 16.5208L2.32181 19.8021L2.05445 20.6042C1.92743 20.9852 2.0266 21.4053 2.31063 21.6894C2.59466 21.9734 3.01478 22.0726 3.39584 21.9456L4.19792 21.6782L7.47918 20.5844L7.47919 20.5844C8.25353 20.3263 8.6407 20.1973 9.00498 20.0237C9.43469 19.8189 9.84082 19.5679 10.2162 19.2751C10.5344 19.0269 10.8229 18.7383 11.4001 18.1612L11.4001 18.1612L19.9213 9.63993L20.8482 8.71306C22.3839 7.17735 22.3839 4.68748 20.8482 3.15178C19.3125 1.61607 16.8226 1.61607 15.2869 3.15178Z"
                                                         stroke="currentColor"
@@ -237,7 +276,7 @@ const AllUsers = () => {
                 }}
                 title="Add New User"
             >
-            <Formik initialValues={{ name: '', email: '', password: '', role: '', display_name: '' }} onSubmit={handleSubmit} validationSchema={validationSchema}>
+            <Formik initialValues={{ name: '', email: '', password: '', role: '', display_name: '' }} onSubmit={handleAdd} validationSchema={validationSchema}>
                 {({ errors, touched }) => (
                     <Form>
                         <div className="mb-3">
@@ -292,6 +331,53 @@ const AllUsers = () => {
                     <button onClick={handleDelete} className="btn btn-danger">Delete</button>
                 </div>
             </Modal>
+
+            {userDataToUpdate && (
+    <Modal
+        className='dark:updateUserModal'
+        opened={isUpdateModalOpen}
+        onClose={handleCloseUpdateModal}
+        title="Update User"
+    >
+        <Formik initialValues={{ ...userDataToUpdate }} onSubmit={handleUpdate} validationSchema={updateUserValidationSchema}>
+            {({ errors, touched }) => (
+                <Form>
+                    <input type="hidden" name="userId" value={userDataToUpdate.userId} /> {/* Hidden input for userId */}
+
+                    <div className="mb-3">
+                        <label htmlFor="name">Name</label>
+                        <Field className="form-input h-10" type="text" id="name" name="name" placeholder="Enter User Name" />
+                        {errors.name && touched.name && <p className="text-red-500">{errors.name as string}</p>}
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="email">Email</label>
+                        <Field className="form-input h-10" type="email" id="email" name="email" placeholder="Enter User Email" />
+                        {errors.email && touched.email && <p className="text-red-500">{errors.email as string}</p>}
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="role">Role</label>
+                        <Field as="select" className="form-select h-10" id="role" name="role">
+                            <option value="admin">Admin</option>
+                            <option value="editor">Editor</option>
+                            <option value="reporter">Reporter</option>
+                        </Field>
+                        {errors.role && touched.role && <p className="text-red-500">{errors.role as string}</p>}
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="display_name">Display Name</label>
+                        <Field className="form-input h-10" type="text" id="display_name" name="display_name" placeholder="Enter Display Name" />
+                        {errors.display_name && touched.display_name && <p className="text-red-500">{errors.display_name as string}</p>}
+                    </div>
+                    {error && <p className="text-red-500">{error}</p>}
+                    <button type="submit" className="btn btn-primary !mt-6">
+                        Update User
+                    </button>
+                </Form>
+            )}
+        </Formik>
+    </Modal>
+)}
+
         </div>
     );
 };
