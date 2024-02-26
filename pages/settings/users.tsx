@@ -348,7 +348,7 @@ const AllUsers = () => {
         <Formik initialValues={{ ...userDataToUpdate }} onSubmit={handleUpdate} validationSchema={updateUserValidationSchema}>
             {({ errors, touched }) => (
                 <Form>
-                    <input type="hidden" name="userId" value={userDataToUpdate.userId} /> {/* Hidden input for userId */}
+                    <input type="hidden" name="userId" value={userDataToUpdate.userid} /> {/* Hidden input for userId */}
 
                     <div className="mb-3">
                         <label htmlFor="name">Name</label>
