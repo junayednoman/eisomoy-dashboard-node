@@ -191,9 +191,10 @@ const Categories = () => {
                                             sortable: true,
                                         },
                                         { 
-                                            accessor: 'count',
+                                            accessor: 'news_count', // Adjusted accessor to match the response data key
                                             title: 'News Count',
-                                            sortable: true },
+                                            sortable: true 
+                                        },
                                         {
                                             accessor: 'action',
                                             title: 'Action',
