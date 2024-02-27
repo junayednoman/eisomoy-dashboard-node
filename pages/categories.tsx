@@ -10,14 +10,21 @@ import Swal from 'sweetalert2';
 import Select from 'react-select';
 import AnimateHeight from 'react-animate-height';
 import axios from 'axios';
+import * as Yup from 'yup';
+
+const validationSchema = Yup.object().shape({
+    categoryName: Yup.string().required('Title is required'),
+    slug: Yup.string().required('Slug is required'),
+    metaTitle: Yup.string().required('Meta Title is required'),
+    metaDescription: Yup.string().required('Meta Description is required'),
+    focusKeyword: Yup.string().required('Focus Keyword is required'),
+});
 
 const Categories = () => {
     const [active, setActive] = useState<Number>();
-    const categoryOptions = [
-        { value: 'orange', label: 'Orange' },
-        { value: 'white', label: 'White' },
-        { value: 'purple', label: 'Purple' },
-    ];
+    const [slug, setSlug] = useState('');
+    const [parentOptions, setParentOptions] = useState<string[]>([]);
+ 
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(setPageTitle('News Categories'));
@@ -68,6 +75,11 @@ const Categories = () => {
             const paginatedData = sortedData.slice(from, to);
     
             setInitialRecords(paginatedData);
+
+            // Extract category names for parent field options
+            const categoryNames = categoryData.map((category: { categoryName: string }) => category.categoryName);
+            setParentOptions(categoryNames);
+
             setLoading(false);
         } catch (error) {
             console.error('Error fetching user data:', error);
@@ -76,18 +88,30 @@ const Categories = () => {
     };
     
 
-    const submitForm = () => {
-        const toast = Swal.mixin({
-            toast: true,
-            position: 'top',
-            showConfirmButton: false,
-            timer: 3000,
-        });
-        toast.fire({
-            icon: 'success',
-            title: 'Form submitted successfully',
-            padding: '10px 20px',
-        });
+    // Form submit handler
+    const handleSubmit = async (values: any) => {
+        try {
+            // Make API call to add category
+            const response = await axios.post(`${apiUrl}/api/news/add-category`, values, { withCredentials: true });
+            console.log('Category added:', response.data);
+            // Show success message
+            Swal.fire({
+                icon: 'success',
+                title: 'Category added successfully',
+                timer: 3000,
+                showConfirmButton: false
+            });
+        } catch (error) {
+            console.error('Error adding category:', error);
+            // Show error message
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops... Something went wrong!',
+                text: 'Failed to add category',
+                timer: 3000,
+                showConfirmButton: false
+            });
+        }
     };
     
     const togglePara = (value: Number) => {
@@ -100,29 +124,67 @@ const Categories = () => {
         <div>
             <div className='grid lg:grid-cols-3 grid-cols-1 gap-6'>
                 <div className='lg:col-span-1 col-span-1 border border-[#e6e6e6] dark:border-0 rounded-md mt-5 py-4 shadow-sm bg-white dark:bg-[#0E1726] h-fit'>
-                    <Formik
+                <Formik
                         initialValues={{
                             categoryName: '',
-                            description: '',
                             slug: '',
                             parent: '',
+                            metaTitle: '',
+                            metaDescription: '',
+                            focusKeyword: ''
                         }}
-                        onSubmit={() => { }}
+                        onSubmit={(values) => handleSubmit(values)}
+                        validationSchema={validationSchema}
                     >
-                        {({ errors, submitCount, touched }) => (
+                        {({ errors, touched, setFieldValue }) => (
                             <Form className="space-y-5">
                                 <div>
                                     <div className='px-4'>
-                                        <label htmlFor="title">Title </label>
-                                        <Field name="categoryName" type="text" id="title" placeholder="Enter Category Name" className="form-input h-10" />
+                                        <label htmlFor="categoryName">Title </label>
+                                        <Field
+                                            name="categoryName"
+                                            type="text"
+                                            id="categoryName"
+                                            placeholder="Enter Category Name"
+                                            className="form-input h-10"
+                                            onChange={(e: any) => {
+                                                const title = e.target.value;
+                                                const formattedSlug = title.toLowerCase().replace(/\s+/g, '-');
+                                                setSlug(formattedSlug);
+                                                // Set slug value in formik field
+                                                setFieldValue('slug', formattedSlug);
+                                            }}
+                                        />
+                                        {errors.categoryName && touched.categoryName && <p className="text-red-500">{errors.categoryName}</p>}
                                     </div>
                                     <div className='mt-3 px-4'>
                                         <label htmlFor="slug">Slug</label>
-                                        <Field name="slug" type="text" id="slug" placeholder="Enter Category Slug" className="form-input h-10" />
+                                        <Field
+                                            name="slug"
+                                            type="text"
+                                            id="slug"
+                                            placeholder="Enter Category Slug"
+                                            className="form-input h-10"
+                                            value={slug}
+                                            onChange={(e: any) => setSlug(e.target.value)}
+                                        />
+                                        {errors.slug && touched.slug && <p className="text-red-500">{errors.slug}</p>}
                                     </div>
                                     <div className="mt-3 px-4 mb-5">
                                         <label htmlFor="parent">Parent</label>
-                                        <Select className='dark:mySelect mySelect' name='parent' placeholder="Select a parent" options={categoryOptions} />
+                                        <Select
+                                            className='dark:mySelect mySelect'
+                                            name='parent'
+                                            placeholder="Select a parent"
+                                            options={parentOptions.map(option => ({ value: option, label: option }))}
+                                            onChange={(option) => {
+                                                // Check if option is not null before accessing its value
+                                                if (option) {
+                                                    setFieldValue('parent', option.value);
+                                                }
+                                            }}
+                                        />
+
                                     </div>
                                     <div className="border-y border-[#ebedf2] bg-white dark:border-[#191e3a] dark:bg-black">
                                         <div className={`flex cursor-pointer p-4 font-semibold hover:bg-[#EBEBEB] dark:bg-[#0E1726] dark:hover:bg-[#0E1726] ${active === 1 && 'bg-[#EBEBEB]'}`} onClick={() => togglePara(1)}>
@@ -138,14 +200,17 @@ const Categories = () => {
                                                 <div>
                                                     <label htmlFor="metaTitle">Meta Title</label>
                                                     <Field name="metaTitle" type="text" id="metaTitle" placeholder="Enter Meta Title" className="form-input h-10" />
+                                                    {errors.metaTitle && touched.metaTitle && <p className="text-red-500">{errors.metaTitle}</p>}
                                                 </div>
                                                 <div className='mt-3'>
                                                     <label htmlFor="metaDescription">Meta Description</label>
                                                     <Field name="metaDescription" as="textarea" id="metaDescription" placeholder="Enter Meta Description" className="form-input h-24" />
+                                                    {errors.metaDescription && touched.metaDescription && <p className="text-red-500">{errors.metaDescription}</p>}
                                                 </div>
                                                 <div className='mt-3'>
                                                     <label htmlFor="focusKeyword">Focus Keyword</label>
                                                     <Field name="focusKeyword" type="text" id="focusKeyword" placeholder="Enter Focus Keyword" className="form-input h-10" />
+                                                    {errors.focusKeyword && touched.focusKeyword && <p className="text-red-500">{errors.focusKeyword}</p>}
                                                 </div>
                                             </div>
                                         </AnimateHeight>
@@ -154,11 +219,7 @@ const Categories = () => {
                                 <button
                                     type="submit"
                                     className="btn btn-primary !mt-6 mx-4"
-                                    onClick={() => {
-                                        if (touched.categoryName && !errors.categoryName) {
-                                            submitForm();
-                                        }
-                                    }}
+                                    
                                 >
                                     Add Now
                                 </button>
