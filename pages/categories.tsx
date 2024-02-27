@@ -41,7 +41,7 @@ const Categories = () => {
 
     const [search, setSearch] = useState('');
     const [sortStatus, setSortStatus] = useState<DataTableSortStatus>({
-        columnAccessor: 'name',
+        columnAccessor: 'categoryName',
         direction: 'asc',
     });
 
@@ -80,7 +80,7 @@ const Categories = () => {
             setInitialRecords(paginatedData);
 
             // Extract category names for parent field options
-            const categoryNames = categoryData.map((category: any) => category.name);
+            const categoryNames = categoryData.map((category: any) => category.categoryName);
             console.log('Category names:', categoryNames);
             setParentOptions(categoryNames);
 
@@ -105,18 +105,19 @@ const Categories = () => {
                 timer: 3000,
                 showConfirmButton: false
             });
-        } catch (error) {
+        } catch (error: any) {
             console.error('Error adding category:', error);
-            // Show error message
+            // Show error message from API response
             Swal.fire({
                 icon: 'error',
                 title: 'Oops... Something went wrong!',
-                text: 'Failed to add category',
+                text: error.response?.data?.message || 'Failed to add category',
                 timer: 3000,
                 showConfirmButton: false
             });
         }
     };
+    
     
     const togglePara = (value: Number) => {
         setActive((oldValue) => {
@@ -250,7 +251,7 @@ const Categories = () => {
                                     records={initialRecords}
                                     columns={[
                                         {
-                                            accessor: 'name',
+                                            accessor: 'categoryName',
                                             title: 'Name',
                                             sortable: true,
                                         },
