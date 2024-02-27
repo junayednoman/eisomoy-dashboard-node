@@ -106,6 +106,7 @@ const Categories = () => {
                 timer: 3000,
                 showConfirmButton: false
             });
+            fetchData();
         } catch (error: any) {
             console.error('Error adding category:', error);
             // Show error message from API response
@@ -116,6 +117,7 @@ const Categories = () => {
                 timer: 3000,
                 showConfirmButton: false
             });
+            
         }
     };
     
