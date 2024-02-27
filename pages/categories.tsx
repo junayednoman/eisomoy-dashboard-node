@@ -153,12 +153,11 @@ const Categories = () => {
                                             id="categoryName"
                                             placeholder="Enter Category Name"
                                             className="form-input h-10"
-                                            onChange={(e: any) => {
+                                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                                                 const title = e.target.value;
                                                 const formattedSlug = title.toLowerCase().replace(/\s+/g, '-');
-                                                setSlug(formattedSlug);
-                                                // Set slug value in formik field
-                                                setFieldValue('slug', formattedSlug);
+                                                setFieldValue('categoryName', title); // Update title field value
+                                                setFieldValue('slug', formattedSlug); // Update slug field value
                                             }}
                                         />
                                         {errors.categoryName && touched.categoryName && <p className="text-red-500">{errors.categoryName}</p>}
