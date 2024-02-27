@@ -78,6 +78,7 @@ const Categories = () => {
 
             // Extract category names for parent field options
             const categoryNames = categoryData.map((category: { categoryName: string }) => category.categoryName);
+            console.log('Category names:', categoryNames);
             setParentOptions(categoryNames);
 
             setLoading(false);
@@ -172,18 +173,22 @@ const Categories = () => {
                                     </div>
                                     <div className="mt-3 px-4 mb-5">
                                         <label htmlFor="parent">Parent</label>
-                                        <Select
-                                            className='dark:mySelect mySelect'
-                                            name='parent'
-                                            placeholder="Select a parent"
-                                            options={parentOptions.map(option => ({ value: option, label: option }))}
-                                            onChange={(option) => {
-                                                // Check if option is not null before accessing its value
-                                                if (option) {
-                                                    setFieldValue('parent', option.value);
-                                                }
-                                            }}
-                                        />
+                                        {parentOptions.length > 0 && (
+                                            <Select
+                                                className='dark:mySelect mySelect'
+                                                name='parent'
+                                                placeholder="Select a parent"
+                                                options={parentOptions.map(option => ({ value: option, label: option }))}
+                                                onChange={(option) => {
+                                                    // Check if option is not null before accessing its value
+                                                    if (option) {
+                                                        setFieldValue('parent', option.value);
+                                                    }
+                                                }}
+                                            />
+                                            
+                                        )}
+                                        
 
                                     </div>
                                     <div className="border-y border-[#ebedf2] bg-white dark:border-[#191e3a] dark:bg-black">
