@@ -6,6 +6,8 @@ import { Modal } from '@mantine/core';
 import { Field, Form, Formik } from 'formik';
 import Tippy from '@tippyjs/react';
 import withAuth from '../../utils/withAuth';
+import { setPageTitle } from '../../store/themeConfigSlice';
+import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
 
 const validationSchema = Yup.object().shape({
@@ -48,6 +50,11 @@ const AllUsers = () => {
     const [userDataToUpdate, setUserDataToUpdate] = useState<any>(null);
 
     const apiUrl = process.env.API_URL || 'https://eismoy-api.vercel.app';
+
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(setPageTitle('Manage Users'));
+    }, [dispatch]);
 
     useEffect(() => {
         fetchUserData();
@@ -348,7 +355,7 @@ const AllUsers = () => {
         <Formik initialValues={{ ...userDataToUpdate }} onSubmit={handleUpdate} validationSchema={updateUserValidationSchema}>
             {({ errors, touched }) => (
                 <Form>
-                    <input type="hidden" name="userId" value={userDataToUpdate.userid} /> {/* Hidden input for userId */}
+                    <input type="hidden" name="userid" id="userid" value={userDataToUpdate.userid} /> {/* Hidden input for userId */}
 
                     <div className="mb-3">
                         <label htmlFor="name">Name</label>
