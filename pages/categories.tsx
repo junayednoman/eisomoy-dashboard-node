@@ -6,7 +6,7 @@ import 'tippy.js/dist/tippy.css';
 import { setPageTitle } from '../store/themeConfigSlice';
 import withAuth from '../utils/withAuth';
 import { useDispatch } from 'react-redux';
-import { Field, Form, Formik } from 'formik';
+import { Field, Form, Formik, useFormikContext } from 'formik';
 import Swal from 'sweetalert2';
 import Select from 'react-select';
 import AnimateHeight from 'react-animate-height';
@@ -23,8 +23,8 @@ const validationSchema = Yup.object().shape({
 
 const Categories = () => {
     const [active, setActive] = useState<Number>();
-    const [slug, setSlug] = useState('');
     const [parentOptions, setParentOptions] = useState<string[]>([]);
+    const myformik = useFormikContext(); // Access Formik context
  
     const dispatch = useDispatch();
     useEffect(() => {
@@ -106,6 +106,7 @@ const Categories = () => {
                 timer: 3000,
                 showConfirmButton: false
             });
+            myformik.resetForm();
             fetchData();
         } catch (error: any) {
             console.error('Error adding category:', error);
@@ -119,6 +120,14 @@ const Categories = () => {
             });
             
         }
+    };
+
+    // Update the slug field when the categoryName field changes
+    const handleCategoryNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const title = e.target.value;
+        const formattedSlug = title.toLowerCase().replace(/\s+/g, '-');
+        myformik.setFieldValue('categoryName', title); // Update title field value
+        myformik.setFieldValue('slug', formattedSlug); // Update slug field value
     };
     
     
@@ -155,12 +164,7 @@ const Categories = () => {
                                             id="categoryName"
                                             placeholder="Enter Category Name"
                                             className="form-input h-10"
-                                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                                const title = e.target.value;
-                                                const formattedSlug = title.toLowerCase().replace(/\s+/g, '-');
-                                                setFieldValue('categoryName', title); // Update title field value
-                                                setFieldValue('slug', formattedSlug); // Update slug field value
-                                            }}
+                                            onChange={handleCategoryNameChange} // Update the onChange event handler
                                         />
                                         {errors.categoryName && touched.categoryName && <p className="text-red-500">{errors.categoryName}</p>}
                                     </div>
@@ -172,8 +176,6 @@ const Categories = () => {
                                             id="slug"
                                             placeholder="Enter Category Slug"
                                             className="form-input h-10"
-                                            value={slug}
-                                            onChange={(e: any) => setSlug(e.target.value)}
                                         />
                                         {errors.slug && touched.slug && <p className="text-red-500">{errors.slug}</p>}
                                     </div>
