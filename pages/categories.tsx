@@ -60,7 +60,7 @@ const Categories = () => {
     
             // Apply search filter
 
-            console.log('Category data:', categoryData);
+            //console.log('Category data:', categoryData);
             
             const filteredData = categoryData.filter((item: { [key: string]: any }) =>
                 Object.values(item).some((val) => typeof val === 'string' && val.toLowerCase().includes(search.toLowerCase()))
@@ -81,7 +81,7 @@ const Categories = () => {
 
             // Extract category names for parent field options
             const categoryNames = categoryData.map((category: any) => category.categoryName);
-            console.log('Category names:', categoryNames);
+            //console.log('Category names:', categoryNames);
             setParentOptions(categoryNames);
 
             setLoading(false);
@@ -177,7 +177,7 @@ const Categories = () => {
                                     </div>
                                     <div className="mt-3 px-4 mb-5">
                                         <label htmlFor="parent">Parent</label>
-                                        {parentOptions.length > 0 && (
+                                        
                                             <Select
                                                 className='dark:mySelect mySelect'
                                                 name='parent'
@@ -191,7 +191,7 @@ const Categories = () => {
                                                 }}
                                             />
                                             
-                                        )}
+                                       
                                         
 
                                     </div>
