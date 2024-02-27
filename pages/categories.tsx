@@ -59,6 +59,9 @@ const Categories = () => {
             const categoryData = response.data;
     
             // Apply search filter
+
+            console.log('Category data:', categoryData);
+            
             const filteredData = categoryData.filter((item: { [key: string]: any }) =>
                 Object.values(item).some((val) => typeof val === 'string' && val.toLowerCase().includes(search.toLowerCase()))
             );
