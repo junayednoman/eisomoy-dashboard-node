@@ -80,7 +80,7 @@ const Categories = () => {
             setInitialRecords(paginatedData);
 
             // Extract category names for parent field options
-            const categoryNames = categoryData.map((category: { categoryName: string }) => category.categoryName);
+            const categoryNames = categoryData.map((category: any) => category.name);
             console.log('Category names:', categoryNames);
             setParentOptions(categoryNames);
 
