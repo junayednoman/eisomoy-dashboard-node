@@ -4,6 +4,7 @@ import sortBy from 'lodash/sortBy';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
 import { setPageTitle } from '../store/themeConfigSlice';
+import withAuth from '../utils/withAuth';
 import { useDispatch } from 'react-redux';
 import { Field, Form, Formik } from 'formik';
 import Swal from 'sweetalert2';
@@ -336,4 +337,4 @@ const Categories = () => {
     );
 };
 
-export default Categories;
+export default withAuth(Categories);
