@@ -101,7 +101,7 @@ const Categories = () => {
     
 
     // Form submit handler
-    const handleSubmit = async (values: any) => {
+    const handleSubmit = async (values: any, { resetForm }: any) => {
         try {
             // Make API call to add category
             const response = await axios.post(`${apiUrl}/api/news/add-category`, values, { withCredentials: true });
@@ -113,7 +113,7 @@ const Categories = () => {
                 timer: 3000,
                 showConfirmButton: false
             });
-            myformik.resetForm();
+            resetForm();
             fetchData();
         } catch (error: any) {
             console.error('Error adding category:', error);
@@ -169,7 +169,7 @@ const Categories = () => {
                             metaDescription: '',
                             focusKeyword: ''
                         }}
-                        onSubmit={(values) => handleSubmit(values)}
+                        onSubmit={(values, { resetForm }) => handleSubmit(values, { resetForm })}
                         validationSchema={validationSchema}
                     >
                         {({ errors, touched, setFieldValue }) => (
