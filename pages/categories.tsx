@@ -24,6 +24,7 @@ const validationSchema = Yup.object().shape({
 const Categories = () => {
     const [active, setActive] = useState<Number>();
     const [parentOptions, setParentOptions] = useState<string[]>([]);
+
     const myformik = useFormikContext(); // Access Formik context
  
     const dispatch = useDispatch();
@@ -123,7 +124,7 @@ const Categories = () => {
     };
 
     // Update the slug field onBlur of the categoryName field
-    const handleCategoryNameBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    const handleCategoryNameBlur = (e: any) => {
         const title = e.target.value;
         const formattedSlug = title.toLowerCase().replace(/\s+/g, '-');
         myformik.setFieldValue('slug', formattedSlug); // Update slug field value
