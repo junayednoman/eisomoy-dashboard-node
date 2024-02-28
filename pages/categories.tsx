@@ -1,5 +1,5 @@
 import { DataTable, DataTableSortStatus } from 'mantine-datatable';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import sortBy from 'lodash/sortBy';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
@@ -29,8 +29,8 @@ const Categories = () => {
 
     const myformik = useFormikContext(); // Access Formik context
 
-    const categoryNameRef = useRef<HTMLInputElement | null>(null);
-    const slugRef = useRef<HTMLInputElement | null>(null);
+    const [categoryName, setCategoryName] = useState('');
+    const [slug, setSlug] = useState('');
  
     const dispatch = useDispatch();
     useEffect(() => {
@@ -129,33 +129,12 @@ const Categories = () => {
     };
 
 
-    useEffect(() => {
-        console.log('useEffect is triggered');
-
-        const handleCategoryNameChange = () => {
-            console.log('handleCategoryNameChange is called');
-            if (categoryNameRef.current && slugRef.current) {
-                const categoryName = categoryNameRef.current.value;
-                const formattedSlug = categoryName.toLowerCase().replace(/\s+/g, '-');
-                slugRef.current.value = formattedSlug;
-            }
-        };
-
-        if (categoryNameRef.current && slugRef.current) {
-            console.log('Adding event listener');
-            // Set initial slug value
-            handleCategoryNameChange();
-
-            // Add event listener to update slug in real-time
-            categoryNameRef.current.addEventListener('input', handleCategoryNameChange);
-
-            return () => {
-                console.log('Removing event listener');
-                // Remove event listener when component unmounts
-                categoryNameRef.current?.removeEventListener('input', handleCategoryNameChange);
-            };
-        }
-    }, []);
+    const handleCategoryNameChange = (e: any) => {
+        const name = e.target.value;
+        setCategoryName(name);
+        const formattedSlug = name.toLowerCase().replace(/\s+/g, '-');
+        setSlug(formattedSlug);
+    };
 
     
     const togglePara = (value: Number) => {
@@ -191,7 +170,8 @@ const Categories = () => {
                                             id="categoryName"
                                             placeholder="Enter Category Name"
                                             className="form-input h-10"
-                                            ref={categoryNameRef}
+                                            value={categoryName}
+                                            onChange={handleCategoryNameChange}
                                         />
                                         {errors.categoryName && touched.categoryName && <p className="text-red-500">{errors.categoryName}</p>}
                                     </div>
@@ -203,7 +183,8 @@ const Categories = () => {
                                             id="slug"
                                             placeholder="Enter Category Slug"
                                             className="form-input h-10"
-                                            ref={slugRef}
+                                            value={slug}
+                                            readOnly
                                         />
                                         {errors.slug && touched.slug && <p className="text-red-500">{errors.slug}</p>}
                                     </div>
