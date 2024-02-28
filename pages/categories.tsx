@@ -130,7 +130,10 @@ const Categories = () => {
 
 
     useEffect(() => {
+        console.log('useEffect is triggered');
+
         const handleCategoryNameChange = () => {
+            console.log('handleCategoryNameChange is called');
             if (categoryNameRef.current && slugRef.current) {
                 const categoryName = categoryNameRef.current.value;
                 const formattedSlug = categoryName.toLowerCase().replace(/\s+/g, '-');
@@ -139,6 +142,7 @@ const Categories = () => {
         };
 
         if (categoryNameRef.current && slugRef.current) {
+            console.log('Adding event listener');
             // Set initial slug value
             handleCategoryNameChange();
 
@@ -146,6 +150,7 @@ const Categories = () => {
             categoryNameRef.current.addEventListener('input', handleCategoryNameChange);
 
             return () => {
+                console.log('Removing event listener');
                 // Remove event listener when component unmounts
                 categoryNameRef.current?.removeEventListener('input', handleCategoryNameChange);
             };
