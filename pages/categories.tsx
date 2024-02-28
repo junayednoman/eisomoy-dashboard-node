@@ -153,7 +153,7 @@ const Categories = () => {
                         onSubmit={(values) => handleSubmit(values)}
                         validationSchema={validationSchema}
                     >
-                        {({ errors, touched, setFieldValue }) => (
+                        {({ errors, touched }) => (
                             <Form className="space-y-5">
                                 <div>
                                     <div className='px-4'>
