@@ -204,18 +204,20 @@ const Categories = () => {
                                     <div className="mt-3 px-4 mb-5">
                                         <label htmlFor="parent">Parent</label>
                                         
-                                            <Select
-                                                className='dark:mySelect mySelect'
-                                                name='parent'
-                                                placeholder="Select a parent"
-                                                options={parentOptions.map(option => ({ value: option, label: option }))}
-                                                onChange={(option) => {
-                                                    // Check if option is not null before accessing its value
-                                                    if (option) {
-                                                        setFieldValue('parent', option.value);
-                                                    }
-                                                }}
-                                            />
+                                        <Select
+                                            className='dark:mySelect mySelect'
+                                            name='parent'
+                                            placeholder="Select a parent"
+                                            options={[{ value: '', label: '' }, ...parentOptions.map(option => ({ value: option, label: option }))]}
+
+                                            onChange={(option) => {
+                                                // Check if option is not null before accessing its value
+                                                if (option) {
+                                                    setFieldValue('parent', option.value);
+                                                }
+                                            }}
+                                        />
+
                                             
                                        
                                         
