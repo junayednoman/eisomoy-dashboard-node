@@ -114,6 +114,9 @@ const Categories = () => {
                 showConfirmButton: false
             });
             resetForm();
+            setCategoryName('');
+            setSlug('');
+            setIsSlugManuallyEdited(false);
             fetchData();
         } catch (error: any) {
             console.error('Error adding category:', error);
