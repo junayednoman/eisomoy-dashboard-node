@@ -1,5 +1,5 @@
 import { DataTable, DataTableSortStatus } from 'mantine-datatable';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import sortBy from 'lodash/sortBy';
 import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css';
@@ -21,20 +21,16 @@ const validationSchema = Yup.object().shape({
     focusKeyword: Yup.string().required('Focus Keyword is required'),
 });
 
-// Define the type for your form values
-interface MyFormValues {
-    categoryName: string;
-    slug: string;
-    metaTitle: string;
-    metaDescription: string;
-    focusKeyword: string;
-}
+
 
 const Categories = () => {
     const [active, setActive] = useState<Number>();
     const [parentOptions, setParentOptions] = useState<string[]>([]);
 
-    const myformik = useFormikContext<MyFormValues>(); // Access Formik context
+    const myformik = useFormikContext(); // Access Formik context
+
+    const categoryNameRef = useRef<HTMLInputElement | null>(null);
+    const slugRef = useRef<HTMLInputElement | null>(null);
  
     const dispatch = useDispatch();
     useEffect(() => {
@@ -134,21 +130,22 @@ const Categories = () => {
 
 
     useEffect(() => {
-        console.log(myformik);
-        if (myformik) {
-            // Rest of your code...
-            // Function to update slug based on categoryName
-            const updateSlug = () => {
-                const categoryName = myformik.values.categoryName;
+        const handleCategoryNameChange = () => {
+            if (categoryNameRef.current && slugRef.current) {
+                const categoryName = categoryNameRef.current.value;
                 const formattedSlug = categoryName.toLowerCase().replace(/\s+/g, '-');
-                myformik.setFieldValue('slug', formattedSlug);
+                slugRef.current.value = formattedSlug;
+            }
+        };
+
+        if (categoryNameRef.current && slugRef.current) {
+            categoryNameRef.current.addEventListener('input', handleCategoryNameChange);
+
+            return () => {
+                categoryNameRef.current?.removeEventListener('input', handleCategoryNameChange);
             };
-
-            // Update slug when categoryName changes
-            updateSlug();
         }
-    }, [myformik]);
-
+    }, []);
 
     
     const togglePara = (value: Number) => {
@@ -184,6 +181,7 @@ const Categories = () => {
                                             id="categoryName"
                                             placeholder="Enter Category Name"
                                             className="form-input h-10"
+                                            ref={categoryNameRef}
                                         />
                                         {errors.categoryName && touched.categoryName && <p className="text-red-500">{errors.categoryName}</p>}
                                     </div>
@@ -195,6 +193,7 @@ const Categories = () => {
                                             id="slug"
                                             placeholder="Enter Category Slug"
                                             className="form-input h-10"
+                                            ref={slugRef}
                                         />
                                         {errors.slug && touched.slug && <p className="text-red-500">{errors.slug}</p>}
                                     </div>
