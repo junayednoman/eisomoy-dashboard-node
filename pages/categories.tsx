@@ -31,6 +31,7 @@ const Categories = () => {
 
     const [categoryName, setCategoryName] = useState('');
     const [slug, setSlug] = useState('');
+    const [isSlugManuallyEdited, setIsSlugManuallyEdited] = useState(false);
  
     const dispatch = useDispatch();
     useEffect(() => {
@@ -132,12 +133,20 @@ const Categories = () => {
     const handleCategoryNameChange = (e: any, setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void) => {
         const name = e.target.value;
         setCategoryName(name);
-        const formattedSlug = name.toLowerCase().replace(/\s+/g, '-');
+        const formattedSlug = isSlugManuallyEdited ? slug : name.toLowerCase().replace(/\s+/g, '-');
         setSlug(formattedSlug);
-    
+        
         // Update Formik's state
         setFieldValue('categoryName', name);
-        setFieldValue('slug', formattedSlug);
+        if (!isSlugManuallyEdited) {
+            setFieldValue('slug', formattedSlug);
+        }
+    };
+    
+    const handleSlugChange = (e: any) => {
+        const newSlug = e.target.value;
+        setSlug(newSlug);
+        setIsSlugManuallyEdited(true);
     };
 
     
@@ -188,6 +197,7 @@ const Categories = () => {
                                             placeholder="Enter Category Slug"
                                             className="form-input h-10"
                                             value={slug}
+                                            onChange={handleSlugChange}
                                         />
                                         {errors.slug && touched.slug && <p className="text-red-500">{errors.slug}</p>}
                                     </div>
