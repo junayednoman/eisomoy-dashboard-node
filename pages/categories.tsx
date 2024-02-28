@@ -21,11 +21,20 @@ const validationSchema = Yup.object().shape({
     focusKeyword: Yup.string().required('Focus Keyword is required'),
 });
 
+// Define the type for your form values
+interface MyFormValues {
+    categoryName: string;
+    slug: string;
+    metaTitle: string;
+    metaDescription: string;
+    focusKeyword: string;
+}
+
 const Categories = () => {
     const [active, setActive] = useState<Number>();
     const [parentOptions, setParentOptions] = useState<string[]>([]);
 
-    const myformik = useFormikContext(); // Access Formik context
+    const myformik = useFormikContext<MyFormValues>(); // Access Formik context
  
     const dispatch = useDispatch();
     useEffect(() => {
@@ -122,14 +131,21 @@ const Categories = () => {
             
         }
     };
-
-    // Update the slug field onBlur of the categoryName field
-    const handleCategoryNameBlur = (e: any) => {
-        const title = e.target.value;
-        const formattedSlug = title.toLowerCase().replace(/\s+/g, '-');
-        myformik.setFieldValue('slug', formattedSlug); // Update slug field value
-    };
     
+
+    useEffect(() => {
+        // Function to update slug based on categoryName
+        const updateSlug = () => {
+            const categoryName = myformik.values.categoryName;
+            const formattedSlug = categoryName.toLowerCase().replace(/\s+/g, '-');
+            myformik.setFieldValue('slug', formattedSlug);
+        };
+
+        // Update slug when categoryName changes
+        updateSlug();
+    }, [myformik.values.categoryName]);
+
+
     
     const togglePara = (value: Number) => {
         setActive((oldValue) => {
@@ -153,7 +169,7 @@ const Categories = () => {
                         onSubmit={(values) => handleSubmit(values)}
                         validationSchema={validationSchema}
                     >
-                        {({ errors, touched }) => (
+                        {({ errors, touched, setFieldValue }) => (
                             <Form className="space-y-5">
                                 <div>
                                     <div className='px-4'>
@@ -164,7 +180,6 @@ const Categories = () => {
                                             id="categoryName"
                                             placeholder="Enter Category Name"
                                             className="form-input h-10"
-                                            onBlur={handleCategoryNameBlur} // Update the onChange event handler
                                         />
                                         {errors.categoryName && touched.categoryName && <p className="text-red-500">{errors.categoryName}</p>}
                                     </div>
