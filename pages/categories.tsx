@@ -27,7 +27,7 @@ const Categories = () => {
     const [active, setActive] = useState<Number>();
     const [parentOptions, setParentOptions] = useState<string[]>([]);
 
-    const { setFieldValue }  = useFormikContext(); // Access Formik context
+    
 
     const [categoryName, setCategoryName] = useState('');
     const [slug, setSlug] = useState('');
@@ -129,6 +129,7 @@ const Categories = () => {
 
 
     const handleCategoryNameChange = (e: any) => {
+        const { setFieldValue }  = useFormikContext(); // Access Formik context
         const name = e.target.value;
         setCategoryName(name);
         const formattedSlug = name.toLowerCase().replace(/\s+/g, '-');
