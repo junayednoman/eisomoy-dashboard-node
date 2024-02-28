@@ -27,7 +27,7 @@ const Categories = () => {
     const [active, setActive] = useState<Number>();
     const [parentOptions, setParentOptions] = useState<string[]>([]);
 
-    
+    const myformik = useFormikContext(); // Access Formik context
 
     const [categoryName, setCategoryName] = useState('');
     const [slug, setSlug] = useState('');
@@ -112,6 +112,7 @@ const Categories = () => {
                 timer: 3000,
                 showConfirmButton: false
             });
+            myformik.resetForm();
             fetchData();
         } catch (error: any) {
             console.error('Error adding category:', error);
@@ -128,13 +129,12 @@ const Categories = () => {
     };
 
 
-    const handleCategoryNameChange = (e: any) => {
-        const { setFieldValue }  = useFormikContext(); // Access Formik context
+    const handleCategoryNameChange = (e: any, setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void) => {
         const name = e.target.value;
         setCategoryName(name);
         const formattedSlug = name.toLowerCase().replace(/\s+/g, '-');
         setSlug(formattedSlug);
-
+    
         // Update Formik's state
         setFieldValue('categoryName', name);
         setFieldValue('slug', formattedSlug);
@@ -175,7 +175,7 @@ const Categories = () => {
                                             placeholder="Enter Category Name"
                                             className="form-input h-10"
                                             value={categoryName}
-                                            onChange={handleCategoryNameChange}
+                                            onChange={(e: any) => handleCategoryNameChange(e, setFieldValue)}
                                         />
                                         {errors.categoryName && touched.categoryName && <p className="text-red-500">{errors.categoryName}</p>}
                                     </div>
@@ -189,6 +189,7 @@ const Categories = () => {
                                             className="form-input h-10"
                                             value={slug}
                                         />
+                                        {errors.slug && touched.slug && <p className="text-red-500">{errors.slug}</p>}
                                     </div>
                                     <div className="mt-3 px-4 mb-5">
                                         <label htmlFor="parent">Parent</label>
