@@ -208,7 +208,7 @@ const Categories = () => {
                                             className='dark:mySelect mySelect'
                                             name='parent'
                                             placeholder="Select a parent"
-                                            options={[{ value: '', label: '' }, ...parentOptions.map(option => ({ value: option, label: option }))]}
+                                            options={[{ value: '', label: 'Select One' }, ...parentOptions.map(option => ({ value: option, label: option }))]}
 
                                             onChange={(option) => {
                                                 // Check if option is not null before accessing its value
