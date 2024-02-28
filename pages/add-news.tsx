@@ -20,8 +20,8 @@ const AddNews = () => {
         { value: 'Draft', label: 'Draft' },
     ];
 
-    
-    
+
+
     // image file upload
     const maxNumber = 69;
     const handleImageUpload = (imageList: ImageListType, addUpdateIndex: number[] | undefined) => {
@@ -62,48 +62,26 @@ const AddNews = () => {
     return (
         <>
             <h4 className="text-2xl font-semibold mb-8">Add a news</h4>
-            <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-3 gap-x-6">
-                <div className="xl:col-span-3 lg:col-span-2 md:col-span-2">
-                    <Formik
-                        initialValues={{
-                            newsTitle: '',
-                        }}
-                        onSubmit={() => { }}
-                    >
-                        {({ touched }) => (
-                            <Form className="space-y-5">
+            <Formik
+                initialValues={{
+                    newsTitle: '',
+                }}
+                onSubmit={() => { }}
+            >
+                {({ }) => (
+                    <Form>
+                        <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-3 gap-x-6">
+                            {/* title and description */}
+                            <div className="xl:col-span-3 lg:col-span-2 md:col-span-2">
                                 <div>
                                     <label htmlFor="title">Title </label>
                                     <Field name="newsTitle" type="text" id="title" placeholder="Enter News Title" className="form-input h-12" />
 
                                     <label htmlFor="desc" className=" mt-4">Description </label>
-                                    {/* here will be the CKE text editor */}
                                     <SimpleMdeReact className="dark:myEditor" value={value} onChange={onChange} />
                                 </div>
-                                <button
-                                    type="submit"
-                                    className="btn btn-primary !mt-6"
-                                    onClick={() => {
-                                        if (touched.newsTitle) {
-                                            submitForm();
-                                        }
-                                    }}
-                                >
-                                    Publish
-                                </button>
-                            </Form>
-                        )}
-                    </Formik>
-                </div>
-                <div className="xl:col-span-1 lg:col-span-1 md:col-span-1 border dark:border-[#888EA8] border-[#e6e6e6] rounded-md mt-6 bg-white dark:bg-[#060818] h-fit pb-8">
-                    <Formik
-                        initialValues={{
-                            category: '',
-                        }}
-                        onSubmit={() => { }}
-                    >
-                        {({ }) => (
-                            <Form className="space-y-5">
+                            </div>
+                            <div className="xl:col-span-1 lg:col-span-1 md:col-span-1 border dark:border-[#888EA8] border-[#e6e6e6] rounded-md mt-6 bg-white dark:bg-[#060818] h-fit pb-8">
                                 <div>
                                     {/* general info */}
                                     <div className={`rounded-t-md bg-white dark:bg-black dark:myAccordian`}>
@@ -307,11 +285,21 @@ const AddNews = () => {
                                         </AnimateHeight>
                                     </div>
                                 </div>
-                            </Form>
-                        )}
-                    </Formik >
-                </div >
-            </div >
+                            </div >
+                        </div >
+
+                        <button
+                            type="submit"
+                            className="btn btn-primary !mt-6"
+                            onClick={() => {
+                                submitForm();
+                            }}
+                        >
+                            Publish
+                        </button>
+                    </Form>
+                )}
+            </Formik>
         </>
     )
 };
