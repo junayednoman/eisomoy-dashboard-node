@@ -143,7 +143,7 @@ const Categories = () => {
 
         // Update slug when categoryName changes
         updateSlug();
-    }, [myformik.values.categoryName]);
+    }, [myformik]);
 
 
     
