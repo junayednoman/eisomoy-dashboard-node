@@ -184,7 +184,6 @@ const Categories = () => {
                                             placeholder="Enter Category Slug"
                                             className="form-input h-10"
                                             value={slug}
-                                            readOnly
                                         />
                                         {errors.slug && touched.slug && <p className="text-red-500">{errors.slug}</p>}
                                     </div>
