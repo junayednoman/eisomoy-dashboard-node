@@ -131,18 +131,22 @@ const Categories = () => {
             
         }
     };
-    
+
 
     useEffect(() => {
-        // Function to update slug based on categoryName
-        const updateSlug = () => {
-            const categoryName = myformik.values.categoryName;
-            const formattedSlug = categoryName.toLowerCase().replace(/\s+/g, '-');
-            myformik.setFieldValue('slug', formattedSlug);
-        };
+        console.log(myformik);
+        if (myformik) {
+            // Rest of your code...
+            // Function to update slug based on categoryName
+            const updateSlug = () => {
+                const categoryName = myformik.values.categoryName;
+                const formattedSlug = categoryName.toLowerCase().replace(/\s+/g, '-');
+                myformik.setFieldValue('slug', formattedSlug);
+            };
 
-        // Update slug when categoryName changes
-        updateSlug();
+            // Update slug when categoryName changes
+            updateSlug();
+        }
     }, [myformik]);
 
 
