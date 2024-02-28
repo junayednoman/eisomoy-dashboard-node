@@ -139,9 +139,14 @@ const Categories = () => {
         };
 
         if (categoryNameRef.current && slugRef.current) {
+            // Set initial slug value
+            handleCategoryNameChange();
+
+            // Add event listener to update slug in real-time
             categoryNameRef.current.addEventListener('input', handleCategoryNameChange);
 
             return () => {
+                // Remove event listener when component unmounts
                 categoryNameRef.current?.removeEventListener('input', handleCategoryNameChange);
             };
         }
