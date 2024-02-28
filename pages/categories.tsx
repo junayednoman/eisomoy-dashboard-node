@@ -15,7 +15,7 @@ import * as Yup from 'yup';
 
 const validationSchema = Yup.object().shape({
     categoryName: Yup.string().required('Title is required'),
-    slug: Yup.string(),
+    slug: Yup.string().required('Slug is required'),
     metaTitle: Yup.string().required('Meta Title is required'),
     metaDescription: Yup.string().required('Meta Description is required'),
     focusKeyword: Yup.string().required('Focus Keyword is required'),
@@ -27,7 +27,7 @@ const Categories = () => {
     const [active, setActive] = useState<Number>();
     const [parentOptions, setParentOptions] = useState<string[]>([]);
 
-    const myformik = useFormikContext(); // Access Formik context
+    const { setFieldValue }  = useFormikContext(); // Access Formik context
 
     const [categoryName, setCategoryName] = useState('');
     const [slug, setSlug] = useState('');
@@ -112,7 +112,6 @@ const Categories = () => {
                 timer: 3000,
                 showConfirmButton: false
             });
-            myformik.resetForm();
             fetchData();
         } catch (error: any) {
             console.error('Error adding category:', error);
@@ -134,6 +133,10 @@ const Categories = () => {
         setCategoryName(name);
         const formattedSlug = name.toLowerCase().replace(/\s+/g, '-');
         setSlug(formattedSlug);
+
+        // Update Formik's state
+        setFieldValue('categoryName', name);
+        setFieldValue('slug', formattedSlug);
     };
 
     
