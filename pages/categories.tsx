@@ -15,7 +15,7 @@ import * as Yup from 'yup';
 
 const validationSchema = Yup.object().shape({
     categoryName: Yup.string().required('Title is required'),
-    slug: Yup.string().required('Slug is required'),
+    slug: Yup.string(),
     metaTitle: Yup.string().required('Meta Title is required'),
     metaDescription: Yup.string().required('Meta Description is required'),
     focusKeyword: Yup.string().required('Focus Keyword is required'),
@@ -185,7 +185,6 @@ const Categories = () => {
                                             className="form-input h-10"
                                             value={slug}
                                         />
-                                        {errors.slug && touched.slug && <p className="text-red-500">{errors.slug}</p>}
                                     </div>
                                     <div className="mt-3 px-4 mb-5">
                                         <label htmlFor="parent">Parent</label>
