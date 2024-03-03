@@ -9,6 +9,7 @@ import withAuth from '../../utils/withAuth';
 import { setPageTitle } from '../../store/themeConfigSlice';
 import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
+import Swal from 'sweetalert2';
 
 const validationSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
@@ -123,6 +124,12 @@ const AllUsers = () => {
             );
             console.log(response.data); // Log the response from the API
             setIsModalOpen(false); // Close the modal on successful submission
+            Swal.fire({
+                icon: 'success',
+                title: 'User added successfully',
+                timer: 1000,
+                showConfirmButton: false
+            });
             fetchUserData(); // Refetch user data after adding a new user
         } catch (error: any) {
             console.error('Error adding user:', error);
@@ -131,6 +138,14 @@ const AllUsers = () => {
             } else {
                 setError('Something Went Wrong!');
             }
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops... Something went wrong!',
+                text: error.response?.data?.message || 'Failed to add User',
+                timer: 1000,
+                showConfirmButton: false
+            });
         }
     };
 
@@ -143,6 +158,12 @@ const AllUsers = () => {
             );
             console.log(response.data); // Log the response from the API
             setIsUpdateModalOpen(false); // Close the modal on successful update
+            Swal.fire({
+                icon: 'success',
+                title: 'User Updated successfully',
+                timer: 1000,
+                showConfirmButton: false
+            });
             fetchUserData(); // Refetch user data after updating
         } catch (error: any) {
             console.error('Error updating user:', error);
@@ -151,6 +172,14 @@ const AllUsers = () => {
             } else {
                 setError('Something Went Wrong!');
             }
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops... Something went wrong!',
+                text: error.response?.data?.message || 'Failed to Update User',
+                timer: 1000,
+                showConfirmButton: false
+            });
         }
     };
 
@@ -163,10 +192,23 @@ const AllUsers = () => {
             );
             console.log(response.data); // Log the response from the API
             setShowDeleteConfirmation(false); // Close the confirmation modal
+            Swal.fire({
+                icon: 'success',
+                title: 'User Deleted successfully',
+                timer: 1000,
+                showConfirmButton: false
+            });
             fetchUserData(); // Refetch user data after deletion
-        } catch (error) {
+        } catch (error: any) {
             console.error('Error deleting user:', error);
             setShowDeleteConfirmation(false); // Close the confirmation modal
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops... Something went wrong!',
+                text: error.response?.data?.message || 'Failed to Delete User',
+                timer: 1000,
+                showConfirmButton: false
+            });
             setError('Failed to delete user');
         }
     };

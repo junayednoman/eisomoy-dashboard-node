@@ -118,7 +118,7 @@ const Categories = () => {
             Swal.fire({
                 icon: 'success',
                 title: 'Category added successfully',
-                timer: 3000,
+                timer: 1000,
                 showConfirmButton: false
             });
             resetForm();
@@ -133,7 +133,7 @@ const Categories = () => {
                 icon: 'error',
                 title: 'Oops... Something went wrong!',
                 text: error.response?.data?.message || 'Failed to add category',
-                timer: 3000,
+                timer: 1000,
                 showConfirmButton: false
             });
             
@@ -179,7 +179,7 @@ const Categories = () => {
             Swal.fire({
                 icon: 'success',
                 title: 'Category Updated successfully',
-                timer: 3000,
+                timer: 1000,
                 showConfirmButton: false
             });
             fetchData(); // Refetch category data after updating
@@ -195,7 +195,7 @@ const Categories = () => {
                 icon: 'error',
                 title: 'Oops... Something went wrong!',
                 text: error.response?.data?.message || 'Failed to Update category',
-                timer: 3000,
+                timer: 1000,
                 showConfirmButton: false
             });
         }
@@ -213,7 +213,7 @@ const Categories = () => {
             Swal.fire({
                 icon: 'success',
                 title: 'Category Deleted successfully',
-                timer: 3000,
+                timer: 1000,
                 showConfirmButton: false
             });
             fetchData(); // Refetch category data after deletion
@@ -225,7 +225,7 @@ const Categories = () => {
                 icon: 'error',
                 title: 'Oops... Something went wrong!',
                 text: error.response?.data?.message || 'Failed to Delete category',
-                timer: 3000,
+                timer: 1000,
                 showConfirmButton: false
             });
         }
@@ -510,7 +510,7 @@ const Categories = () => {
                     </div>
                     {error && <p className="text-red-500">{error}</p>}
                     <button type="submit" className="btn btn-primary !mt-6">
-                        Update User
+                        Update Category
                     </button>
                 </Form>
             )}
