@@ -64,7 +64,7 @@ const AddNews = () => {
     const formatSelectedCategories = () => {
         const selectedCategoriesString = selectedCategories.join(', ');
 
-        return selectedCategoriesString;
+        console.log(selectedCategoriesString);
     };
 
     
@@ -332,7 +332,7 @@ const AddNews = () => {
                             type="submit"
                             className="btn btn-primary !mt-6"
                             onClick={() => {
-                                submitForm();
+                                formatSelectedCategories();
                             }}
                         >
                             Publish
