@@ -474,41 +474,51 @@ const Categories = () => {
         className='dark:updateUserModal'
         opened={isUpdateModalOpen}
         onClose={handleCloseUpdateModal}
-        title="Update User"
+        title="Update Category"
     >
         <Formik initialValues={{ ...categoryDataToUpdate }} onSubmit={handleUpdate} validationSchema={validationSchema}>
-            {({ errors, touched }) => (
+            {({ errors, touched, setFieldValue }) => (
                 <Form>
-                    <input type="hidden" name="userid" id="userid" value={categoryDataToUpdate.userid} /> {/* Hidden input for userId */}
+                    <div className="mb-3">
+                        <label htmlFor="categoryName">Tiltle</label>
+                        <Field className="form-input h-10" type="text" id="categoryName" name="categoryName" placeholder="Enter Category Name" />
+                        {errors.categoryName && touched.categoryName && <p className="text-red-500">{errors.categoryName as string}</p>}
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="slug">Slug</label>
+                        <Field className="form-input h-10" type="text" id="slug" name="slug" placeholder="Enter slug" />
+                        {errors.slug && touched.slug && <p className="text-red-500">{errors.slug as string}</p>}
+                    </div>
+                    <div className="mb-3">
+                            <label htmlFor="parent">Parent</label>
+                            <Select
+                                            className='dark:mySelect mySelect'
+                                            name='parent'
+                                            placeholder="Select a parent"
+                                            options={[{ value: '', label: 'Select One' }, ...parentOptions.map(option => ({ value: option, label: option }))]}
 
-                    <div className="mb-3">
-                        <label htmlFor="name">Name</label>
-                        <Field className="form-input h-10" type="text" id="name" name="name" placeholder="Enter User Name" />
-                        {errors.name && touched.name && <p className="text-red-500">{errors.name as string}</p>}
-                    </div>
-                    <div className="mb-3">
-                        <label htmlFor="email">Email</label>
-                        <Field className="form-input h-10" type="email" id="email" name="email" placeholder="Enter User Email" />
-                        {errors.email && touched.email && <p className="text-red-500">{errors.email as string}</p>}
-                    </div>
-                    <div className="mb-3">
-                            <label htmlFor="password">Password</label>
-                            <Field className="form-input h-10" type="password" id="password" name="password" placeholder="Enter Password" />
-                            {errors.password && touched.password && <p className="text-red-500">{errors.password as string}</p>}
+                                            onChange={(option) => {
+                                                // Check if option is not null before accessing its value
+                                                if (option) {
+                                                    setFieldValue('parent', option.value);
+                                                }
+                                            }}
+                                        />
                         </div>
                     <div className="mb-3">
-                        <label htmlFor="role">Role</label>
-                        <Field as="select" className="form-select h-10" id="role" name="role">
-                            <option value="admin">Admin</option>
-                            <option value="editor">Editor</option>
-                            <option value="reporter">Reporter</option>
-                        </Field>
-                        {errors.role && touched.role && <p className="text-red-500">{errors.role as string}</p>}
+                    <label htmlFor="metaTitle">Meta Title</label>
+                    <Field name="metaTitle" type="text" id="metaTitle" placeholder="Enter Meta Title" className="form-input h-10" />
+                    {errors.metaTitle && touched.metaTitle && <p className="text-red-500">{errors.metaTitle as string}</p>}
                     </div>
                     <div className="mb-3">
-                        <label htmlFor="display_name">Display Name</label>
-                        <Field className="form-input h-10" type="text" id="display_name" name="display_name" placeholder="Enter Display Name" />
-                        {errors.display_name && touched.display_name && <p className="text-red-500">{errors.display_name as string}</p>}
+                    <label htmlFor="metaDescription">Meta Description</label>
+                      <Field name="metaDescription" as="textarea" id="metaDescription" placeholder="Enter Meta Description" className="form-input h-24" />
+                     {errors.metaDescription && touched.metaDescription && <p className="text-red-500">{errors.metaDescription as string}</p>}
+                    </div>
+                    <div className="mb-3">
+                    <label htmlFor="focusKeyword">Focus Keyword</label>
+                    <Field name="focusKeyword" type="text" id="focusKeyword" placeholder="Enter Focus Keyword" className="form-input h-10" />
+                    {errors.focusKeyword && touched.focusKeyword && <p className="text-red-500">{errors.focusKeyword as string}</p>}
                     </div>
                     {error && <p className="text-red-500">{error}</p>}
                     <button type="submit" className="btn btn-primary !mt-6">
