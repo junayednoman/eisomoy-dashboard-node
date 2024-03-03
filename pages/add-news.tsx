@@ -159,6 +159,7 @@ const AddNews = () => {
                                     </div>
 
                                     {/* news categories */}
+                                    {categories.length > 0 && (
                                     <div className="border-b border-[#ebedf2] bg-white dark:border-[#191e3a] dark:bg-black dark:myAccordian">
                                         <div className={`flex cursor-pointer p-4  font-semibold hover:bg-[#EBEBEB] dark:bg-[#0E1726] dark:hover:bg-[#0E1726] ${active === 3 && 'bg-[#EBEBEB] myAccordianHeading'}`} onClick={() => togglePara(3)}>
                                             <span>Categories</span>
@@ -168,7 +169,7 @@ const AddNews = () => {
                                                 </svg>
                                             </div>
                                         </div>
-                                        {categories.length > 0 && (
+                                        
                                             <AnimateHeight duration={50} height={active === 2 ? 'auto' : 0}>
                                                 <div className="p-4 pt-2 font-semibold text-white-dark">
                                                     {categories.map(category => (
@@ -179,8 +180,9 @@ const AddNews = () => {
                                                     ))}
                                                 </div>
                                             </AnimateHeight>
-                                        )}
+                                        
                                     </div>
+                                    )}
                                     {/* featured image */}
                                     <div className="border-b border-[#ebedf2] bg-white dark:border-[#191e3a] dark:bg-black dark:myAccordian">
                                         <div className={`flex cursor-pointer p-4 font-semibold hover:bg-[#EBEBEB] dark:bg-[#0E1726] dark:hover:bg-[#0E1726] ${active === 4 && 'bg-[#EBEBEB] myAccordianHeading'}`} onClick={() => togglePara(4)}>
