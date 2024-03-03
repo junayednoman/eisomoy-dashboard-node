@@ -185,15 +185,18 @@ const AddNews = () => {
                                         </div>
                                         <AnimateHeight duration={50} height={active === 3 ? 'auto' : 0}>
                                             <div className="p-4 pt-2 font-semibold text-white-dark">
-                                            {categories.map(category => {
-                                                //console.log(category);
-                                                return (
-                                                    <label htmlFor={category.categoryName} className="flex items-center gap-[6px]">
-                                                        <Field name={category.categoryName} type="checkbox" id={category.cat_id} className="h-4 w-4" onChange={() => handleCheckboxChange(category.categoryName)} />
-                                                        <span>{category.categoryName}</span>
-                                                    </label>
-                                                );
-                                            })}
+                                            {categories.map(category => (
+                                                <label key={category.cat_id} htmlFor={category.categoryName} className="flex items-center gap-[6px]">
+                                                    <input 
+                                                        type="checkbox" 
+                                                        id={category.cat_id} 
+                                                        className="h-4 w-4"
+                                                        checked={selectedCategories.includes(category.categoryName)}
+                                                        onChange={() => handleCheckboxChange(category.categoryName)} 
+                                                    />
+                                                    <span>{category.categoryName}</span>
+                                                </label>
+                                            ))}
                                             </div>
                                         </AnimateHeight>
                                     </div>
