@@ -172,9 +172,9 @@ const AddNews = () => {
                                         <AnimateHeight duration={50} height={active === 3 ? 'auto' : 0}>
                                             <div className="p-4 pt-2 font-semibold text-white-dark">
                                             {categories.map(category => {
-                                                console.log(category);
+                                                console.log(category.categoryName);
                                                 return (
-                                                    <label key={category.categoryName} htmlFor={category.categoryName} className="flex items-center gap-[6px]">
+                                                    <label htmlFor={category.categoryName} className="flex items-center gap-[6px]">
                                                         <Field name={category.categoryName} type="checkbox" id={category.cat_id} className="h-4 w-4" />
                                                         <span>{category.categoryName}</span>
                                                     </label>
