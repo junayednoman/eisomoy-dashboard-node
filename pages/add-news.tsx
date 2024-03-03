@@ -15,6 +15,7 @@ const AddNews = () => {
     const [loading, setLoading] = useState(true);
 
     const [categories, setCategories] = useState<any[]>([]);
+    const [selectedCategories, setSelectedCategories] = useState<any[]>([]);
 
     const apiUrl = process.env.API_URL || 'https://eismoy-api.vercel.app';
 
@@ -45,6 +46,25 @@ const AddNews = () => {
             console.error('Error fetching category data:', error);
             setLoading(false);
         }
+    };
+
+    const handleCheckboxChange = (event: any) => {
+        const { value, checked } = event.target;
+        if (checked) {
+            setSelectedCategories(prevState => [...prevState, value]);
+        } else {
+            setSelectedCategories(prevState => prevState.filter(category => category !== value));
+        }
+
+        const selected = selectedCategories.join(',');
+        console.log(selected);
+
+    };
+
+    const formatSelectedCategories = () => {
+        const selected = selectedCategories.join(',');
+        console.log(selected);
+        return selected;
     };
 
 
@@ -172,7 +192,7 @@ const AddNews = () => {
                                                 //console.log(category);
                                                 return (
                                                     <label htmlFor={category.categoryName} className="flex items-center gap-[6px]">
-                                                        <Field name={category.categoryName} type="checkbox" id={category.cat_id} className="h-4 w-4" />
+                                                        <Field name={category.categoryName} type="checkbox" id={category.cat_id} className="h-4 w-4" onChange={handleCheckboxChange} />
                                                         <span>{category.categoryName}</span>
                                                     </label>
                                                 );
