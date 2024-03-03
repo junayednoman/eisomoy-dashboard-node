@@ -40,7 +40,7 @@ const AddNews = () => {
 
             // Extract category names for parent field options
             const categoryNames = categoryData.map((category: any) => category.categoryName);
-            //console.log('Category names:', categoryNames);
+            console.log('Category names:', categoryNames);
             setCategories(categoryNames);
 
             setLoading(false);
@@ -171,12 +171,15 @@ const AddNews = () => {
                                         </div>
                                         <AnimateHeight duration={50} height={active === 3 ? 'auto' : 0}>
                                             <div className="p-4 pt-2 font-semibold text-white-dark">
-                                            {categories.map(category => (
-                                                        <label htmlFor={category.categoryName} className="flex items-center gap-[6px]">
-                                                            <Field name={category.categoryName} type="checkbox" id={category.cat_id} className="h-4 w-4" />
-                                                            <span>{category.name}</span>
-                                                        </label>
-                                                    ))}
+                                            {categories.map(category => {
+                                                console.log(category);
+                                                return (
+                                                    <label key={category.categoryName} htmlFor={category.categoryName} className="flex items-center gap-[6px]">
+                                                        <Field name={category.categoryName} type="checkbox" id={category.cat_id} className="h-4 w-4" />
+                                                        <span>{category.name}</span>
+                                                    </label>
+                                                );
+                                            })}
                                             </div>
                                         </AnimateHeight>
                                     </div>
