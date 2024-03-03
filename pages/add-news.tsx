@@ -176,7 +176,7 @@ const AddNews = () => {
                                                 return (
                                                     <label key={category.categoryName} htmlFor={category.categoryName} className="flex items-center gap-[6px]">
                                                         <Field name={category.categoryName} type="checkbox" id={category.cat_id} className="h-4 w-4" />
-                                                        <span>{category.name}</span>
+                                                        <span>{category.categoryName}</span>
                                                     </label>
                                                 );
                                             })}
