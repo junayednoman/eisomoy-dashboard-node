@@ -2,15 +2,22 @@
 import { Field, Form, Formik } from "formik";
 import Swal from "sweetalert2";
 import Select from 'react-select';
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import AnimateHeight from "react-animate-height";
 import 'easymde/dist/easymde.min.css';
 import ImageUploading, { ImageListType } from 'react-images-uploading';
 
 import dynamic from 'next/dynamic'
+import axios from "axios";
 const SimpleMdeReact = dynamic(() => import('react-simplemde-editor'), { ssr: false });
 
 const AddNews = () => {
+    const [loading, setLoading] = useState(true);
+
+    const [categories, setCategories] = useState<any[]>([]);
+
+    const apiUrl = process.env.API_URL || 'https://eismoy-api.vercel.app';
+
     const [fileType, setFileType] = useState(true);
     const [urlType, setUrlType] = useState(false);
     const [active, setActive] = useState<Number>();
@@ -20,7 +27,33 @@ const AddNews = () => {
         { value: 'Draft', label: 'Draft' },
     ];
 
+    
 
+    const fetchCategories = async () => {
+        setLoading(true);
+        try {
+            const response = await axios.get(`${apiUrl}/api/news/all-categories`, {
+                withCredentials: true
+            });
+    
+            const categoryData = response.data;
+
+            // Extract category names for parent field options
+            const categoryNames = categoryData.map((category: any) => category.categoryName);
+            //console.log('Category names:', categoryNames);
+            setCategories(categoryNames);
+
+            setLoading(false);
+        } catch (error) {
+            console.error('Error fetching category data:', error);
+            setLoading(false);
+        }
+    };
+
+
+    useEffect(() => {
+        fetchCategories();
+    }, []);
 
     // image file upload
     const maxNumber = 69;
@@ -135,36 +168,14 @@ const AddNews = () => {
                                                 </svg>
                                             </div>
                                         </div>
-                                        <AnimateHeight duration={50} height={active === 3 ? 'auto' : 0}>
+                                        <AnimateHeight duration={50} height={active === 2 ? 'auto' : 0}>
                                             <div className="p-4 pt-2 font-semibold text-white-dark">
-                                                <label className="flex items-center gap-[6px]">
-                                                    <Field name="Sports" type="checkbox" id="Sports" className="h-4 w-4" />
-                                                    <span>Sports</span>
-                                                </label>
-                                                <label className="flex items-center gap-[6px]">
-                                                    <Field name="Politics" type="checkbox" id="Politics" className="h-4 w-4" />
-                                                    <span>Politics</span>
-                                                </label>
-                                                <label className="flex items-center gap-[6px]">
-                                                    <Field name="National" type="checkbox" id="National" className="h-4 w-4" />
-                                                    <span>National</span>
-                                                </label>
-                                                <label className="flex items-center gap-[6px]">
-                                                    <Field name="International" type="checkbox" id="International" className="h-4 w-4" />
-                                                    <span>International</span>
-                                                </label>
-                                                <label className="flex items-center gap-[6px]">
-                                                    <Field name="Business" type="checkbox" id="Business" className="h-4 w-4" />
-                                                    <span>Business</span>
-                                                </label>
-                                                <label className="flex items-center gap-[6px]">
-                                                    <Field name="Economy" type="checkbox" id="Economy" className="h-4 w-4" />
-                                                    <span>Economy</span>
-                                                </label>
-                                                <label className="flex items-center gap-[6px]">
-                                                    <Field name="Science" type="checkbox" id="Science" className="h-4 w-4" />
-                                                    <span>Science</span>
-                                                </label>
+                                                {categories.map(category => (
+                                                    <label key={category.categoryName} className="flex items-center gap-[6px]">
+                                                        <Field name={category.categoryName} type="checkbox" id={category.cat_id} className="h-4 w-4" />
+                                                        <span>{category.name}</span>
+                                                    </label>
+                                                ))}
                                             </div>
                                         </AnimateHeight>
                                     </div>
