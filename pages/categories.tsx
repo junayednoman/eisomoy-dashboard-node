@@ -387,27 +387,7 @@ const Categories = () => {
                                             title: 'News Count',
                                             sortable: true 
                                         },
-                                        { 
-                                            accessor: 'metaTitle', // Adjusted accessor to match the response data key
-                                            title: 'Meta Title',
-                                            sortable: true,
-                                            // Hide the column but keep it accessible
-                                            render: (rowData) => <span className="hidden">{rowData.metaTitle}</span>
-                                        },
-                                        { 
-                                            accessor: 'metaDescription', // Adjusted accessor to match the response data key
-                                            title: 'Meta Desc',
-                                            sortable: true,
-                                            // Hide the column but keep it accessible
-                                            render: (rowData) => <span className="hidden">{rowData.metaDescription}</span>
-                                        },
-                                        { 
-                                            accessor: 'focusKeyword', // Adjusted accessor to match the response data key
-                                            title: 'Keywords',
-                                            sortable: true,
-                                            // Hide the column but keep it accessible
-                                            render: (rowData) => <span className="hidden">{rowData.focusKeyword}</span>
-                                        },
+                                        
                                         {
                                             accessor: 'action',
                                             title: 'Action',
