@@ -57,9 +57,14 @@ const AddNews = () => {
             setSelectedCategories([...selectedCategories, categoryName]);
         }
 
+        
+    };
+
+    // Function to convert selected categories to comma-separated string
+    const formatSelectedCategories = () => {
         const selectedCategoriesString = selectedCategories.join(', ');
 
-        console.log(selectedCategoriesString);
+        return selectedCategoriesString;
     };
 
     
