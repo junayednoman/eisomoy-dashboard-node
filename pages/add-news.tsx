@@ -15,6 +15,7 @@ const AddNews = () => {
     const [loading, setLoading] = useState(true);
 
     const [categories, setCategories] = useState<any[]>([]);
+
     const [selectedCategories, setSelectedCategories] = useState<any[]>([]);
 
     const apiUrl = process.env.API_URL || 'https://eismoy-api.vercel.app';
@@ -48,20 +49,20 @@ const AddNews = () => {
         }
     };
 
-    const handleCheckboxChange = (event: any) => {
-        const { value, checked } = event.target;
-        if (checked) {
-            setSelectedCategories(prevState => [...prevState, value]);
+    const handleCheckboxChange = (categoryName: any) => {
+        // Toggle selection
+        if (selectedCategories.includes(categoryName)) {
+            setSelectedCategories(selectedCategories.filter(cat => cat !== categoryName));
         } else {
-            setSelectedCategories(prevState => prevState.filter(category => category !== value));
+            setSelectedCategories([...selectedCategories, categoryName]);
         }
 
+        const selectedCategoriesString = selectedCategories.join(', ');
+
+        console.log(selectedCategoriesString);
     };
 
-   // Function to convert selected categories to comma-separated string
-    const formatSelectedCategories = () => {
-        return selectedCategories.join(',');
-    };
+    
 
 
     useEffect(() => {
@@ -188,7 +189,7 @@ const AddNews = () => {
                                                 //console.log(category);
                                                 return (
                                                     <label htmlFor={category.categoryName} className="flex items-center gap-[6px]">
-                                                        <Field name={category.categoryName} type="checkbox" id={category.cat_id} className="h-4 w-4" />
+                                                        <Field name={category.categoryName} type="checkbox" id={category.cat_id} className="h-4 w-4" onChange={() => handleCheckboxChange(category.categoryName)} />
                                                         <span>{category.categoryName}</span>
                                                     </label>
                                                 );
