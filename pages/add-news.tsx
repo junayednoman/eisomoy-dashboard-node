@@ -168,16 +168,18 @@ const AddNews = () => {
                                                 </svg>
                                             </div>
                                         </div>
-                                        <AnimateHeight duration={50} height={active === 2 ? 'auto' : 0}>
-                                            <div className="p-4 pt-2 font-semibold text-white-dark">
-                                                {categories.map(category => (
-                                                    <label key={category.categoryName} className="flex items-center gap-[6px]">
-                                                        <Field name={category.categoryName} type="checkbox" id={category.cat_id} className="h-4 w-4" />
-                                                        <span>{category.name}</span>
-                                                    </label>
-                                                ))}
-                                            </div>
-                                        </AnimateHeight>
+                                        {categories.length > 0 && (
+                                            <AnimateHeight duration={50} height={active === 2 ? 'auto' : 0}>
+                                                <div className="p-4 pt-2 font-semibold text-white-dark">
+                                                    {categories.map(category => (
+                                                        <label key={category.categoryName} className="flex items-center gap-[6px]">
+                                                            <Field name={category.categoryName} type="checkbox" id={category.cat_id} className="h-4 w-4" />
+                                                            <span>{category.name}</span>
+                                                        </label>
+                                                    ))}
+                                                </div>
+                                            </AnimateHeight>
+                                        )}
                                     </div>
                                     {/* featured image */}
                                     <div className="border-b border-[#ebedf2] bg-white dark:border-[#191e3a] dark:bg-black dark:myAccordian">
