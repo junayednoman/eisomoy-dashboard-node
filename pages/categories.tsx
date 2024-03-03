@@ -496,13 +496,14 @@ const Categories = () => {
                                             name='parent'
                                             placeholder="Select a parent"
                                             options={[{ value: '', label: 'Select One' }, ...parentOptions.map(option => ({ value: option, label: option }))]}
-
+                                            id="parent"
                                             onChange={(option) => {
                                                 // Check if option is not null before accessing its value
                                                 if (option) {
                                                     setFieldValue('parent', option.value);
                                                 }
                                             }}
+                                            value={{ value: categoryDataToUpdate.parent, label: categoryDataToUpdate.parent }}
                                         />
                         </div>
                     <div className="mb-3">
