@@ -465,6 +465,7 @@ const Categories = () => {
         <Formik initialValues={{ ...categoryDataToUpdate }} onSubmit={handleUpdate} validationSchema={validationSchema}>
             {({ errors, touched, setFieldValue }) => (
                 <Form>
+                    <input type="hidden" name="cat_id" id="cat_id" value={categoryDataToUpdate.cat_id} /> {/* Hidden input for userId */}
                     <div className="mb-3">
                         <label htmlFor="categoryName">Tiltle</label>
                         <Field className="form-input h-10" type="text" id="categoryName" name="categoryName" placeholder="Enter Category Name" />
