@@ -40,7 +40,7 @@ const AddNews = () => {
 
             // Extract category names for parent field options
             const categoryNames = categoryData.map((category: any) => category.categoryName);
-            //console.log('Category names:', categoryNames);
+            console.log('Category names:', categoryNames);
             setCategories(categoryNames);
 
             setLoading(false);
