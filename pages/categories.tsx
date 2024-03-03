@@ -102,7 +102,7 @@ const Categories = () => {
 
             setLoading(false);
         } catch (error) {
-            console.error('Error fetching user data:', error);
+            console.error('Error fetching category data:', error);
             setLoading(false);
         }
     };
@@ -170,7 +170,7 @@ const Categories = () => {
     const handleUpdate = async (values: any) => {
         try {
             const response = await axios.post(
-                `${apiUrl}/api/user/update`,
+                `${apiUrl}/api/news/category-update`,
                 values,
                 { withCredentials: true }
             );
@@ -182,7 +182,7 @@ const Categories = () => {
                 timer: 3000,
                 showConfirmButton: false
             });
-            fetchData(); // Refetch user data after updating
+            fetchData(); // Refetch category data after updating
         } catch (error: any) {
             console.error('Error updating user:', error);
             if (error.response) {
@@ -204,8 +204,8 @@ const Categories = () => {
     const handleDelete = async () => {
         try {
             const response = await axios.post(
-                `${apiUrl}/api/user/delete`,
-                { categoryName: deleteCategory },
+                `${apiUrl}/api/news/category-delete`,
+                { cat_id: deleteCategory },
                 { withCredentials: true }
             );
             console.log(response.data); // Log the response from the API
@@ -216,7 +216,7 @@ const Categories = () => {
                 timer: 3000,
                 showConfirmButton: false
             });
-            fetchData(); // Refetch user data after deletion
+            fetchData(); // Refetch category data after deletion
         } catch (error: any) {
             console.error('Error deleting user:', error);
             setShowDeleteConfirmation(false); // Close the confirmation modal
@@ -231,8 +231,8 @@ const Categories = () => {
         }
     };
 
-    const handleOpenDeleteConfirmation = (categoryName: any) => {
-        setDeleteCategory(categoryName);
+    const handleOpenDeleteConfirmation = (cat_id: any) => {
+        setDeleteCategory(cat_id);
         setShowDeleteConfirmation(true);
     };
 
@@ -410,7 +410,7 @@ const Categories = () => {
                                                         </svg>
                                                     </Tippy>
                                                     <Tippy content="Delete">
-                                                        <svg onClick={() => handleOpenDeleteConfirmation(rowData.categoryName)} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-5 w-5">
+                                                        <svg onClick={() => handleOpenDeleteConfirmation(rowData.cat_id)} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-5 w-5">
                                                             <path
                                                                 opacity="0.5"
                                                                 d="M9.17065 4C9.58249 2.83481 10.6937 2 11.9999 2C13.3062 2 14.4174 2.83481 14.8292 4"
@@ -520,7 +520,7 @@ const Categories = () => {
 )}
 
 <Modal className='dark:addUserModal' opened={showDeleteConfirmation} onClose={handleCloseDeleteConfirmation} title="Confirm Deletion">
-                <p>Are you sure you want to delete this user?</p>
+                <p>Are you sure you want to delete this Category?</p>
                 <div className="flex justify-end mt-4">
                     <button onClick={handleCloseDeleteConfirmation} className="btn btn-secondary mr-2">Cancel</button>
                     <button onClick={handleDelete} className="btn btn-danger">Delete</button>
