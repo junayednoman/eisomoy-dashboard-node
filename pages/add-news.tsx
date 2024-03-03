@@ -188,7 +188,7 @@ const AddNews = () => {
                                                 //console.log(category);
                                                 return (
                                                     <label htmlFor={category.categoryName} className="flex items-center gap-[6px]">
-                                                        <Field name={category.categoryName} type="checkbox" id={category.cat_id} className="h-4 w-4" onChange={handleCheckboxChange} />
+                                                        <Field name={category.categoryName} type="checkbox" id={category.cat_id} className="h-4 w-4" />
                                                         <span>{category.categoryName}</span>
                                                     </label>
                                                 );
