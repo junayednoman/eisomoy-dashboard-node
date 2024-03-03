@@ -40,7 +40,7 @@ const AddNews = () => {
 
             // Extract category names for parent field options
             const categoryNames = categoryData.map((category: any) => category.categoryName);
-            console.log('Category names:', categoryNames);
+            //console.log('Category names:', categoryNames);
             setCategories(categoryNames);
 
             setLoading(false);
@@ -169,20 +169,20 @@ const AddNews = () => {
                                                 </svg>
                                             </div>
                                         </div>
-                                        
-                                            <AnimateHeight duration={50} height={active === 2 ? 'auto' : 0}>
-                                                <div className="p-4 pt-2 font-semibold text-white-dark">
-                                                    {categories.map(category => (
-                                                        <label key={category.categoryName} className="flex items-center gap-[6px]">
+                                        <AnimateHeight duration={50} height={active === 3 ? 'auto' : 0}>
+                                            <div className="p-4 pt-2 font-semibold text-white-dark">
+                                            {categories.map(category => (
+                                                        <label htmlFor={category.categoryName} className="flex items-center gap-[6px]">
                                                             <Field name={category.categoryName} type="checkbox" id={category.cat_id} className="h-4 w-4" />
                                                             <span>{category.name}</span>
                                                         </label>
                                                     ))}
-                                                </div>
-                                            </AnimateHeight>
-                                        
+                                            </div>
+                                        </AnimateHeight>
                                     </div>
                                     )}
+
+                                   
                                     {/* featured image */}
                                     <div className="border-b border-[#ebedf2] bg-white dark:border-[#191e3a] dark:bg-black dark:myAccordian">
                                         <div className={`flex cursor-pointer p-4 font-semibold hover:bg-[#EBEBEB] dark:bg-[#0E1726] dark:hover:bg-[#0E1726] ${active === 4 && 'bg-[#EBEBEB] myAccordianHeading'}`} onClick={() => togglePara(4)}>
