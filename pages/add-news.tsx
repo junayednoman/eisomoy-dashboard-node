@@ -4,9 +4,10 @@ import Select from 'react-select';
 import { useCallback, useEffect, useState } from "react";
 import AnimateHeight from "react-animate-height";
 import 'easymde/dist/easymde.min.css';
-import ImageUploading, { ImageListType } from 'react-images-uploading';
 import dynamic from 'next/dynamic';
 import axios from "axios";
+import fs from 'fs';
+import path from 'path';
 
 const SimpleMdeReact = dynamic(() => import('react-simplemde-editor'), { ssr: false });
 
@@ -14,8 +15,6 @@ const AddNews = () => {
     const [metaImgFile, setMetaImgFile] = useState<boolean>(true);
     const [featuredImgFile, setFeaturedImgFile] = useState<boolean>(true);
     const [active, setActive] = useState<number>();
-
-    const [featuredImages, setFeaturedImages] = useState<any>([]);
     const [selectedPublishStatus, setSelectedPublishStatus] = useState<any>("");
 
     const publishStatusOptions = [
@@ -61,12 +60,6 @@ const AddNews = () => {
         fetchCategories();
     }, []);
 
-    const maxNumber = 69;
-
-    const handleImageUpload = (imageList: ImageListType, addUpdateIndex: number[] | undefined) => {
-        setFeaturedImages(imageList);
-    };
-
     const togglePara = (value: number) => {
         setActive((oldValue) => oldValue === value ? 0 : value);
     };
@@ -77,13 +70,85 @@ const AddNews = () => {
         setEditorValue(editorValue);
     }, []);
 
-    const handleAddNews = (values: any): void => {
+    const handleAddNews = async (values: any, { resetForm }: any) => {
         console.log("description value", editorValue);
         console.log('add news', selectedCategories);
         console.log('publish status', selectedPublishStatus);
-        console.log("featured image file", featuredImages[0]?.file.name);
-        console.log('meta img file name', values?.meta_image.split("\\").pop());
         console.log('add news', values);
+    
+        if (featuredImgFile) {
+            try {
+                const featuredImageFile = values.featured_image;
+                let featuredImageFileName = featuredImageFile.split("\\").pop();
+    
+                // Read the file as binary
+                const featuredImageFileData = fs.readFileSync(featuredImageFile);
+    
+                // Set the upload directory path
+                const uploadDir = path.join(__dirname, 'public', 'uploads');
+    
+                // Check if the directory exists, if not create it
+                if (!fs.existsSync(uploadDir)) {
+                    fs.mkdirSync(uploadDir, { recursive: true });
+                }
+    
+                // Check if the file already exists in the upload directory
+                let destinationPath = path.join(uploadDir, featuredImageFileName);
+                let count = 1;
+                while (fs.existsSync(destinationPath)) {
+                    const [name, ext] = featuredImageFileName.split('.');
+                    featuredImageFileName = `${name}-${count}.${ext}`;
+                    destinationPath = path.join(uploadDir, featuredImageFileName);
+                    count++;
+                }
+    
+                // Write the file to the upload directory
+                fs.writeFileSync(destinationPath, featuredImageFileData);
+    
+                console.log("Featured image uploaded successfully as", featuredImageFileName);
+            } catch (error) {
+                console.error("Error uploading featured image:", error);
+            }
+        } else {
+            console.log("featured img url, ", values?.featured_image);
+        }
+    
+        if (metaImgFile) {
+            try {
+                const metaImageFile = values.meta_image;
+                let metaImageFileName = metaImageFile.split("\\").pop();
+    
+                // Read the file as binary
+                const metaImageFileData = fs.readFileSync(metaImageFile);
+    
+                // Set the upload directory path
+                const uploadDir = path.join(__dirname, 'public', 'uploads');
+    
+                // Check if the directory exists, if not create it
+                if (!fs.existsSync(uploadDir)) {
+                    fs.mkdirSync(uploadDir, { recursive: true });
+                }
+    
+                // Check if the file already exists in the upload directory
+                let destinationPath = path.join(uploadDir, metaImageFileName);
+                let count = 1;
+                while (fs.existsSync(destinationPath)) {
+                    const [name, ext] = metaImageFileName.split('.');
+                    metaImageFileName = `${name}-${count}.${ext}`;
+                    destinationPath = path.join(uploadDir, metaImageFileName);
+                    count++;
+                }
+    
+                // Write the file to the upload directory
+                fs.writeFileSync(destinationPath, metaImageFileData);
+    
+                console.log("Meta image uploaded successfully as", metaImageFileName);
+            } catch (error) {
+                console.error("Error uploading meta image:", error);
+            }
+        } else {
+            console.log("meta img url, ", values?.meta_image);
+        }
     };
 
     const submitForm = () => {
@@ -114,10 +179,8 @@ const AddNews = () => {
                     focus_keyword: '',
                     meta_image: '',
                 }}
-                onSubmit={(values, { resetForm }) => {
-                    handleAddNews(values);
-                    resetForm(); // Reset the form after submission
-                }}
+                
+                onSubmit={(values, { resetForm }) => handleAddNews(values, { resetForm })}
             >
                 <Form>
                     <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-3 gap-x-6">
