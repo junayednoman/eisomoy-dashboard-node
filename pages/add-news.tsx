@@ -204,66 +204,70 @@ const AddNews = () => {
                                 </div>
 
                                 {/* featured image */}
+                                {/* featured image */}
                                 <div className="border-b border-[#ebedf2] bg-white dark:border-[#191e3a] dark:bg-black dark:myAccordian">
-                                    <div className={`flex cursor-pointer p-4 font-semibold hover:bg-[#EBEBEB] dark:bg-[#0E1726] dark:hover:bg-[#0E1726] ${active === 4 && 'bg-[#EBEBEB] myAccordianHeading'}`} onClick={() => togglePara(4)}>
-                                        <span>Featured Image</span>
-                                        <div className="flex ltr:ml-auto rtl:mr-auto">
-                                            <svg className={`h-5 w-5 ${active === 4 ? 'rotate-180' : ''}`} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M19 9L12 15L5 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                                            </svg>
-                                        </div>
-                                    </div>
-                                    <AnimateHeight duration={50} height={active === 4 ? 'auto' : 0}>
-                                        <div className="p-4 pt-2 font-semibold text-white-dark">
-                                            <div className="flex items-center gap-2 mb-3">
-                                                <span>File</span>
-                                                <label className="relative mt-2">
-                                                    <input onChange={() => setFeaturedImgFile(!featuredImgFile)} type="checkbox" className="custom_switch absolute w-[35px] h-full opacity-0 z-10 cursor-pointer peer" id="custom_switch_checkbox1" />
-                                                    <span className="w-[35px] outline_checkbox border-2 border-[#ebedf2] dark:border-white-dark block h-[19px] rounded-full before:absolute before:left-1 before:bg-[#ebedf2] dark:before:bg-white-dark before:bottom-1 before:w-[11.5px] before:h-[11.5px] before:rounded-full peer-checked:before:left-5 peer-checked:border-primary peer-checked:before:bg-primary before:transition-all before:duration-300"></span>
-                                                </label>
-                                                <span>URL</span>
+                                        <div className={`flex cursor-pointer p-4 font-semibold hover:bg-[#EBEBEB] dark:bg-[#0E1726] dark:hover:bg-[#0E1726] ${active === 4 && 'bg-[#EBEBEB] myAccordianHeading'}`} onClick={() => togglePara(4)}>
+                                            <span>Featured Image</span>
+                                            <div className="flex ltr:ml-auto rtl:mr-auto">
+                                                <svg className={`h-5 w-5 ${active === 4 ? 'rotate-180' : ''}`} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M19 9L12 15L5 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                                </svg>
                                             </div>
-                                            {featuredImgFile ?
-                                                <div className="custom-file-container" data-upload-id="myFirstImage">
-                                                    <div className="label-container">
-                                                        <label>Upload </label>
-                                                        <button
-                                                            type="button"
-                                                            className="custom-file-container__image-clear"
-                                                            title="Clear Image"
-                                                            onClick={() => {
-                                                                setFeaturedImages([]);
-                                                            }}
-                                                        >
-                                                            ×
-                                                        </button>
-                                                    </div>
-                                                    <label className="custom-file-container__custom-file"></label>
-                                                    <input type="file" className="custom-file-container_custom-file_custom-file-input" accept="image/*" />
-                                                    <input type="hidden" name="MAX_FILE_SIZE" value="10485760" />
-                                                    <ImageUploading value={featuredImages} onChange={handleImageUpload} maxNumber={maxNumber}>
-                                                        {({ imageList, onImageUpload }) => (
-                                                            <div className="upload__image-wrapper -mt-12">
-                                                                <button className="custom-file-container_custom-file_custom-file-control" onClick={onImageUpload}>
-                                                                    Choose File...
-                                                                </button>
-                                                                &nbsp;
-                                                                {imageList.map((image, index) => (
-                                                                    <div key={index} className="custom-file-container__image-preview relative">
-                                                                        <img src={image.dataURL} alt="img" className="m-auto" />
-                                                                    </div>
-                                                                ))}
-                                                            </div>
-                                                        )}
-                                                    </ImageUploading>
-                                                    {featuredImages.length === 0 ? <img src="/assets/images/file-preview.svg" className="max-w-md w-full m-auto" alt="" /> : ''}
-                                                </div>
-                                                :
-                                                <Field name="featured_image" type="text" id="feature-img" placeholder="Enter Image URL" className="form-input h-12 mb-2" />
-                                            }
                                         </div>
-                                    </AnimateHeight>
-                                </div>
+                                        <AnimateHeight duration={50} height={active === 4 ? 'auto' : 0}>
+                                            <div className="p-4 pt-2 font-semibold text-white-dark">
+                                                <div className="flex items-center gap-2 mb-3">
+                                                    <span>File</span>
+                                                    <label className="relative mt-2">
+                                                        <input onChange={() => setFeaturedImgFile(!featuredImgFile)} type="checkbox" className="custom_switch absolute w-[35px] h-full opacity-0 z-10 cursor-pointer peer" id="custom_switch_checkbox1" />
+                                                        <span className="w-[35px] outline_checkbox border-2 border-[#ebedf2] dark:border-white-dark block h-[19px] rounded-full before:absolute before:left-1 before:bg-[#ebedf2] dark:before:bg-white-dark before:bottom-1 before:w-[11.5px] before:h-[11.5px] before:rounded-full peer-checked:before:left-5 peer-checked:border-primary peer-checked:before:bg-primary before:transition-all before:duration-300"></span>
+                                                    </label>
+                                                    <span>URL</span>
+                                                </div>
+                                                {
+                                                    featuredImgFile ?
+                                                        <div className="custom-file-container" data-upload-id="myFirstImage">
+                                                            <div className="label-container">
+                                                                <label>Upload </label>
+                                                                <button
+                                                                    type="button"
+                                                                    className="custom-file-container__image-clear"
+                                                                    title="Clear Image"
+                                                                    onClick={() => {
+                                                                        setFeaturedImages([]);
+                                                                    }}
+                                                                >
+                                                                    ×
+                                                                </button>
+                                                            </div>
+                                                            <label className="custom-file-container__custom-file"></label>
+                                                            <input type="file" className="custom-file-container_custom-file_custom-file-input" accept="image/*" />
+                                                            <input type="hidden" name="MAX_FILE_SIZE" value="10485760" />
+                                                            <ImageUploading value={featuredImages} onChange={handleImageUpload} maxNumber={maxNumber}>
+                                                                {({ imageList, onImageUpload, onImageRemoveAll, onImageUpdate, onImageRemove, isDragging, dragProps }) => (
+                                                                    <div className="upload__image-wrapper -mt-12">
+                                                                        <button className="custom-file-container_custom-file_custom-file-control" onClick={onImageUpload}>
+                                                                            Choose File...
+                                                                        </button>
+                                                                        &nbsp;
+                                                                        {imageList.map((image, index) => (
+                                                                            <div key={index} className="custom-file-container__image-preview relative">
+                                                                                <img src={image.dataURL} alt="img" className="m-auto" />
+                                                                            </div>
+                                                                        ))}
+                                                                    </div>
+                                                                )}
+                                                            </ImageUploading>
+                                                            {featuredImages.length === 0 ? <img src="/assets/images/file-preview.svg" className="max-w-md w-full m-auto" alt="" /> : ''}
+                                                        </div>
+                                                        :
+                                                        <Field name="featured_image" type="text" id="feature-img" placeholder="Enter Image URL" className="form-input h-12 mb-2" ></Field>
+                                                }
+
+                                            </div>
+                                        </AnimateHeight>
+                                    </div>
+
 
                                 {/* SEO */}
                                 <div className="border-b border-[#ebedf2] bg-white dark:border-[#191e3a] dark:bg-black dark:myAccordian">
