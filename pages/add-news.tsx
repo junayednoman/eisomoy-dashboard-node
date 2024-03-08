@@ -6,8 +6,36 @@ import AnimateHeight from "react-animate-height";
 import 'easymde/dist/easymde.min.css';
 import dynamic from 'next/dynamic';
 import axios from "axios";
-import fs from 'fs';
-import path from 'path';
+import * as Yup from 'yup';
+
+
+const validationSchema = Yup.object().shape({
+    news_title: Yup.string().required('Title is required'),
+    featured_image: Yup.mixed()
+      .test('fileType', 'Invalid file type', function (value: any) {
+        if (!value) return true; // No file selected, skip validation
+        const allowedExtensions = ['png', 'jpg', 'jpeg', 'gif'];
+        const fileExtension = value.name.split('.').pop().toLowerCase();
+        return allowedExtensions.includes(fileExtension);
+      })
+      .test('fileSize', 'File size must be less than 3MB', function (value: any) {
+        if (!value) return true; // No file selected, skip validation
+        return value.size <= 3 * 1024 * 1024; // 3MB in bytes
+      }),
+    meta_image: Yup.mixed()
+      .test('fileType', 'Invalid file type', function (value: any) {
+        if (!value) return true; // No file selected, skip validation
+        const allowedExtensions = ['png', 'jpg', 'jpeg', 'gif'];
+        const fileExtension = value.name.split('.').pop().toLowerCase();
+        return allowedExtensions.includes(fileExtension);
+      })
+      .test('fileSize', 'File size must be less than 3MB', function (value: any) {
+        if (!value) return true; // No file selected, skip validation
+        return value.size <= 3 * 1024 * 1024; // 3MB in bytes
+      })
+  });
+  
+
 
 const SimpleMdeReact = dynamic(() => import('react-simplemde-editor'), { ssr: false });
 
@@ -70,86 +98,198 @@ const AddNews = () => {
         setEditorValue(editorValue);
     }, []);
 
+    //upload image in real server
+
+    // const handleFileUpload = async (file: any) => {
+    //     try {
+    //       const formData = new FormData();
+    //       formData.append('file', file);
+      
+    //       const response = await axios.post('/api/upload', formData, {
+    //         headers: {
+    //           'Content-Type': 'multipart/form-data',
+    //         },
+    //       });
+      
+    //       console.log(response.data.message);
+    //     } catch (error) {
+    //       console.error('Error uploading file:', error);
+    //     }
+    //   };
+
+    // const handleAddNews = async (values: any, { resetForm }: any) => {
+    //     // console.log("description value", editorValue);
+    //     // console.log('add news', selectedCategories);
+    //     // console.log('publish status', selectedPublishStatus);
+    //     // console.log('add news', values);
+    
+    //     //should be in the real server
+    //     if (featuredImgFile) {
+    //         const featuredImageFile = values.featured_image;
+    //         const featuredImageFileName = featuredImageFile.split("\\").pop();
+
+    //         console.log("featured img file, ", featuredImageFile);
+
+    //     } else {
+    //         console.log("featured img url, ", values?.featured_image);
+    //     }
+    
+    //     if (metaImgFile) {
+    //         const metaImageFile = values.meta_image;
+    //         const metaImageFileName = metaImageFile.split("\\").pop();
+
+    //         console.log("meta img url, ", metaImageFile);
+    //     } else {
+    //         console.log("meta img url, ", values?.meta_image);
+    //     }
+
+    //     //comment this if its vercel
+
+    //     // if (featuredImgFile) {
+    //     //     const featuredImageFile = values.featured_image;
+    //     //     const featuredImageFileName = featuredImageFile.split("\\").pop();
+    //     // }
+    //     // else{
+    //     //     const featuredImageFileName = values?.featured_image;
+    //     // }
+    //     // if (metaImgFile) {
+    //     //     const metaImageFile = values.meta_image;
+    //     //     const metaImageFileName = metaImageFile.split("\\").pop();
+    //     // }
+    //     // else{
+    //     //     const metaImageFileName = values?.meta_image;
+    //     // }
+
+    // };
+
+    // const handleAddNews = async (values: any, { resetForm }: any) => {
+    //     //should be in the real server
+    //     if (featuredImgFile) {
+    //         const featuredImageFile = values.featured_image;
+    //         // Check if a file was selected
+    //         if (featuredImageFile instanceof File) {
+    //             // Access the file data using FileReader
+    //             const reader = new FileReader();
+    //             reader.onload = (event: any) => {
+    //                 // Access the file data here
+    //                 const fileData = event.target.result;
+    //                 console.log("featured img file data:", fileData);
+    //             };
+    //             reader.readAsDataURL(featuredImageFile); // Read file as Data URL
+    //         } else {
+    //             console.log("No file selected for featured image");
+    //         }
+    //     } else {
+    //         console.log("featured img url:", values?.featured_image);
+    //     }
+    
+    //     if (metaImgFile) {
+    //         const metaImageFile = values.meta_image;
+    //         // Check if a file was selected
+    //         if (metaImageFile instanceof File) {
+    //             // Access the file data using FileReader
+    //             const reader = new FileReader();
+    //             reader.onload = (event: any) => {
+    //                 // Access the file data here
+    //                 const fileData = event.target.result;
+    //                 console.log("meta img file data:", fileData);
+    //             };
+    //             reader.readAsDataURL(metaImageFile); // Read file as Data URL
+    //         } else {
+    //             console.log("No file selected for meta image");
+    //         }
+    //     } else {
+    //         console.log("meta img url:", values?.meta_image);
+    //     }
+    // };
+    
+
     const handleAddNews = async (values: any, { resetForm }: any) => {
-        console.log("description value", editorValue);
-        console.log('add news', selectedCategories);
-        console.log('publish status', selectedPublishStatus);
-        console.log('add news', values);
-    
+
+        let featuredImageName = '';
+        let metaImageName = '';
+
         if (featuredImgFile) {
+
+            const formData = new FormData();
+            formData.append('file', values.featured_image);
+
             try {
-                const featuredImageFile = values.featured_image;
-                let featuredImageFileName = featuredImageFile.split("\\").pop();
-    
-                // Read the file as binary
-                const featuredImageFileData = fs.readFileSync(featuredImageFile);
-    
-                // Set the upload directory path
-                const uploadDir = path.join(__dirname, 'public', 'uploads');
-    
-                // Check if the directory exists, if not create it
-                if (!fs.existsSync(uploadDir)) {
-                    fs.mkdirSync(uploadDir, { recursive: true });
-                }
-    
-                // Check if the file already exists in the upload directory
-                let destinationPath = path.join(uploadDir, featuredImageFileName);
-                let count = 1;
-                while (fs.existsSync(destinationPath)) {
-                    const [name, ext] = featuredImageFileName.split('.');
-                    featuredImageFileName = `${name}-${count}.${ext}`;
-                    destinationPath = path.join(uploadDir, featuredImageFileName);
-                    count++;
-                }
-    
-                // Write the file to the upload directory
-                fs.writeFileSync(destinationPath, featuredImageFileData);
-    
-                console.log("Featured image uploaded successfully as", featuredImageFileName);
-            } catch (error) {
-                console.error("Error uploading featured image:", error);
-            }
-        } else {
-            console.log("featured img url, ", values?.featured_image);
+                const response = await axios.post('/api/upload', formData, {
+                  headers: {
+                    'Content-Type': 'multipart/form-data'
+                  }
+                });
+                console.log('Featured image uploaded successfully');
+                featuredImageName = response.data.fileName;
+              } catch (error) {
+                console.error('Error uploading featured image: ', error);
+              }
+            
         }
-    
+        else{
+            featuredImageName = values.featured_image_url;            
+        }
         if (metaImgFile) {
+
+            const formData = new FormData();
+            formData.append('file', values.meta_image);
+
             try {
-                const metaImageFile = values.meta_image;
-                let metaImageFileName = metaImageFile.split("\\").pop();
-    
-                // Read the file as binary
-                const metaImageFileData = fs.readFileSync(metaImageFile);
-    
-                // Set the upload directory path
-                const uploadDir = path.join(__dirname, 'public', 'uploads');
-    
-                // Check if the directory exists, if not create it
-                if (!fs.existsSync(uploadDir)) {
-                    fs.mkdirSync(uploadDir, { recursive: true });
+            const response = await axios.post('/api/upload', formData, {
+                headers: {
+                'Content-Type': 'multipart/form-data'
                 }
-    
-                // Check if the file already exists in the upload directory
-                let destinationPath = path.join(uploadDir, metaImageFileName);
-                let count = 1;
-                while (fs.existsSync(destinationPath)) {
-                    const [name, ext] = metaImageFileName.split('.');
-                    metaImageFileName = `${name}-${count}.${ext}`;
-                    destinationPath = path.join(uploadDir, metaImageFileName);
-                    count++;
-                }
-    
-                // Write the file to the upload directory
-                fs.writeFileSync(destinationPath, metaImageFileData);
-    
-                console.log("Meta image uploaded successfully as", metaImageFileName);
+            });
+            console.log('Meta image uploaded successfully');
+            metaImageName = response.data.fileName;
             } catch (error) {
-                console.error("Error uploading meta image:", error);
+            console.error('Error uploading meta image: ', error);
             }
-        } else {
-            console.log("meta img url, ", values?.meta_image);
+            
         }
+        else{
+
+            metaImageName = values.meta_image_url;
+            
+        }
+
+        const categoriesString = Array.isArray(selectedCategories) ? selectedCategories.join(', ') : selectedCategories;
+
+        const formDataFinal = {
+            title: values.news_title,
+            description: editorValue,
+            featured_image: featuredImageName,
+            category: categoriesString,
+            reporter_name: values.reporter_name,
+            
+            
+            // Add other fields as needed
+        };
+
+        // Call add-news API with all the necessary data
+    try {
+        const response = await axios.post('/api/add-news', {
+            news_title: values.news_title,
+            reporter_name: values.reporter_name,
+            tag: values.tag,
+            featured_image: featuredImageName,
+            meta_title: values.meta_title,
+            meta_description: values.meta_description,
+            focus_keyword: values.focus_keyword,
+            meta_image: metaImageName,
+            // Add other fields as needed
+        });
+        console.log('Add-news API call successful');
+        resetForm(); // Reset the form after successful submission
+    } catch (error) {
+        console.error('Error calling add-news API: ', error);
+    }
+
+
+
     };
+
 
     const submitForm = () => {
         const toast = Swal.mixin({
@@ -173,21 +313,25 @@ const AddNews = () => {
                     news_title: '',
                     reporter_name: '',
                     tag: '',
-                    featured_image: '',
+                    featured_image: null,
                     meta_title: '',
                     meta_description: '',
                     focus_keyword: '',
-                    meta_image: '',
+                    meta_image: null,
+                    featured_image_url: '',
+                    meta_image_url: '',
                 }}
                 
                 onSubmit={(values, { resetForm }) => handleAddNews(values, { resetForm })}
             >
+                {({ errors, touched, setFieldValue }) => (
                 <Form>
                     <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-3 gap-x-6">
                         <div className="xl:col-span-3 lg:col-span-2 md:col-span-2">
                             <div>
                                 <label htmlFor="title">Title</label>
-                                <Field name="news_title" type="text" id="title" placeholder="Enter News Title" className="form-input h-12" />
+                                <Field name="news_title" type="text" id="news_title" placeholder="Enter News Title" className="form-input h-12" />
+                                {errors.news_title && touched.news_title && <p className="text-red-500">{errors.news_title}</p>}
 
                                 <label htmlFor="desc" className="mt-4">Description</label>
                                 <SimpleMdeReact className="dark:myEditor" value={editorValue} onChange={onChange} />
@@ -286,10 +430,11 @@ const AddNews = () => {
                                             </div>
                                             {
                                                 featuredImgFile ?
-                                                    <Field name="featured_image" type="file" id="featured_image" className="form-input h-12 mb-2" />
+                                                    <input name="featured_image" type="file" id="featured_image" className="form-input h-12 mb-2" onChange={(event: any) => {setFieldValue('featured_image', event.currentTarget.files[0]);}}/>
                                                     :
-                                                    <Field name="featured_image" type="text" id="feature-img" placeholder="Enter Image URL" className="form-input h-12 mb-2" ></Field>
+                                                    <Field name="featured_image_url" type="text" id="featured_image_url" placeholder="Enter Image URL" className="form-input h-12 mb-2" ></Field>
                                             }
+                                            {errors.featured_image && touched.featured_image && <p className="text-red-500">{errors.featured_image}</p>}
 
                                         </div>
                                     </AnimateHeight>
@@ -329,10 +474,13 @@ const AddNews = () => {
                                                     </div>
                                                 </div>
                                                 {metaImgFile ?
-                                                    <Field name="meta_image" type="file" id="meta_image" className="form-input h-12 mb-2" />
+                                                    
+                                                    <input name="meta_image" type="file" id="meta_image" className="form-input h-12 mb-2" onChange={(event: any) => {setFieldValue('meta_image', event.currentTarget.files[0]);}}/>
                                                     :
-                                                    <Field name="meta_image" type="text" id="meta_image" placeholder="Enter Image URL" className="form-input h-12 mb-2" />
+                                                    <Field name="meta_image_url" type="text" id="meta_image_url" placeholder="Enter Image URL" className="form-input h-12 mb-2" />
+                                                    
                                                 }
+                                                {errors.meta_image && touched.meta_image && <p className="text-red-500">{errors.meta_image}</p>}
                                             </div>
                                             <div className="mb-2">
                                                 <label htmlFor="focusKeyword">Focus Keyword</label>
@@ -353,6 +501,7 @@ const AddNews = () => {
 
                     <button type="submit" className="btn btn-primary !mt-6" onClick={submitForm}>Publish</button>
                 </Form>
+                )}
             </Formik>
         </>
     )
