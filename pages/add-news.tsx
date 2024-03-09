@@ -169,31 +169,33 @@ const AddNews = () => {
             // Add other fields as needed
         };
 
+        console.log(formDataFinal);
+
         // Call add-news API with all the necessary data
-    try {
-        const response = await axios.post(`${apiUrl}/api/news/add-news`, formDataFinal, { withCredentials: true });
-        console.log('news added succesfully');
-        Swal.fire({
-            icon: 'success',
-            title: 'News added successfully',
-            timer: 1000,
-            showConfirmButton: false
-        });
-        resetForm(); // Reset the form after successful submission
-        setMetaImgFile(true);
-        setFeaturedImgFile(true);
-        setSelectedPublishStatus("");
-        setSelectedCategories([]);
-        setEditorValue("");
-    } catch (error: any) {
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops... Something went wrong!',
-            text: error.response?.data?.message || 'Failed to add News',
-            timer: 3000,
-            showConfirmButton: true
-        });
-    }
+    // try {
+    //     const response = await axios.post(`${apiUrl}/api/news/add-news`, formDataFinal, { withCredentials: true });
+    //     console.log('news added succesfully');
+    //     Swal.fire({
+    //         icon: 'success',
+    //         title: 'News added successfully',
+    //         timer: 1000,
+    //         showConfirmButton: false
+    //     });
+    //     resetForm(); // Reset the form after successful submission
+    //     setMetaImgFile(true);
+    //     setFeaturedImgFile(true);
+    //     setSelectedPublishStatus("");
+    //     setSelectedCategories([]);
+    //     setEditorValue("");
+    // } catch (error: any) {
+    //     Swal.fire({
+    //         icon: 'error',
+    //         title: 'Oops... Something went wrong!',
+    //         text: error.response?.data?.message || 'Failed to add News',
+    //         timer: 3000,
+    //         showConfirmButton: true
+    //     });
+    // }
 
 
 
