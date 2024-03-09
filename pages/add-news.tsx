@@ -13,7 +13,7 @@ import withAuth from '../utils/withAuth';
 
 const validationSchema = Yup.object().shape({
     news_title: Yup.string().required('Title is required'),
-    featured_image: Yup.mixed().test('fileType', 'Invalid file type', function (value: any) {
+    featured_image: Yup.mixed().nullable().test('fileType', 'Invalid file type', function (value: any) {
         if (!value) return true; // No file selected, skip validation
         const allowedExtensions = ['png', 'jpg', 'jpeg', 'gif'];
         const fileExtension = value.name.split('.').pop().toLowerCase();
@@ -22,7 +22,7 @@ const validationSchema = Yup.object().shape({
         if (!value) return true; // No file selected, skip validation
         return value.size <= 3 * 1024 * 1024; // 3MB in bytes
     }),
-    meta_image: Yup.mixed().test('fileType', 'Invalid file type', function (value: any) {
+    meta_image: Yup.mixed().nullable().test('fileType', 'Invalid file type', function (value: any) {
         if (!value) return true; // No file selected, skip validation
         const allowedExtensions = ['png', 'jpg', 'jpeg', 'gif'];
         const fileExtension = value.name.split('.').pop().toLowerCase();
