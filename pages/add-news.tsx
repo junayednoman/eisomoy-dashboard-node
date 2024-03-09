@@ -157,7 +157,7 @@ const AddNews = () => {
             featured_image: featuredImageName,
             category: categoriesString,
             reporter_name: values.reporter_name,
-            cretaed_by: userGlobalData?.display_name,
+            created_by: userGlobalData?.display_name,
             published_by: userGlobalData?.display_name,
             last_modified_by: userGlobalData?.display_name,
             publish_status: selectedPublishStatus.value,
