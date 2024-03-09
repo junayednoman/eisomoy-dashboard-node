@@ -8,6 +8,8 @@ import Header from './Header';
 import Sidebar from './Sidebar';
 import Portals from '../../components/Portals';
 import { useRouter } from 'next/router';
+import { useUserGlobal } from '../../pages/context/userContext';
+import axios from 'axios';
 
 const DefaultLayout = ({ children }: PropsWithChildren) => {
     const router = useRouter();
@@ -16,6 +18,26 @@ const DefaultLayout = ({ children }: PropsWithChildren) => {
     const themeConfig = useSelector((state: IRootState) => state.themeConfig);
     const [animation, setAnimation] = useState(themeConfig.animation);
     const dispatch = useDispatch();
+
+    const { setUserGlobalData } = useUserGlobal();
+    const apiUrl = process.env.API_URL || 'https://eismoy-api.vercel.app';
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`${apiUrl}/api/user/details`, {
+                    withCredentials: true
+                }); // Assuming your API endpoint for fetching user details is '/api/user/details'
+                const userData = response.data; // Assuming the user data is directly available in the response data
+                setUserGlobalData(userData); // Set the user data in the context
+                console.log('User data:', userData); // Log user data
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+            }
+        };
+
+        fetchData(); // Call the function when component mounts
+    }, []);
 
     const goToTop = () => {
         document.body.scrollTop = 0;
@@ -29,6 +51,7 @@ const DefaultLayout = ({ children }: PropsWithChildren) => {
             setShowTopButton(false);
         }
     };
+
 
     useEffect(() => {
         window.addEventListener('scroll', onScrollHandler);

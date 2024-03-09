@@ -1,11 +1,12 @@
 import type { AppProps } from 'next/app';
-import { ReactElement, ReactNode, Suspense } from 'react';
+import { ReactElement, ReactNode, Suspense, useEffect, useState } from 'react';
 import DefaultLayout from '../components/Layouts/DefaultLayout';
 import { Provider } from 'react-redux';
 import store from '../store/index';
 import Head from 'next/head';
 import "@/styles/custom.css"
 import "@/styles/file-upload-with-preview.min.css"
+import { UserProvider} from '../pages/context/userContext';
 
 import { appWithI18Next } from 'ni18n';
 import { ni18nConfig } from 'ni18n.config.ts';
@@ -25,10 +26,12 @@ type AppPropsWithLayout = AppProps & {
 };
 
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
+
     const getLayout = Component.getLayout ?? ((page) => <DefaultLayout>{page}</DefaultLayout>);
 
     return (
         <Provider store={store}>
+            <UserProvider value={null}>
             <Head>
                 <title>Eimattro.com | Dashboard</title>
                 <meta charSet="UTF-8" />
@@ -39,6 +42,7 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
             </Head>
 
             {getLayout(<Component {...pageProps} />)}
+            </UserProvider>
         </Provider>
     );
 };
