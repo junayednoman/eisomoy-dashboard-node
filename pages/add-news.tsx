@@ -182,8 +182,7 @@ const AddNews = () => {
             showConfirmButton: false
         });
         resetForm(); // Reset the form after successful submission
-        setMetaImgFile(true);
-        setFeaturedImgFile(true);
+        
         setSelectedPublishStatus("");
         setSelectedCategories([]);
         setEditorValue("");
