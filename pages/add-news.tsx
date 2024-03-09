@@ -160,7 +160,7 @@ const AddNews = () => {
             cretaed_by: userGlobalData?.display_name,
             published_by: userGlobalData?.display_name,
             last_modified_by: userGlobalData?.display_name,
-            publish_status: selectedPublishStatus,
+            publish_status: selectedPublishStatus.value,
             tags: values.tag,
             meta_title: values.meta_title,
             meta_description: values.meta_description,
