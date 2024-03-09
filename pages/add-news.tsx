@@ -49,7 +49,7 @@ const AddNews = () => {
     const { userGlobalData } = useUserGlobal();
 
     const publishStatusOptions = [
-        { value: 'Published', label: 'Publish' },
+        { value: 'Published', label: 'Published' },
         { value: 'Draft', label: 'Draft' },
     ];
 
@@ -193,8 +193,8 @@ const AddNews = () => {
             icon: 'error',
             title: 'Oops... Something went wrong!',
             text: error.response?.data?.message || 'Failed to add News',
-            timer: 1000,
-            showConfirmButton: false
+            timer: 3000,
+            showConfirmButton: true
         });
     }
 
