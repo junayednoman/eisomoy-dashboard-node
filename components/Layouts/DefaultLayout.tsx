@@ -19,7 +19,7 @@ const DefaultLayout = ({ children }: PropsWithChildren) => {
     const [animation, setAnimation] = useState(themeConfig.animation);
     const dispatch = useDispatch();
 
-    const { setUserGlobalData } = useUserGlobal();
+    const { userGlobalData, setUserGlobalData } = useUserGlobal();
     const apiUrl = process.env.API_URL || 'https://eismoy-api.vercel.app';
 
     useEffect(() => {
@@ -28,9 +28,10 @@ const DefaultLayout = ({ children }: PropsWithChildren) => {
                 const response = await axios.get(`${apiUrl}/api/user/details`, {
                     withCredentials: true
                 }); // Assuming your API endpoint for fetching user details is '/api/user/details'
-                const userData = response.data; // Assuming the user data is directly available in the response data
+                const userData = response.data;
+                console.log('User data:', userData); // Assuming the user data is directly available in the response data
                 setUserGlobalData(userData); // Set the user data in the context
-                console.log('User data:', userData); // Log user data
+                console.log('User data:', userGlobalData); // Log user data
             } catch (error) {
                 console.error('Error fetching user data:', error);
             }
