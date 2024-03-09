@@ -43,7 +43,7 @@ const DefaultLayout = ({ children }: PropsWithChildren) => {
     const goToTop = () => {
         document.body.scrollTop = 0;
         document.documentElement.scrollTop = 0;
-        console.log('User Global Data:', userGlobalData)
+        //console.log('User Global Data:', userGlobalData)
     };
 
     const onScrollHandler = () => {

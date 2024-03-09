@@ -8,8 +8,11 @@ import { useTranslation } from 'react-i18next';
 import { toggleSidebar } from '../../store/themeConfigSlice';
 import Dropdown from '../Dropdown';
 
+import { useUserGlobal } from '../../context/userContext';
+
 const Header = () => {
     const router = useRouter();
+    const { userGlobalData } = useUserGlobal();
 
     useEffect(() => {
         const selector = document.querySelector('ul.horizontal-menu a[href="' + window.location.pathname + '"]');
@@ -528,11 +531,11 @@ const Header = () => {
                                             <img className="h-10 w-10 rounded-md object-cover" src="/assets/images/user-profile.jpeg" alt="userProfile" />
                                             <div className="ltr:pl-4 rtl:pr-4">
                                                 <h4 className="text-base">
-                                                    John Doe
+                                                    {userGlobalData?.name}
                                                     <span className="rounded bg-success-light px-1 text-xs text-success ltr:ml-2 rtl:ml-2">Pro</span>
                                                 </h4>
                                                 <button type="button" className="text-black/60 hover:text-primary dark:text-dark-light/60 dark:hover:text-white">
-                                                    johndoe@gmail.com
+                                                    {userGlobalData?.email}
                                                 </button>
                                             </div>
                                         </div>
