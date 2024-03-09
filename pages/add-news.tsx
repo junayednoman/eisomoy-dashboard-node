@@ -7,6 +7,7 @@ import 'easymde/dist/easymde.min.css';
 import dynamic from 'next/dynamic';
 import axios from "axios";
 import * as Yup from 'yup';
+import { useUserGlobal } from '../context/userContext';
 
 
 const validationSchema = Yup.object().shape({
@@ -44,9 +45,10 @@ const AddNews = () => {
     const [featuredImgFile, setFeaturedImgFile] = useState<boolean>(true);
     const [active, setActive] = useState<number>();
     const [selectedPublishStatus, setSelectedPublishStatus] = useState<any>("");
+    const { userGlobalData } = useUserGlobal();
 
     const publishStatusOptions = [
-        { value: 'Publish', label: 'Publish' },
+        { value: 'Published', label: 'Publish' },
         { value: 'Draft', label: 'Draft' },
     ];
 
@@ -98,111 +100,6 @@ const AddNews = () => {
         setEditorValue(editorValue);
     }, []);
 
-    //upload image in real server
-
-    // const handleFileUpload = async (file: any) => {
-    //     try {
-    //       const formData = new FormData();
-    //       formData.append('file', file);
-      
-    //       const response = await axios.post('/api/upload', formData, {
-    //         headers: {
-    //           'Content-Type': 'multipart/form-data',
-    //         },
-    //       });
-      
-    //       console.log(response.data.message);
-    //     } catch (error) {
-    //       console.error('Error uploading file:', error);
-    //     }
-    //   };
-
-    // const handleAddNews = async (values: any, { resetForm }: any) => {
-    //     // console.log("description value", editorValue);
-    //     // console.log('add news', selectedCategories);
-    //     // console.log('publish status', selectedPublishStatus);
-    //     // console.log('add news', values);
-    
-    //     //should be in the real server
-    //     if (featuredImgFile) {
-    //         const featuredImageFile = values.featured_image;
-    //         const featuredImageFileName = featuredImageFile.split("\\").pop();
-
-    //         console.log("featured img file, ", featuredImageFile);
-
-    //     } else {
-    //         console.log("featured img url, ", values?.featured_image);
-    //     }
-    
-    //     if (metaImgFile) {
-    //         const metaImageFile = values.meta_image;
-    //         const metaImageFileName = metaImageFile.split("\\").pop();
-
-    //         console.log("meta img url, ", metaImageFile);
-    //     } else {
-    //         console.log("meta img url, ", values?.meta_image);
-    //     }
-
-    //     //comment this if its vercel
-
-    //     // if (featuredImgFile) {
-    //     //     const featuredImageFile = values.featured_image;
-    //     //     const featuredImageFileName = featuredImageFile.split("\\").pop();
-    //     // }
-    //     // else{
-    //     //     const featuredImageFileName = values?.featured_image;
-    //     // }
-    //     // if (metaImgFile) {
-    //     //     const metaImageFile = values.meta_image;
-    //     //     const metaImageFileName = metaImageFile.split("\\").pop();
-    //     // }
-    //     // else{
-    //     //     const metaImageFileName = values?.meta_image;
-    //     // }
-
-    // };
-
-    // const handleAddNews = async (values: any, { resetForm }: any) => {
-    //     //should be in the real server
-    //     if (featuredImgFile) {
-    //         const featuredImageFile = values.featured_image;
-    //         // Check if a file was selected
-    //         if (featuredImageFile instanceof File) {
-    //             // Access the file data using FileReader
-    //             const reader = new FileReader();
-    //             reader.onload = (event: any) => {
-    //                 // Access the file data here
-    //                 const fileData = event.target.result;
-    //                 console.log("featured img file data:", fileData);
-    //             };
-    //             reader.readAsDataURL(featuredImageFile); // Read file as Data URL
-    //         } else {
-    //             console.log("No file selected for featured image");
-    //         }
-    //     } else {
-    //         console.log("featured img url:", values?.featured_image);
-    //     }
-    
-    //     if (metaImgFile) {
-    //         const metaImageFile = values.meta_image;
-    //         // Check if a file was selected
-    //         if (metaImageFile instanceof File) {
-    //             // Access the file data using FileReader
-    //             const reader = new FileReader();
-    //             reader.onload = (event: any) => {
-    //                 // Access the file data here
-    //                 const fileData = event.target.result;
-    //                 console.log("meta img file data:", fileData);
-    //             };
-    //             reader.readAsDataURL(metaImageFile); // Read file as Data URL
-    //         } else {
-    //             console.log("No file selected for meta image");
-    //         }
-    //     } else {
-    //         console.log("meta img url:", values?.meta_image);
-    //     }
-    // };
-    
 
     const handleAddNews = async (values: any, { resetForm }: any) => {
 
@@ -262,47 +159,46 @@ const AddNews = () => {
             featured_image: featuredImageName,
             category: categoriesString,
             reporter_name: values.reporter_name,
-            
-            
+            cretaed_by: userGlobalData?.display_name,
+            published_by: userGlobalData?.display_name,
+            last_modified_by: userGlobalData?.display_name,
+            publish_status: selectedPublishStatus,
+            tags: values.tag,
+            meta_title: values.meta_title,
+            meta_description: values.meta_description,
+            meta_image: metaImageName,
+            focus_keyword: values.focus_keyword,
             // Add other fields as needed
         };
 
         // Call add-news API with all the necessary data
     try {
-        const response = await axios.post('/api/add-news', {
-            news_title: values.news_title,
-            reporter_name: values.reporter_name,
-            tag: values.tag,
-            featured_image: featuredImageName,
-            meta_title: values.meta_title,
-            meta_description: values.meta_description,
-            focus_keyword: values.focus_keyword,
-            meta_image: metaImageName,
-            // Add other fields as needed
+        const response = await axios.post(`${apiUrl}/api/news/add-news`, formDataFinal, { withCredentials: true });
+        console.log('news added succesfully');
+        Swal.fire({
+            icon: 'success',
+            title: 'News added successfully',
+            timer: 1000,
+            showConfirmButton: false
         });
-        console.log('Add-news API call successful');
         resetForm(); // Reset the form after successful submission
-    } catch (error) {
-        console.error('Error calling add-news API: ', error);
+        setMetaImgFile(true);
+        setFeaturedImgFile(true);
+        setSelectedPublishStatus("");
+        setSelectedCategories([]);
+        setEditorValue("");
+    } catch (error: any) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops... Something went wrong!',
+            text: error.response?.data?.message || 'Failed to add News',
+            timer: 1000,
+            showConfirmButton: false
+        });
     }
 
 
 
-    };
-
-
-    const submitForm = () => {
-        const toast = Swal.mixin({
-            toast: true,
-            position: 'top',
-            showConfirmButton: false,
-            timer: 3000,
-        });
-        toast.fire({
-            icon: 'success',
-            title: 'Form submitted successfully',
-            padding: '10px 20px',
-        });
     };
 
     return (
@@ -323,6 +219,7 @@ const AddNews = () => {
                 }}
                 
                 onSubmit={(values, { resetForm }) => handleAddNews(values, { resetForm })}
+                validationSchema={validationSchema}
             >
                 {({ errors, touched, setFieldValue }) => (
                 <Form>
@@ -499,7 +396,7 @@ const AddNews = () => {
                         </div>
                     </div>
 
-                    <button type="submit" className="btn btn-primary !mt-6" onClick={submitForm}>Publish</button>
+                    <button type="submit" className="btn btn-primary !mt-6">Publish</button>
                 </Form>
                 )}
             </Formik>
