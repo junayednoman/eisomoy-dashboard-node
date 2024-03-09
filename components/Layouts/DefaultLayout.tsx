@@ -29,9 +29,9 @@ const DefaultLayout = ({ children }: PropsWithChildren) => {
                     withCredentials: true
                 }); // Assuming your API endpoint for fetching user details is '/api/user/details'
                 const userData = response.data;
-                console.log('User data:', userData); // Assuming the user data is directly available in the response data
+                console.log('User data not set:', userData); // Assuming the user data is directly available in the response data
                 setUserGlobalData(userData); // Set the user data in the context
-                console.log('User data:', userGlobalData); // Log user data
+                console.log('User data set:', userGlobalData); // Log user data
             } catch (error) {
                 console.error('Error fetching user data:', error);
             }
