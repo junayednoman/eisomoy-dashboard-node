@@ -19,7 +19,7 @@ const DefaultLayout = ({ children }: PropsWithChildren) => {
     const [animation, setAnimation] = useState(themeConfig.animation);
     const dispatch = useDispatch();
 
-    const { userGlobalData, setUserGlobalData } = useUserGlobal();
+    const { setUserGlobalData, userGlobalData } = useUserGlobal();
     const apiUrl = process.env.API_URL || 'https://eismoy-api.vercel.app';
 
     useEffect(() => {
