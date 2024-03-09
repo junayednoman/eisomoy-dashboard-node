@@ -31,7 +31,7 @@ const DefaultLayout = ({ children }: PropsWithChildren) => {
                 const userData = response.data;
                 console.log('User data not set:', userData); // Assuming the user data is directly available in the response data
                 setUserGlobalData(userData); // Set the user data in the context
-                console.log('User data set:', userGlobalData); // Log user data
+                
             } catch (error) {
                 console.error('Error fetching user data:', error);
             }
@@ -43,6 +43,7 @@ const DefaultLayout = ({ children }: PropsWithChildren) => {
     const goToTop = () => {
         document.body.scrollTop = 0;
         document.documentElement.scrollTop = 0;
+        console.log('User Global Data:', userGlobalData)
     };
 
     const onScrollHandler = () => {
@@ -83,6 +84,7 @@ const DefaultLayout = ({ children }: PropsWithChildren) => {
     }, [router.asPath]);
 
     return (
+        
         <App>
             {/* BEGIN MAIN CONTAINER */}
             <div className="relative">
@@ -136,6 +138,7 @@ const DefaultLayout = ({ children }: PropsWithChildren) => {
                             {/* BEGIN FOOTER */}
                             <Footer />
                             {/* END FOOTER */}
+                           
                         </div>
                         <Portals />
                     </div>
