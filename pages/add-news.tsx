@@ -8,6 +8,7 @@ import dynamic from 'next/dynamic';
 import axios from "axios";
 import * as Yup from 'yup';
 import { useUserGlobal } from '../context/userContext';
+import withAuth from '../utils/withAuth';
 
 
 const validationSchema = Yup.object().shape({
@@ -404,4 +405,4 @@ const AddNews = () => {
     )
 };
 
-export default AddNews;
+export default withAuth(AddNews);
