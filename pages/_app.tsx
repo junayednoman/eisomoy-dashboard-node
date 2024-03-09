@@ -6,7 +6,7 @@ import store from '../store/index';
 import Head from 'next/head';
 import "@/styles/custom.css"
 import "@/styles/file-upload-with-preview.min.css"
-import { UserProvider} from '../pages/context/userContext';
+import { UserProvider} from '../context/userContext';
 
 import { appWithI18Next } from 'ni18n';
 import { ni18nConfig } from 'ni18n.config.ts';

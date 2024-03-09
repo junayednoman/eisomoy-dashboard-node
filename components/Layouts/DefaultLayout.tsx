@@ -8,7 +8,7 @@ import Header from './Header';
 import Sidebar from './Sidebar';
 import Portals from '../../components/Portals';
 import { useRouter } from 'next/router';
-import { useUserGlobal } from '../../pages/context/userContext';
+import { useUserGlobal } from '../../context/userContext';
 import axios from 'axios';
 
 const DefaultLayout = ({ children }: PropsWithChildren) => {
