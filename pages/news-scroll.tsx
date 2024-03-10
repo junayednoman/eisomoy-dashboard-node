@@ -105,9 +105,14 @@ const newsScroll = () => {
 
     // Form submit handler
     const handleSubmit = async (values: any, { resetForm }: any) => {
+
+        const finalValues = {
+            title: values.title,
+            scrollStatus: values.scrollStatus.value
+        }
         try {
             // Make API call to add category
-            const response = await axios.post(`${apiUrl}/api/scroll/add-scroll`, values, { withCredentials: true });
+            const response = await axios.post(`${apiUrl}/api/scroll/add-scroll`, finalValues, { withCredentials: true });
             console.log('Scroll added:', response.data);
             // Show success message
             Swal.fire({
