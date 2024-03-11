@@ -27,6 +27,7 @@ const newsScroll = () => {
     ];
     const [active, setActive] = useState<Number>();
     const [parentOptions, setParentOptions] = useState<string[]>([]);
+    const [selectedScrollStatus, setSelectedScrollStatus] = useState<any>("");
 
     const myformik = useFormikContext(); // Access Formik context
 
@@ -106,10 +107,13 @@ const newsScroll = () => {
     // Form submit handler
     const handleSubmit = async (values: any, { resetForm }: any) => {
 
+        
+
         const finalValues = {
             title: values.title,
-            scrollStatus: values.scrollStatus.value
+            scrollStatus: selectedScrollStatus.value
         }
+
         try {
             // Make API call to add category
             const response = await axios.post(`${apiUrl}/api/scroll/add-scroll`, finalValues, { withCredentials: true });
@@ -122,6 +126,7 @@ const newsScroll = () => {
                 showConfirmButton: false
             });
             resetForm();
+            setSelectedScrollStatus("");
             fetchData();
         } catch (error: any) {
             console.error('Error adding Scroll:', error);
@@ -241,7 +246,7 @@ const newsScroll = () => {
                             </div>
                             <div className='mb-2'>
                                 <label htmlFor="scrollStatus">Scroll Status</label>
-                                <Select className='dark:mySelect mySelect' id='scrollStatus' placeholder="Choose..." options={scrollStatusOptions} isSearchable={false} />
+                                <Select className='dark:mySelect mySelect' id='scrollStatus' placeholder="Choose..." options={scrollStatusOptions} onChange={setSelectedScrollStatus} isSearchable={false} />
                             </div>
                             <button
                                 type="submit"

@@ -53,6 +53,7 @@ const AddNews = () => {
     const [loading, setLoading] = useState(true);
     const [categories, setCategories] = useState<any[]>([]);
     const [selectedCategories, setSelectedCategories] = useState<any[]>([]);
+    
     const apiUrl = process.env.API_URL || 'https://eismoy-api.vercel.app';
 
     const fetchCategories = async () => {
