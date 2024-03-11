@@ -49,7 +49,6 @@ const Categories = () => {
     const [initialRecords, setInitialRecords] = useState<any[]>([]);
     const [allCategoryData, setAllCategoryData] = useState<any[]>([]);
     const [categoryDataToUpdate, setCategoryDataToUpdate] = useState<any>(null);
-
     const [search, setSearch] = useState('');
     const [sortStatus, setSortStatus] = useState<DataTableSortStatus>({
         columnAccessor: 'categoryName',
