@@ -36,7 +36,7 @@ const Categories = () => {
  
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(setPageTitle('News Categories'));
+        dispatch(setPageTitle('Photo Categories'));
     }, [dispatch]);
 
     const [loading, setLoading] = useState(true);
@@ -361,7 +361,7 @@ const Categories = () => {
                 <div className='lg:col-span-2 col-span-1'>
                     <div className="panel mt-5">
                         <div className="mb-5 flex flex-col gap-5 md:flex-row md:items-center">
-                            <h5 className="text-lg font-semibold dark:text-white-light">News Categories</h5>
+                            <h5 className="text-lg font-semibold dark:text-white-light">Photo Categories</h5>
                             <div className="ltr:ml-auto rtl:mr-auto">
                                 <input type="text" className="form-input w-auto" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} />
                             </div>
