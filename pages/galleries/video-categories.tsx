@@ -36,11 +36,7 @@ const Categories = () => {
  
     const dispatch = useDispatch();
     useEffect(() => {
-<<<<<<< HEAD
-        dispatch(setPageTitle('Photo Categories'));
-=======
-        dispatch(setPageTitle('News Categories'));
->>>>>>> 864a32272178e1792ae933f851b8f6492286cd65
+        dispatch(setPageTitle('Video Categories'));
     }, [dispatch]);
 
     const [loading, setLoading] = useState(true);
@@ -51,11 +47,7 @@ const Categories = () => {
     const PAGE_SIZES = [5, 10, 20, 30, 50, 100];
     const [pageSize, setPageSize] = useState(PAGE_SIZES[0]);
     const [initialRecords, setInitialRecords] = useState<any[]>([]);
-<<<<<<< HEAD
     const [allCategoryData, setAllCategoryData] = useState<any[]>([]);
-=======
-
->>>>>>> 864a32272178e1792ae933f851b8f6492286cd65
     const [categoryDataToUpdate, setCategoryDataToUpdate] = useState<any>(null);
 
     const [search, setSearch] = useState('');
@@ -81,10 +73,7 @@ const Categories = () => {
             });
     
             const categoryData = response.data;
-<<<<<<< HEAD
             setAllCategoryData(categoryData);
-=======
->>>>>>> 864a32272178e1792ae933f851b8f6492286cd65
     
             // Apply search filter
 
@@ -458,11 +447,7 @@ const Categories = () => {
                                     recordsPerPageOptions={PAGE_SIZES}
                                     onRecordsPerPageChange={setPageSize}
                                     recordsPerPage={pageSize}
-<<<<<<< HEAD
                                     totalRecords={allCategoryData.length}
-=======
-                                    totalRecords={initialRecords.length}
->>>>>>> 864a32272178e1792ae933f851b8f6492286cd65
                                     paginationText={({ from, to, totalRecords }) => `Showing  ${from} to ${to} of ${totalRecords} entries`}
                                     
                                 />
