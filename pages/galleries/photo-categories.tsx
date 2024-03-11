@@ -36,7 +36,7 @@ const Categories = () => {
  
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(setPageTitle('News Categories'));
+        dispatch(setPageTitle('Photo Categories'));
     }, [dispatch]);
 
     const [loading, setLoading] = useState(true);
@@ -47,7 +47,7 @@ const Categories = () => {
     const PAGE_SIZES = [5, 10, 20, 30, 50, 100];
     const [pageSize, setPageSize] = useState(PAGE_SIZES[0]);
     const [initialRecords, setInitialRecords] = useState<any[]>([]);
-
+    const [allCategoryData, setAllCategoryData] = useState<any[]>([]);
     const [categoryDataToUpdate, setCategoryDataToUpdate] = useState<any>(null);
 
     const [search, setSearch] = useState('');
@@ -73,6 +73,7 @@ const Categories = () => {
             });
     
             const categoryData = response.data;
+            setAllCategoryData(categoryData);
     
             // Apply search filter
 
@@ -446,7 +447,7 @@ const Categories = () => {
                                     recordsPerPageOptions={PAGE_SIZES}
                                     onRecordsPerPageChange={setPageSize}
                                     recordsPerPage={pageSize}
-                                    totalRecords={initialRecords.length}
+                                    totalRecords={allCategoryData.length}
                                     paginationText={({ from, to, totalRecords }) => `Showing  ${from} to ${to} of ${totalRecords} entries`}
                                     
                                 />
