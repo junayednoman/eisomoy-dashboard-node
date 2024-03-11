@@ -6,7 +6,6 @@ import { useCallback, useState } from "react";
 import AnimateHeight from "react-animate-height";
 import 'easymde/dist/easymde.min.css';
 import ImageUploading, { ImageListType } from 'react-images-uploading';
-// import '@/file-upload-with-preview/dist/file-upload-with-preview.min.css';
 
 
 const AddGallery = () => {
@@ -18,8 +17,6 @@ const AddGallery = () => {
         { value: 'Publish', label: 'Publish' },
         { value: 'Draft', label: 'Draft' },
     ];
-
-
 
     // image file upload
     const [images2, setImages2] = useState<any>([]);
