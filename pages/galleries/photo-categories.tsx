@@ -68,7 +68,7 @@ const Categories = () => {
     const fetchData = async () => {
         setLoading(true);
         try {
-            const response = await axios.get(`${apiUrl}/api/news/all-categories`, {
+            const response = await axios.get(`${apiUrl}/api/gallery/all-categories`, {
                 withCredentials: true
             });
     
@@ -112,7 +112,7 @@ const Categories = () => {
     const handleSubmit = async (values: any, { resetForm }: any) => {
         try {
             // Make API call to add category
-            const response = await axios.post(`${apiUrl}/api/news/add-category`, values, { withCredentials: true });
+            const response = await axios.post(`${apiUrl}/api/gallery/add-category`, values, { withCredentials: true });
             console.log('Category added:', response.data);
             // Show success message
             Swal.fire({
@@ -170,7 +170,7 @@ const Categories = () => {
     const handleUpdate = async (values: any) => {
         try {
             const response = await axios.post(
-                `${apiUrl}/api/news/category-update`,
+                `${apiUrl}/api/gallery/category-update`,
                 values,
                 { withCredentials: true }
             );
@@ -204,7 +204,7 @@ const Categories = () => {
     const handleDelete = async () => {
         try {
             const response = await axios.post(
-                `${apiUrl}/api/news/category-delete`,
+                `${apiUrl}/api/gallery/category-delete`,
                 { cat_id: deleteCategory },
                 { withCredentials: true }
             );
