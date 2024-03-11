@@ -6,8 +6,6 @@ import 'tippy.js/dist/tippy.css';
 import { setPageTitle } from '@/store/themeConfigSlice';
 import { useDispatch } from 'react-redux';
 
-
-
 const rowData = [
     {
         id: 1,
