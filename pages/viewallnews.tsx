@@ -52,8 +52,23 @@ const ViewAllNews = () => {
 
             const { categories, totalCount } = response.data;
 
+            const filteredData = categories.filter((item: { [key: string]: any }) =>
+                Object.values(item).some((val) => typeof val === 'string' && val.toLowerCase().includes(search.toLowerCase()))
+            );
+
+             // Apply sorting
+             const sortedData = sortBy(filteredData, sortStatus.columnAccessor);
+             if (sortStatus.direction === 'desc') {
+                 sortedData.reverse();
+             }
+
+             // Apply pagination
+            const from = (page - 1) * pageSize;
+            const to = from + pageSize;
+            const paginatedData = sortedData.slice(from, to);
+
             setTotalCount(totalCount);
-            setInitialRecords(categories);
+            setInitialRecords(paginatedData);
 
             setLoading(false);
         } catch (error) {
