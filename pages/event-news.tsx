@@ -57,6 +57,7 @@ const EventNews = () => {
 
     // Form submit handler
     const handleSubmit = async (values: any, { resetForm }: any) => {
+        console.log(values);
         try {
             // Make API call to add category
             const response = await axios.post(`${apiUrl}/api/news/event-news`, values, { withCredentials: true });
