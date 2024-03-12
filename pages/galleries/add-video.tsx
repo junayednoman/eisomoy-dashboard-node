@@ -1,17 +1,18 @@
-"use client"
 import { Field, Form, Formik } from "formik";
 import Swal from "sweetalert2";
 import Select from 'react-select';
 import { useCallback, useEffect, useState } from "react";
 import AnimateHeight from "react-animate-height";
 import 'easymde/dist/easymde.min.css';
-import * as Yup from 'yup';
 import axios from "axios";
-import { useUserGlobal } from "@/context/userContext";
-import withAuth from "@/utils/withAuth";
+import * as Yup from 'yup';
+import { useUserGlobal } from '../../context/userContext';
+import withAuth from '../../utils/withAuth';
+
 
 const validationSchema = Yup.object().shape({
     video_title: Yup.string().required('Title is required'),
+    video_Url: Yup.string().required('URL is required'),
     meta_image: Yup.mixed().nullable().test('fileType', 'Invalid file type', function (value: any) {
         if (!value) return true; // No file selected, skip validation
         const allowedExtensions = ['png', 'jpg', 'jpeg', 'gif'];
@@ -23,20 +24,22 @@ const validationSchema = Yup.object().shape({
     }),
 });
 
+
 const AddVideo = () => {
+
     const [metaImgFile, setMetaImgFile] = useState<boolean>(true);
-    const [active, setActive] = useState<Number>();
-    const categoryOptions = [
-        { value: 'Publish', label: 'Publish' },
+    const [active, setActive] = useState<number>();
+    const [selectedPublishStatus, setSelectedPublishStatus] = useState<any>("");
+    const { userGlobalData } = useUserGlobal();
+
+    const publishStatusOptions = [
+        { value: 'Published', label: 'Published' },
         { value: 'Draft', label: 'Draft' },
     ];
 
-    // load categories
     const [loading, setLoading] = useState(true);
     const [categories, setCategories] = useState<any[]>([]);
     const [selectedCategories, setSelectedCategories] = useState<any[]>([]);
-    const { userGlobalData } = useUserGlobal();
-    const [selectedPublishStatus, setSelectedPublishStatus] = useState<any>("");
 
     const apiUrl = process.env.API_URL || 'https://eismoy-api.vercel.app';
 
@@ -57,6 +60,7 @@ const AddVideo = () => {
             setLoading(false);
         }
     };
+
     const handleCheckboxChange = (categoryName: any) => {
         // Toggle selection
         if (selectedCategories.includes(categoryName)) {
@@ -70,36 +74,20 @@ const AddVideo = () => {
         fetchCategories();
     }, []);
 
-    const submitForm = () => {
-        const toast = Swal.mixin({
-            toast: true,
-            position: 'top',
-            showConfirmButton: false,
-            timer: 3000,
-        });
-        toast.fire({
-            icon: 'success',
-            title: 'Form submitted successfully',
-            padding: '10px 20px',
-        });
+    const togglePara = (value: number) => {
+        setActive((oldValue) => oldValue === value ? 0 : value);
     };
 
-    const togglePara = (value: Number) => {
-        setActive((oldValue) => {
-            return oldValue === value ? 0 : value;
-        });
-    };
-
-    const [value, setValue] = useState<string>("");
-    const onChange = useCallback((value: string) => {
-        setValue(value);
-    }, []);
 
     const handleAddVideo = async (values: any, { resetForm }: any) => {
+
         let metaImageName = '';
+
         if (metaImgFile) {
+
             const formData = new FormData();
             formData.append('file', values.meta_image);
+
             try {
                 const response = await axios.post('/api/upload', formData, {
                     headers: {
@@ -120,7 +108,8 @@ const AddVideo = () => {
         const categoriesString = Array.isArray(selectedCategories) ? selectedCategories.join(', ') : selectedCategories;
 
         const formDataFinal = {
-            video_title: values.video_title,
+            title: values.video_title,
+            video_Url: values.video_Url,
             category: categoriesString,
             uploader_name: values.uploader_name,
             created_by: userGlobalData?.display_name,
@@ -134,13 +123,13 @@ const AddVideo = () => {
             focus_keyword: values.focus_keyword,
             // Add other fields as needed
         };
+
         console.log(formDataFinal);
 
-
-        // Call upload video API with all the necessary data
+        // Call add-Video API with all the necessary data
         try {
             const response = await axios.post(`${apiUrl}/api/video/add-video`, formDataFinal, { withCredentials: true });
-            console.log('video added succesfully');
+            console.log('Video added succesfully');
             Swal.fire({
                 icon: 'success',
                 title: 'Video added successfully',
@@ -155,15 +144,16 @@ const AddVideo = () => {
             Swal.fire({
                 icon: 'error',
                 title: 'Oops... Something went wrong!',
-                text: error.response?.data?.message || 'Failed to upload video',
+                text: error.response?.data?.message || 'Failed to add Video',
                 timer: 3000,
                 showConfirmButton: true
             });
         }
-    }
+    };
+
     return (
         <>
-            <h4 className="text-2xl font-semibold mb-8">Add New Video</h4>
+            <h4 className="text-2xl font-semibold mb-8">Add a Video</h4>
             <Formik
                 initialValues={{
                     video_title: '',
@@ -211,7 +201,7 @@ const AddVideo = () => {
                                                 </div>
                                                 <div className="mb-3">
                                                     <label htmlFor="status">Publish Status</label>
-                                                    <Select onChange={setSelectedPublishStatus} className='dark:mySelect mySelect' placeholder="Choose..." options={categoryOptions} isSearchable={false} />
+                                                    <Select onChange={setSelectedPublishStatus} className='dark:mySelect mySelect' placeholder="Choose..." options={publishStatusOptions} isSearchable={false} />
                                                 </div>
                                             </div>
                                         </AnimateHeight>
@@ -303,7 +293,6 @@ const AddVideo = () => {
 
                                                     }
                                                     {errors.meta_image && touched.meta_image && <p className="text-red-500">{errors.meta_image}</p>}
-                                                    {errors.meta_image && touched.meta_image && <p className="text-red-500">{errors.meta_image}</p>}
                                                 </div>
                                                 <div className="mb-2">
                                                     <label htmlFor="focus_keyword">Focus Keyword</label>
@@ -319,11 +308,8 @@ const AddVideo = () => {
                     </Form>
                 )}
             </Formik>
-
-
         </>
     )
 };
-
 
 export default withAuth(AddVideo);
