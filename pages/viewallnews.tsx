@@ -46,29 +46,21 @@ const ViewAllNews = () => {
     const fetchData = async () => {
         setLoading(true);
         try {
-            const response = await axios.get(`${apiUrl}/api/news/all-news?page=${page}&limit=${pageSize}`, {
+            const response = await axios.get(`${apiUrl}/api/news/all-news`, {
+                params: {
+                    page,
+                    limit: pageSize,
+                    sortColumn: sortStatus.columnAccessor,
+                    sortOrder: sortStatus.direction,
+                    search,
+                },
                 withCredentials: true
             });
 
             const { categories, totalCount } = response.data;
 
-            const filteredData = categories.filter((item: { [key: string]: any }) =>
-                Object.values(item).some((val) => typeof val === 'string' && val.toLowerCase().includes(search.toLowerCase()))
-            );
-
-             // Apply sorting
-             const sortedData = sortBy(filteredData, sortStatus.columnAccessor);
-             if (sortStatus.direction === 'desc') {
-                 sortedData.reverse();
-             }
-
-             // Apply pagination
-            const from = (page - 1) * pageSize;
-            const to = from + pageSize;
-            const paginatedData = sortedData.slice(from, to);
-
             setTotalCount(totalCount);
-            setInitialRecords(paginatedData);
+            setInitialRecords(categories);
 
             setLoading(false);
         } catch (error) {
