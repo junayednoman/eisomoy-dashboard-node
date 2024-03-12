@@ -72,8 +72,11 @@ const Categories = () => {
                 withCredentials: true
             });
     
-            const categoryData = response.data;
-            setAllCategoryData(categoryData);
+            const categoryData = response.data.categories;
+
+            const countalldata = response.data.totalCount;
+
+            setAllCategoryData(countalldata);
     
             // Apply search filter
 
