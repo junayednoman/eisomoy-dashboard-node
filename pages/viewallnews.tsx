@@ -31,7 +31,7 @@ const ViewAllNews = () => {
 
     const [search, setSearch] = useState('');
     const [sortStatus, setSortStatus] = useState<DataTableSortStatus>({
-        columnAccessor: '_id',
+        columnAccessor: 'title',
         direction: 'asc',
     });
 
@@ -40,7 +40,6 @@ const ViewAllNews = () => {
     const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
 
     useEffect(() => {
-        setLoading(true);
         fetchData();
     }, [page, pageSize, sortStatus, search]);
 
@@ -157,12 +156,6 @@ const ViewAllNews = () => {
                                     records={initialRecords}
                                     columns={[
                                         {
-                                            accessor: '_id',
-                                            title: 'ID',
-                                            sortable: true,
-                                            render: (rowData) => rowData._id ? <span>{rowData._id}</span> : null, // Render the _id directly
-                                        },
-                                        {
                                             accessor: 'title',
                                             title: 'Title',
                                             sortable: true,
@@ -189,13 +182,19 @@ const ViewAllNews = () => {
                                         },
                                         { 
                                             accessor: 'published_by', // Adjusted accessor to match the response data key
-                                            title: 'Publihed By',
+                                            title: 'Published By',
                                             sortable: true 
                                         },
                                         { 
                                             accessor: 'last_modified_by', // Adjusted accessor to match the response data key
                                             title: 'Modified By',
                                             sortable: true 
+                                        },
+                                        {
+                                            accessor: '_id',
+                                            title: 'ID',
+                                            sortable: true,
+                                            render: (rowData) => rowData._id ? <span>{rowData._id}</span> : null, // Render the _id directly
                                         },
                                         { 
                                             accessor: 'created_datetime', // Adjusted accessor to match the response data key
