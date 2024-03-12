@@ -27,7 +27,7 @@ const ViewAllNews = () => {
     const PAGE_SIZES = [5, 10, 20, 30, 50, 100];
     const [pageSize, setPageSize] = useState(PAGE_SIZES[0]);
     const [initialRecords, setInitialRecords] = useState<any[]>([]);
-    const [allCategoryData, setAllCategoryData] = useState<any[]>([]);
+    const [totalCount, setTotalCount] = useState(0);
 
     const [search, setSearch] = useState('');
     const [sortStatus, setSortStatus] = useState<DataTableSortStatus>({
@@ -46,38 +46,14 @@ const ViewAllNews = () => {
     const fetchData = async () => {
         setLoading(true);
         try {
-            const response = await axios.get(`${apiUrl}/api/news/all-news`, {
+            const response = await axios.get(`${apiUrl}/api/news/all-news?page=${page}&limit=${pageSize}`, {
                 withCredentials: true
             });
 
-            console.log(response);
-    
-            const categoryData = response.data;
+            const { categories, totalCount } = response.data;
 
-            console.log(categoryData);
-
-            setAllCategoryData(categoryData);
-    
-            // Apply search filter
-
-            //console.log('Category data:', categoryData);
-            
-            const filteredData = categoryData.filter((item: { [key: string]: any }) =>
-                Object.values(item).some((val) => typeof val === 'string' && val.toLowerCase().includes(search.toLowerCase()))
-            );
-    
-            // Apply sorting
-            const sortedData = sortBy(filteredData, sortStatus.columnAccessor);
-            if (sortStatus.direction === 'desc') {
-                sortedData.reverse();
-            }
-    
-            // Apply pagination
-            const from = (page - 1) * pageSize;
-            const to = from + pageSize;
-            const paginatedData = sortedData.slice(from, to);
-    
-            setInitialRecords(paginatedData);
+            setTotalCount(totalCount);
+            setInitialRecords(categories);
 
             setLoading(false);
         } catch (error) {
@@ -270,7 +246,7 @@ const ViewAllNews = () => {
                                     recordsPerPageOptions={PAGE_SIZES}
                                     onRecordsPerPageChange={setPageSize}
                                     recordsPerPage={pageSize}
-                                    totalRecords={allCategoryData.length}
+                                    totalRecords={totalCount}
                                     paginationText={({ from, to, totalRecords }) => `Showing  ${from} to ${to} of ${totalRecords} entries`}
                                     
                                 />
