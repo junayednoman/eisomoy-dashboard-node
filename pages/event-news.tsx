@@ -6,6 +6,7 @@ import axios from 'axios';
 import Select from 'react-select';
 import * as Yup from 'yup';
 import Swal from 'sweetalert2';
+import withAuth from '@/utils/withAuth';
 
 const validationSchema = Yup.object().shape({
     category: Yup.string().required('Category is required'),
@@ -38,7 +39,7 @@ const eventNews = () => {
             const response = await axios.get(`${apiUrl}/api/news/all-categories`, {
                 withCredentials: true
             });
-    
+
             const categoryData = response.data;
 
             // Extract category names for parent field options
@@ -79,7 +80,7 @@ const eventNews = () => {
                 timer: 1000,
                 showConfirmButton: false
             });
-            
+
         }
     };
 
@@ -101,52 +102,51 @@ const eventNews = () => {
                     validationSchema={validationSchema}
                 >
                     {({ errors, touched, setFieldValue }) => (
-                    <Form>
-                    <div className="mt-3 px-4 mb-5">
-                                        <label htmlFor="category">Choose Category</label>
-                                        
-                                        <Select
-                                            className='dark:mySelect mySelect'
-                                            name='category'
-                                            placeholder="Select a category"
-                                            options={[{ value: '', label: 'Select One' }, ...parentOptions.map(option => ({ value: option, label: option }))]}
+                        <Form>
+                            <div className="mb-4">
+                                <label htmlFor="category">Choose Category</label>
+                                <Select
+                                    className='dark:mySelect mySelect'
+                                    name='category'
+                                    placeholder="Select a category"
+                                    options={[{ value: '', label: 'Select One' }, ...parentOptions.map(option => ({ value: option, label: option }))]}
 
-                                            onChange={(option) => {
-                                                // Check if option is not null before accessing its value
-                                                if (option) {
-                                                    setFieldValue('category', option.value);
-                                                }
-                                            }}
-                                        />
-                                        {errors.category && touched.category && <p className="text-red-500">{errors.category}</p>}
-                                    </div>
-                        <div className='mb-4'>
-                            <label htmlFor="newsId1">News 1</label>
-                            <Field className="form-input h-10" type="text" id="newsId1" name="newsId1" placeholder="Enter News ID" />
-                            {errors.newsId1 && touched.newsId1 && <p className="text-red-500">{errors.newsId1}</p>}
-                        </div>
-                        <div className='mb-4'>
-                            <label htmlFor="newsId2">News 2</label>
-                            <Field className="form-input h-10" type="text" id="newsId2" name="newsId2" placeholder="Enter News ID" />
-                            {errors.newsId2 && touched.newsId2 && <p className="text-red-500">{errors.newsId2}</p>}
-                        </div>
-                        <div className='mb-4'>
-                            <label htmlFor="newsId3">News 3</label>
-                            <Field className="form-input h-10" type="text" id="newsId3" name="newsId3" placeholder="Enter News ID" />
-                            {errors.newsId3 && touched.newsId3 && <p className="text-red-500">{errors.newsId3}</p>}
-                        </div>
-                        <div className='mb-4'>
-                            <label htmlFor="newsId4">News 4</label>
-                            <Field className="form-input h-10" type="text" id="newsId4" name="newsId4" placeholder="Enter News ID" />
-                            {errors.newsId4 && touched.newsId4 && <p className="text-red-500">{errors.newsId4}</p>}
-                        </div>
-                        <button
-                            type="submit"
-                            className="btn btn-primary !mt-6"
-                        >
-                            Publish Now
-                        </button>
-                    </Form>
+                                    onChange={(option) => {
+                                        // Check if option is not null before accessing its value
+                                        if (option) {
+                                            setFieldValue('category', option.value);
+                                        }
+                                    }}
+                                />
+                                {errors.category && touched.category && <p className="text-red-500">{errors.category}</p>}
+                            </div>
+                            <div className='mb-4'>
+                                <label htmlFor="newsId1">News 1</label>
+                                <Field className="form-input h-10" type="text" id="newsId1" name="newsId1" placeholder="Enter News ID" />
+                                {errors.newsId1 && touched.newsId1 && <p className="text-red-500">{errors.newsId1}</p>}
+                            </div>
+                            <div className='mb-4'>
+                                <label htmlFor="newsId2">News 2</label>
+                                <Field className="form-input h-10" type="text" id="newsId2" name="newsId2" placeholder="Enter News ID" />
+                                {errors.newsId2 && touched.newsId2 && <p className="text-red-500">{errors.newsId2}</p>}
+                            </div>
+                            <div className='mb-4'>
+                                <label htmlFor="newsId3">News 3</label>
+                                <Field className="form-input h-10" type="text" id="newsId3" name="newsId3" placeholder="Enter News ID" />
+                                {errors.newsId3 && touched.newsId3 && <p className="text-red-500">{errors.newsId3}</p>}
+                            </div>
+                            <div className='mb-4'>
+                                <label htmlFor="newsId4">News 4</label>
+                                <Field className="form-input h-10" type="text" id="newsId4" name="newsId4" placeholder="Enter News ID" />
+                                {errors.newsId4 && touched.newsId4 && <p className="text-red-500">{errors.newsId4}</p>}
+                            </div>
+                            <button
+                                type="submit"
+                                className="btn btn-primary !mt-6"
+                            >
+                                Publish Now
+                            </button>
+                        </Form>
                     )}
                 </Formik>
             </div>
@@ -154,4 +154,4 @@ const eventNews = () => {
     );
 };
 
-export default eventNews;
+export default withAuth(eventNews);
