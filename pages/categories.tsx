@@ -112,10 +112,13 @@ const Categories = () => {
 
     // Form submit handler
     const handleSubmit = async (values: any, { resetForm }: any) => {
+        setLoading(true);
         try {
+            
             // Make API call to add category
             const response = await axios.post(`${apiUrl}/api/news/add-category`, values, { withCredentials: true });
             console.log('Category added:', response.data);
+            setLoading(false);
             // Show success message
             Swal.fire({
                 icon: 'success',
@@ -128,8 +131,10 @@ const Categories = () => {
             setSlug('');
             setIsSlugManuallyEdited(false);
             fetchData();
+            
         } catch (error: any) {
             console.error('Error adding category:', error);
+            setLoading(false);
             // Show error message from API response
             Swal.fire({
                 icon: 'error',
@@ -170,6 +175,7 @@ const Categories = () => {
     };
 
     const handleUpdate = async (values: any) => {
+        setLoading(true);
         try {
             const response = await axios.post(
                 `${apiUrl}/api/news/category-update`,
@@ -177,7 +183,8 @@ const Categories = () => {
                 { withCredentials: true }
             );
             console.log(response.data); // Log the response from the API
-            setIsUpdateModalOpen(false); // Close the modal on successful update
+            setIsUpdateModalOpen(false); 
+            setLoading(false);// Close the modal on successful update
             Swal.fire({
                 icon: 'success',
                 title: 'Category Updated successfully',
@@ -186,6 +193,7 @@ const Categories = () => {
             });
             fetchData(); // Refetch category data after updating
         } catch (error: any) {
+            setLoading(false);
             console.error('Error updating user:', error);
             if (error.response) {
                 setError(error.response.data.message || 'Server Error');
@@ -204,6 +212,7 @@ const Categories = () => {
     };
 
     const handleDelete = async () => {
+        setLoading(true);
         try {
             const response = await axios.post(
                 `${apiUrl}/api/news/category-delete`,
@@ -211,7 +220,8 @@ const Categories = () => {
                 { withCredentials: true }
             );
             console.log(response.data); // Log the response from the API
-            setShowDeleteConfirmation(false); // Close the confirmation modal
+            setShowDeleteConfirmation(false); 
+            setLoading(false);// Close the confirmation modal
             Swal.fire({
                 icon: 'success',
                 title: 'Category Deleted successfully',
@@ -220,6 +230,7 @@ const Categories = () => {
             });
             fetchData(); // Refetch category data after deletion
         } catch (error: any) {
+            setLoading(false);
             console.error('Error deleting user:', error);
             setShowDeleteConfirmation(false); // Close the confirmation modal
             setError('Failed to delete user');
@@ -254,6 +265,18 @@ const Categories = () => {
 
     return (
         <div>
+            {loading && (
+                    <div className="screen_loader animate__animated fixed inset-0 z-[60] grid place-content-center bg-[#fafafa] dark:bg-[#060818]">
+                        <svg width="64" height="64" viewBox="0 0 135 135" xmlns="http://www.w3.org/2000/svg" fill="#4361ee">
+                            <path d="M67.447 58c5.523 0 10-4.477 10-10s-4.477-10-10-10-10 4.477-10 10 4.477 10 10 10zm9.448 9.447c0 5.523 4.477 10 10 10 5.522 0 10-4.477 10-10s-4.478-10-10-10c-5.523 0-10 4.477-10 10zm-9.448 9.448c-5.523 0-10 4.477-10 10 0 5.522 4.477 10 10 10s10-4.478 10-10c0-5.523-4.477-10-10-10zM58 67.447c0-5.523-4.477-10-10-10s-10 4.477-10 10 4.477 10 10 10 10-4.477 10-10z">
+                                <animateTransform attributeName="transform" type="rotate" from="0 67 67" to="-360 67 67" dur="2.5s" repeatCount="indefinite" />
+                            </path>
+                            <path d="M28.19 40.31c6.627 0 12-5.374 12-12 0-6.628-5.373-12-12-12-6.628 0-12 5.372-12 12 0 6.626 5.372 12 12 12zm30.72-19.825c4.686 4.687 12.284 4.687 16.97 0 4.686-4.686 4.686-12.284 0-16.97-4.686-4.687-12.284-4.687-16.97 0-4.687 4.686-4.687 12.284 0 16.97zm35.74 7.705c0 6.627 5.37 12 12 12 6.626 0 12-5.373 12-12 0-6.628-5.374-12-12-12-6.63 0-12 5.372-12 12zm19.822 30.72c-4.686 4.686-4.686 12.284 0 16.97 4.687 4.686 12.285 4.686 16.97 0 4.687-4.686 4.687-12.284 0-16.97-4.685-4.687-12.283-4.687-16.97 0zm-7.704 35.74c-6.627 0-12 5.37-12 12 0 6.626 5.373 12 12 12s12-5.374 12-12c0-6.63-5.373-12-12-12zm-30.72 19.822c-4.686-4.686-12.284-4.686-16.97 0-4.686 4.687-4.686 12.285 0 16.97 4.686 4.687 12.284 4.687 16.97 0 4.687-4.685 4.687-12.283 0-16.97zm-35.74-7.704c0-6.627-5.372-12-12-12-6.626 0-12 5.373-12 12s5.374 12 12 12c6.628 0 12-5.373 12-12zm-19.823-30.72c4.687-4.686 4.687-12.284 0-16.97-4.686-4.686-12.284-4.686-16.97 0-4.687 4.686-4.687 12.284 0 16.97 4.686 4.687 12.284 4.687 16.97 0z">
+                                <animateTransform attributeName="transform" type="rotate" from="0 67 67" to="360 67 67" dur="8s" repeatCount="indefinite" />
+                            </path>
+                        </svg>
+                    </div>
+                )}
             <div className='grid lg:grid-cols-3 grid-cols-1 gap-6'>
                 <div className='lg:col-span-1 col-span-1 border border-[#e6e6e6] dark:border-0 rounded-md mt-5 py-4 shadow-sm bg-white dark:bg-[#0E1726] h-fit'>
                 <Formik
