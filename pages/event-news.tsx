@@ -17,7 +17,7 @@ const validationSchema = Yup.object().shape({
 });
 
 
-const eventNews = () => {
+const EventNews = () => {
 
     const [loading, setLoading] = useState(true);
     const [parentOptions, setParentOptions] = useState<string[]>([]);
@@ -154,4 +154,4 @@ const eventNews = () => {
     );
 };
 
-export default withAuth(eventNews);
+export default withAuth(EventNews);
