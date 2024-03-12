@@ -1,134 +1,533 @@
-import { Field, Form, Formik } from "formik";
+import { Form, Formik } from 'formik';
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { setPageTitle } from '@/store/themeConfigSlice';
+import axios from 'axios';
+import Select from 'react-select';
+import * as Yup from 'yup';
+import Swal from 'sweetalert2';
+import withAuth from '@/utils/withAuth';
 
-const Layouts = () => {
+const validationSchema = Yup.object().shape({
+    category1: Yup.string().typeError("Category must be a string"),
+    category2: Yup.string().typeError("Category must be a string"),
+    category3: Yup.string().typeError("Category must be a string"),
+    category4: Yup.string().typeError("Category must be a string"),
+    category5: Yup.string().typeError("Category must be a string"),
+    category6: Yup.string().typeError("Category must be a string"),
+    category7: Yup.string().typeError("Category must be a string"),
+    category8: Yup.string().typeError("Category must be a string"),
+    category9: Yup.string().typeError("Category must be a string"),
+    category10: Yup.string().typeError("Category must be a string"),
+    category11: Yup.string().typeError("Category must be a string"),
+    category12: Yup.string().typeError("Category must be a string"),
+    category13: Yup.string().typeError("Category must be a string"),
+    category14: Yup.string().typeError("Category must be a string"),
+    category15: Yup.string().typeError("Category must be a string"),
+    category16: Yup.string().typeError("Category must be a string"),
+    category17: Yup.string().typeError("Category must be a string"),
+    category18: Yup.string().typeError("Category must be a string"),
+    category19: Yup.string().typeError("Category must be a string"),
+    category20: Yup.string().typeError("Category must be a string"),
+    category21: Yup.string().typeError("Category must be a string")
+});
+
+const Layout = () => {
+
+    const [loading, setLoading] = useState(true);
+    const [categoryOptions, setCategoryOptions] = useState<string[]>([]);
+
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(setPageTitle('Layout News'));
+    }, [dispatch]);
+
+    const apiUrl = process.env.API_URL || 'https://eismoy-api.vercel.app';
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const fetchData = async () => {
+        setLoading(true);
+        try {
+            const response = await axios.get(`${apiUrl}/api/news/all-categories`, {
+                withCredentials: true
+            });
+
+            const categoryData = response.data;
+
+            // Extract category names for parent field options
+            const categoryNames = categoryData.map((category: any) => category.categoryName);
+            setCategoryOptions(categoryNames);
+
+            setLoading(false);
+        } catch (error) {
+            console.error('Error fetching category data:', error);
+            setLoading(false);
+        }
+    };
+
+
+    // Form submit handler
+    const handleSubmit = async (values: any, { resetForm }: any) => {
+        try {
+            // Make API call to add category
+            const response = await axios.post(`${apiUrl}/api/settings/layout-news`, values, { withCredentials: true });
+            console.log('layout news updated:', response.data);
+            // Show success message
+            Swal.fire({
+                icon: 'success',
+                title: 'layout news updated successfully',
+                timer: 1000,
+                showConfirmButton: false
+            });
+            resetForm();
+            fetchData();
+        } catch (error: any) {
+            console.error('Error updating layout news:', error);
+            // Show error message from API response
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops... Something went wrong!',
+                text: error.response?.data?.message || 'Failed to update layout news',
+                timer: 1000,
+                showConfirmButton: false
+            });
+
+        }
+    };
+
+
+
     return (
         <>
             <h5 className="text-xl font-semibold dark:text-white-light mb-5">Layouts</h5>
             <div>
                 <Formik
                     initialValues={{
-                        boxName1: '',
                         category1: '',
+                        category2: '',
+                        category3: '',
+                        category4: '',
+                        category5: '',
+                        category6: '',
+                        category7: '',
+                        category8: '',
+                        category9: '',
+                        category10: '',
+                        category11: '',
+                        category12: '',
+                        category13: '',
+                        category14: '',
+                        category15: '',
+                        category16: '',
+                        category17: '',
+                        category18: '',
+                        category19: '',
+                        category20: '',
+                        category21: '',
                     }}
-                    onSubmit={() => { }}
+                    onSubmit={(values, { resetForm }) => handleSubmit(values, { resetForm })}
+                    validationSchema={validationSchema}
                 >
-                    <Form>
-                        <div className='md:p-8 p-5 border dark:border-gray-600 rounded-md grid md:grid-cols-2 grid-cols-1 md:gap-x-8 gap-x-6'>
-                            <div className='mb-4'>
-                                <label htmlFor="category1">Category 1</label>
-                                <Field className="form-input h-10" type="text" id="category1" name="category1" placeholder="Enter Category ID" />
-                            </div>
-                            <div className='mb-4'>
-                                <label htmlFor="category2">Category 2</label>
-                                <Field className="form-input h-10" type="text" id="category2" name="category2" placeholder="Enter Category ID" />
-                            </div>
+                    {({ errors, touched, setFieldValue }) => (
+                        <Form>
+                            <div className='md:p-8 p-5 border dark:border-gray-600 rounded-md grid md:grid-cols-2 grid-cols-1 md:gap-x-8 gap-x-6'>
+                                <div className="mb-4">
+                                    <label htmlFor="category">Section 1</label>
+                                    <Select
+                                        className='dark:mySelect mySelect'
+                                        name='category1'
+                                        placeholder="Select a category"
+                                        options={[{ value: '', label: 'Select One' }, ...categoryOptions.map(option => ({ value: option, label: option }))]}
 
-                            <div className='mb-4'>
-                                <label htmlFor="category3">Category 3</label>
-                                <Field className="form-input h-10" type="text" id="category3" name="category3" placeholder="Enter Category ID" />
-                            </div>
+                                        onChange={(option) => {
+                                            // Check if option is not null before accessing its value
+                                            if (option) {
+                                                setFieldValue('category1', option.value);
+                                            }
+                                        }}
+                                    />
+                                    {errors.category1 && touched.category1 && <p className="text-red-500">{errors.category1}</p>}
+                                </div>
 
-                            <div className='mb-4'>
-                                <label htmlFor="category4">Category 4</label>
-                                <Field className="form-input h-10" type="text" id="category4" name="category4" placeholder="Enter Category ID" />
-                            </div>
+                                <div className="mb-4">
+                                    <label htmlFor="category">Section 2</label>
+                                    <Select
+                                        className='dark:mySelect mySelect'
+                                        name='category2'
+                                        placeholder="Select a category"
+                                        options={[{ value: '', label: 'Select One' }, ...categoryOptions.map(option => ({ value: option, label: option }))]}
 
-                            <div className='mb-4'>
-                                <label htmlFor="category5">Category 5</label>
-                                <Field className="form-input h-10" type="text" id="category5" name="category5" placeholder="Enter Category ID" />
-                            </div>
+                                        onChange={(option) => {
+                                            // Check if option is not null before accessing its value
+                                            if (option) {
+                                                setFieldValue('category2', option.value);
+                                            }
+                                        }}
+                                    />
+                                    {errors.category2 && touched.category2 && <p className="text-red-500">{errors.category2}</p>}
+                                </div>
 
-                            <div className='mb-4'>
-                                <label htmlFor="category6">Category 6</label>
-                                <Field className="form-input h-10" type="text" id="category6" name="category6" placeholder="Enter Category ID" />
-                            </div>
+                                <div className="mb-4">
+                                    <label htmlFor="category">Section 3</label>
+                                    <Select
+                                        className='dark:mySelect mySelect'
+                                        name='category3'
+                                        placeholder="Select a category"
+                                        options={[{ value: '', label: 'Select One' }, ...categoryOptions.map(option => ({ value: option, label: option }))]}
 
-                            <div className='mb-4'>
-                                <label htmlFor="category7">Category 7</label>
-                                <Field className="form-input h-10" type="text" id="category7" name="category7" placeholder="Enter Category ID" />
-                            </div>
+                                        onChange={(option) => {
+                                            // Check if option is not null before accessing its value
+                                            if (option) {
+                                                setFieldValue('category3', option.value);
+                                            }
+                                        }}
+                                    />
+                                    {errors.category3 && touched.category3 && <p className="text-red-500">{errors.category3}</p>}
+                                </div>
 
-                            <div className='mb-4'>
-                                <label htmlFor="category8">Category 8</label>
-                                <Field className="form-input h-10" type="text" id="category8" name="category8" placeholder="Enter Category ID" />
-                            </div>
+                                <div className="mb-4">
+                                    <label htmlFor="category">Section 4</label>
+                                    <Select
+                                        className='dark:mySelect mySelect'
+                                        name='category4'
+                                        placeholder="Select a category"
+                                        options={[{ value: '', label: 'Select One' }, ...categoryOptions.map(option => ({ value: option, label: option }))]}
 
-                            <div className='mb-4'>
-                                <label htmlFor="category9">Category 9</label>
-                                <Field className="form-input h-10" type="text" id="category9" name="category9" placeholder="Enter Category ID" />
-                            </div>
+                                        onChange={(option) => {
+                                            // Check if option is not null before accessing its value
+                                            if (option) {
+                                                setFieldValue('category4', option.value);
+                                            }
+                                        }}
+                                    />
+                                    {errors.category4 && touched.category4 && <p className="text-red-500">{errors.category4}</p>}
+                                </div>
 
-                            <div className='mb-4'>
-                                <label htmlFor="category10">Category 10</label>
-                                <Field className="form-input h-10" type="text" id="category10" name="category10" placeholder="Enter Category ID" />
-                            </div>
+                                <div className="mb-4">
+                                    <label htmlFor="category">Section 5</label>
+                                    <Select
+                                        className='dark:mySelect mySelect'
+                                        name='category5'
+                                        placeholder="Select a category"
+                                        options={[{ value: '', label: 'Select One' }, ...categoryOptions.map(option => ({ value: option, label: option }))]}
 
-                            <div className='mb-4'>
-                                <label htmlFor="category11">Category 11</label>
-                                <Field className="form-input h-10" type="text" id="category11" name="category11" placeholder="Enter Category ID" />
-                            </div>
+                                        onChange={(option) => {
+                                            // Check if option is not null before accessing its value
+                                            if (option) {
+                                                setFieldValue('category5', option.value);
+                                            }
+                                        }}
+                                    />
+                                    {errors.category5 && touched.category5 && <p className="text-red-500">{errors.category5}</p>}
+                                </div>
 
-                            <div className='mb-4'>
-                                <label htmlFor="category12">Category 12</label>
-                                <Field className="form-input h-10" type="text" id="category12" name="category12" placeholder="Enter Category ID" />
-                            </div>
+                                <div className="mb-4">
+                                    <label htmlFor="category">Section 6</label>
+                                    <Select
+                                        className='dark:mySelect mySelect'
+                                        name='category6'
+                                        placeholder="Select a category"
+                                        options={[{ value: '', label: 'Select One' }, ...categoryOptions.map(option => ({ value: option, label: option }))]}
 
-                            <div className='mb-4'>
-                                <label htmlFor="category13">Category 13</label>
-                                <Field className="form-input h-10" type="text" id="category13" name="category13" placeholder="Enter Category ID" />
-                            </div>
+                                        onChange={(option) => {
+                                            // Check if option is not null before accessing its value
+                                            if (option) {
+                                                setFieldValue('category6', option.value);
+                                            }
+                                        }}
+                                    />
+                                    {errors.category6 && touched.category6 && <p className="text-red-500">{errors.category6}</p>}
+                                </div>
 
-                            <div className='mb-4'>
-                                <label htmlFor="category14">Category 14</label>
-                                <Field className="form-input h-10" type="text" id="category14" name="category14" placeholder="Enter Category ID" />
-                            </div>
+                                <div className="mb-4">
+                                    <label htmlFor="category">Section 7</label>
+                                    <Select
+                                        className='dark:mySelect mySelect'
+                                        name='category7'
+                                        placeholder="Select a category"
+                                        options={[{ value: '', label: 'Select One' }, ...categoryOptions.map(option => ({ value: option, label: option }))]}
 
-                            <div className='mb-4'>
-                                <label htmlFor="category15">Category 15</label>
-                                <Field className="form-input h-10" type="text" id="category15" name="category15" placeholder="Enter Category ID" />
-                            </div>
+                                        onChange={(option) => {
+                                            // Check if option is not null before accessing its value
+                                            if (option) {
+                                                setFieldValue('category7', option.value);
+                                            }
+                                        }}
+                                    />
+                                    {errors.category7 && touched.category7 && <p className="text-red-500">{errors.category7}</p>}
+                                </div>
 
-                            <div className='mb-4'>
-                                <label htmlFor="category16">Category 16</label>
-                                <Field className="form-input h-10" type="text" id="category16" name="category16" placeholder="Enter Category ID" />
-                            </div>
+                                <div className="mb-4">
+                                    <label htmlFor="category">Section 8</label>
+                                    <Select
+                                        className='dark:mySelect mySelect'
+                                        name='category8'
+                                        placeholder="Select a category"
+                                        options={[{ value: '', label: 'Select One' }, ...categoryOptions.map(option => ({ value: option, label: option }))]}
 
-                            <div className='mb-4'>
-                                <label htmlFor="category17">Category 17</label>
-                                <Field className="form-input h-10" type="text" id="category17" name="category17" placeholder="Enter Category ID" />
-                            </div>
+                                        onChange={(option) => {
+                                            // Check if option is not null before accessing its value
+                                            if (option) {
+                                                setFieldValue('category8', option.value);
+                                            }
+                                        }}
+                                    />
+                                    {errors.category8 && touched.category8 && <p className="text-red-500">{errors.category8}</p>}
+                                </div>
 
-                            <div className='mb-4'>
-                                <label htmlFor="category18">Category 18</label>
-                                <Field className="form-input h-10" type="text" id="category18" name="category18" placeholder="Enter Category ID" />
-                            </div>
+                                <div className="mb-4">
+                                    <label htmlFor="category">Section 9</label>
+                                    <Select
+                                        className='dark:mySelect mySelect'
+                                        name='category9'
+                                        placeholder="Select a category"
+                                        options={[{ value: '', label: 'Select One' }, ...categoryOptions.map(option => ({ value: option, label: option }))]}
 
-                            <div className='mb-4'>
-                                <label htmlFor="category19">Category 19</label>
-                                <Field className="form-input h-10" type="text" id="category19" name="category19" placeholder="Enter Category ID" />
-                            </div>
+                                        onChange={(option) => {
+                                            // Check if option is not null before accessing its value
+                                            if (option) {
+                                                setFieldValue('category9', option.value);
+                                            }
+                                        }}
+                                    />
+                                    {errors.category9 && touched.category9 && <p className="text-red-500">{errors.category9}</p>}
+                                </div>
 
-                            <div className='mb-4'>
-                                <label htmlFor="category20">Category 20</label>
-                                <Field className="form-input h-10" type="text" id="category20" name="category20" placeholder="Enter Category ID" />
-                            </div>
+                                <div className="mb-4">
+                                    <label htmlFor="category">Section 10</label>
+                                    <Select
+                                        className='dark:mySelect mySelect'
+                                        name='category10'
+                                        placeholder="Select a category"
+                                        options={[{ value: '', label: 'Select One' }, ...categoryOptions.map(option => ({ value: option, label: option }))]}
 
-                            <div className='mb-4'>
-                                <label htmlFor="category21">Category 21</label>
-                                <Field className="form-input h-10" type="text" id="category21" name="category21" placeholder="Enter Category ID" />
+                                        onChange={(option) => {
+                                            // Check if option is not null before accessing its value
+                                            if (option) {
+                                                setFieldValue('category10', option.value);
+                                            }
+                                        }}
+                                    />
+                                    {errors.category10 && touched.category10 && <p className="text-red-500">{errors.category10}</p>}
+                                </div>
+
+                                <div className="mb-4">
+                                    <label htmlFor="category">Section 11</label>
+                                    <Select
+                                        className='dark:mySelect mySelect'
+                                        name='category11'
+                                        placeholder="Select a category"
+                                        options={[{ value: '', label: 'Select One' }, ...categoryOptions.map(option => ({ value: option, label: option }))]}
+
+                                        onChange={(option) => {
+                                            // Check if option is not null before accessing its value
+                                            if (option) {
+                                                setFieldValue('category11', option.value);
+                                            }
+                                        }}
+                                    />
+                                    {errors.category11 && touched.category11 && <p className="text-red-500">{errors.category11}</p>}
+                                </div>
+
+                                <div className="mb-4">
+                                    <label htmlFor="category">Section 12</label>
+                                    <Select
+                                        className='dark:mySelect mySelect'
+                                        name='category12'
+                                        placeholder="Select a category"
+                                        options={[{ value: '', label: 'Select One' }, ...categoryOptions.map(option => ({ value: option, label: option }))]}
+
+                                        onChange={(option) => {
+                                            // Check if option is not null before accessing its value
+                                            if (option) {
+                                                setFieldValue('category12', option.value);
+                                            }
+                                        }}
+                                    />
+                                    {errors.category12 && touched.category12 && <p className="text-red-500">{errors.category12}</p>}
+                                </div>
+
+
+                                <div className="mb-4">
+                                    <label htmlFor="category">Section 13</label>
+                                    <Select
+                                        className='dark:mySelect mySelect'
+                                        name='category13'
+                                        placeholder="Select a category"
+                                        options={[{ value: '', label: 'Select One' }, ...categoryOptions.map(option => ({ value: option, label: option }))]}
+
+                                        onChange={(option) => {
+                                            // Check if option is not null before accessing its value
+                                            if (option) {
+                                                setFieldValue('category13', option.value);
+                                            }
+                                        }}
+                                    />
+                                    {errors.category13 && touched.category13 && <p className="text-red-500">{errors.category13}</p>}
+                                </div>
+
+                                <div className="mb-4">
+                                    <label htmlFor="category">Section 14</label>
+                                    <Select
+                                        className='dark:mySelect mySelect'
+                                        name='category14'
+                                        placeholder="Select a category"
+                                        options={[{ value: '', label: 'Select One' }, ...categoryOptions.map(option => ({ value: option, label: option }))]}
+
+                                        onChange={(option) => {
+                                            // Check if option is not null before accessing its value
+                                            if (option) {
+                                                setFieldValue('category14', option.value);
+                                            }
+                                        }}
+                                    />
+                                    {errors.category14 && touched.category14 && <p className="text-red-500">{errors.category14}</p>}
+                                </div>
+
+                                <div className="mb-4">
+                                    <label htmlFor="category">Section 15</label>
+                                    <Select
+                                        className='dark:mySelect mySelect'
+                                        name='category15'
+                                        placeholder="Select a category"
+                                        options={[{ value: '', label: 'Select One' }, ...categoryOptions.map(option => ({ value: option, label: option }))]}
+
+                                        onChange={(option) => {
+                                            // Check if option is not null before accessing its value
+                                            if (option) {
+                                                setFieldValue('category15', option.value);
+                                            }
+                                        }}
+                                    />
+                                    {errors.category15 && touched.category15 && <p className="text-red-500">{errors.category15}</p>}
+                                </div>
+
+
+                                <div className="mb-4">
+                                    <label htmlFor="category">Section 16</label>
+                                    <Select
+                                        className='dark:mySelect mySelect'
+                                        name='category16'
+                                        placeholder="Select a category"
+                                        options={[{ value: '', label: 'Select One' }, ...categoryOptions.map(option => ({ value: option, label: option }))]}
+
+                                        onChange={(option) => {
+                                            // Check if option is not null before accessing its value
+                                            if (option) {
+                                                setFieldValue('category16', option.value);
+                                            }
+                                        }}
+                                    />
+                                    {errors.category16 && touched.category16 && <p className="text-red-500">{errors.category16}</p>}
+                                </div>
+
+                                <div className="mb-4">
+                                    <label htmlFor="category">Section 17</label>
+                                    <Select
+                                        className='dark:mySelect mySelect'
+                                        name='category17'
+                                        placeholder="Select a category"
+                                        options={[{ value: '', label: 'Select One' }, ...categoryOptions.map(option => ({ value: option, label: option }))]}
+
+                                        onChange={(option) => {
+                                            // Check if option is not null before accessing its value
+                                            if (option) {
+                                                setFieldValue('category17', option.value);
+                                            }
+                                        }}
+                                    />
+                                    {errors.category17 && touched.category17 && <p className="text-red-500">{errors.category17}</p>}
+                                </div>
+
+                                <div className="mb-4">
+                                    <label htmlFor="category">Section 18</label>
+                                    <Select
+                                        className='dark:mySelect mySelect'
+                                        name='category18'
+                                        placeholder="Select a category"
+                                        options={[{ value: '', label: 'Select One' }, ...categoryOptions.map(option => ({ value: option, label: option }))]}
+
+                                        onChange={(option) => {
+                                            // Check if option is not null before accessing its value
+                                            if (option) {
+                                                setFieldValue('category18', option.value);
+                                            }
+                                        }}
+                                    />
+                                    {errors.category18 && touched.category18 && <p className="text-red-500">{errors.category18}</p>}
+                                </div>
+
+                                <div className="mb-4">
+                                    <label htmlFor="category">Section 19</label>
+                                    <Select
+                                        className='dark:mySelect mySelect'
+                                        name='category19'
+                                        placeholder="Select a category"
+                                        options={[{ value: '', label: 'Select One' }, ...categoryOptions.map(option => ({ value: option, label: option }))]}
+
+                                        onChange={(option) => {
+                                            // Check if option is not null before accessing its value
+                                            if (option) {
+                                                setFieldValue('category19', option.value);
+                                            }
+                                        }}
+                                    />
+                                    {errors.category19 && touched.category19 && <p className="text-red-500">{errors.category19}</p>}
+                                </div>
+
+                                <div className="mb-4">
+                                    <label htmlFor="category">Section 20</label>
+                                    <Select
+                                        className='dark:mySelect mySelect'
+                                        name='category20'
+                                        placeholder="Select a category"
+                                        options={[{ value: '', label: 'Select One' }, ...categoryOptions.map(option => ({ value: option, label: option }))]}
+
+                                        onChange={(option) => {
+                                            // Check if option is not null before accessing its value
+                                            if (option) {
+                                                setFieldValue('category20', option.value);
+                                            }
+                                        }}
+                                    />
+                                    {errors.category20 && touched.category20 && <p className="text-red-500">{errors.category20}</p>}
+                                </div>
+
+                                <div className="mb-4">
+                                    <label htmlFor="category">Section 21</label>
+                                    <Select
+                                        className='dark:mySelect mySelect'
+                                        name='category21'
+                                        placeholder="Select a category"
+                                        options={[{ value: '', label: 'Select One' }, ...categoryOptions.map(option => ({ value: option, label: option }))]}
+
+                                        onChange={(option) => {
+                                            // Check if option is not null before accessing its value
+                                            if (option) {
+                                                setFieldValue('category21', option.value);
+                                            }
+                                        }}
+                                    />
+                                    {errors.category21 && touched.category21 && <p className="text-red-500">{errors.category21}</p>}
+                                </div>
+
+
                             </div>
-                        </div>
-                        <button
-                            type="submit"
-                            className="btn btn-primary !mt-6"
-                        >
-                            Publish Now
-                        </button>
-                    </Form>
+                            <button
+                                type="submit"
+                                className="btn btn-primary !mt-6"
+                            >
+                                Publish Now
+                            </button>
+                        </Form>
+                    )}
                 </Formik>
             </div>
         </>
     );
 };
 
-export default Layouts;
+export default Layout;

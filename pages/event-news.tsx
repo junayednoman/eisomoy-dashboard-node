@@ -17,7 +17,7 @@ const validationSchema = Yup.object().shape({
 });
 
 
-const eventNews = () => {
+const EventNews = () => {
 
     const [loading, setLoading] = useState(true);
     const [parentOptions, setParentOptions] = useState<string[]>([]);
@@ -57,6 +57,7 @@ const eventNews = () => {
 
     // Form submit handler
     const handleSubmit = async (values: any, { resetForm }: any) => {
+        console.log(values);
         try {
             // Make API call to add category
             const response = await axios.post(`${apiUrl}/api/news/event-news`, values, { withCredentials: true });
@@ -154,4 +155,4 @@ const eventNews = () => {
     );
 };
 
-export default withAuth(eventNews);
+export default withAuth(EventNews);
