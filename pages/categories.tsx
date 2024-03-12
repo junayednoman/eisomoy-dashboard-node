@@ -62,6 +62,7 @@ const Categories = () => {
     const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
 
     useEffect(() => {
+        setLoading(true);
         fetchData();
     }, [page, pageSize, sortStatus, search]);
 
@@ -175,7 +176,6 @@ const Categories = () => {
     };
 
     const handleUpdate = async (values: any) => {
-        setLoading(true);
         try {
             const response = await axios.post(
                 `${apiUrl}/api/news/category-update`,
@@ -183,8 +183,7 @@ const Categories = () => {
                 { withCredentials: true }
             );
             console.log(response.data); // Log the response from the API
-            setIsUpdateModalOpen(false); 
-            setLoading(false);// Close the modal on successful update
+            setIsUpdateModalOpen(false); // Close the modal on successful update
             Swal.fire({
                 icon: 'success',
                 title: 'Category Updated successfully',
@@ -193,7 +192,6 @@ const Categories = () => {
             });
             fetchData(); // Refetch category data after updating
         } catch (error: any) {
-            setLoading(false);
             console.error('Error updating user:', error);
             if (error.response) {
                 setError(error.response.data.message || 'Server Error');
@@ -212,7 +210,6 @@ const Categories = () => {
     };
 
     const handleDelete = async () => {
-        setLoading(true);
         try {
             const response = await axios.post(
                 `${apiUrl}/api/news/category-delete`,
@@ -220,8 +217,7 @@ const Categories = () => {
                 { withCredentials: true }
             );
             console.log(response.data); // Log the response from the API
-            setShowDeleteConfirmation(false); 
-            setLoading(false);// Close the confirmation modal
+            setShowDeleteConfirmation(false); // Close the confirmation modal
             Swal.fire({
                 icon: 'success',
                 title: 'Category Deleted successfully',
@@ -230,7 +226,6 @@ const Categories = () => {
             });
             fetchData(); // Refetch category data after deletion
         } catch (error: any) {
-            setLoading(false);
             console.error('Error deleting user:', error);
             setShowDeleteConfirmation(false); // Close the confirmation modal
             setError('Failed to delete user');
