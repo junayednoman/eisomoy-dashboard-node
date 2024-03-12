@@ -31,7 +31,7 @@ const ViewAllNews = () => {
 
     const [search, setSearch] = useState('');
     const [sortStatus, setSortStatus] = useState<DataTableSortStatus>({
-        columnAccessor: 'newsId',
+        columnAccessor: '_id',
         direction: 'asc',
     });
 
@@ -50,8 +50,12 @@ const ViewAllNews = () => {
             const response = await axios.get(`${apiUrl}/api/news/all-news`, {
                 withCredentials: true
             });
+
+            console.log(response);
     
             const categoryData = response.data;
+
+            console.log(categoryData);
 
             setAllCategoryData(categoryData);
     
@@ -137,7 +141,7 @@ const ViewAllNews = () => {
                         </svg>
                     </div>
                 )}
-            <div className='grid lg:grid-cols-3 grid-cols-1 gap-6'>
+            <div className='grid lg:grid-cols-1 grid-cols-1'>
                 <div className='lg:col-span-2 col-span-1'>
                     <div className="panel mt-5">
                         <div className="mb-5 flex flex-col gap-5 md:flex-row md:items-center">
