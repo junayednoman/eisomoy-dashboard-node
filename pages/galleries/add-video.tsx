@@ -2,28 +2,73 @@
 import { Field, Form, Formik } from "formik";
 import Swal from "sweetalert2";
 import Select from 'react-select';
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import AnimateHeight from "react-animate-height";
 import 'easymde/dist/easymde.min.css';
-import ImageUploading, { ImageListType } from 'react-images-uploading';
+import * as Yup from 'yup';
+import axios from "axios";
+import { useUserGlobal } from "@/context/userContext";
+import withAuth from "@/utils/withAuth";
+
+const validationSchema = Yup.object().shape({
+    video_title: Yup.string().required('Title is required'),
+    meta_image: Yup.mixed().nullable().test('fileType', 'Invalid file type', function (value: any) {
+        if (!value) return true; // No file selected, skip validation
+        const allowedExtensions = ['png', 'jpg', 'jpeg', 'gif'];
+        const fileExtension = value.name.split('.').pop().toLowerCase();
+        return allowedExtensions.includes(fileExtension);
+    }).test('fileSize', 'File size must be less than 3MB', function (value: any) {
+        if (!value) return true; // No file selected, skip validation
+        return value.size <= 3 * 1024 * 1024; // 3MB in bytes
+    }),
+});
 
 const AddVideo = () => {
-    const [fileType, setFileType] = useState(true);
-    const [urlType, setUrlType] = useState(false);
+    const [metaImgFile, setMetaImgFile] = useState<boolean>(true);
     const [active, setActive] = useState<Number>();
-    const [images, setImages] = useState<any>([]);
     const categoryOptions = [
         { value: 'Publish', label: 'Publish' },
         { value: 'Draft', label: 'Draft' },
     ];
 
+    // load categories
+    const [loading, setLoading] = useState(true);
+    const [categories, setCategories] = useState<any[]>([]);
+    const [selectedCategories, setSelectedCategories] = useState<any[]>([]);
+    const { userGlobalData } = useUserGlobal();
+    const [selectedPublishStatus, setSelectedPublishStatus] = useState<any>("");
 
+    const apiUrl = process.env.API_URL || 'https://eismoy-api.vercel.app';
 
-    // image file upload
-    const maxNumber = 69;
-    const handleImageUpload = (imageList: ImageListType, addUpdateIndex: number[] | undefined) => {
-        setImages(imageList as never[]);
+    const fetchCategories = async () => {
+        setLoading(true);
+        try {
+            const response = await axios.get(`${apiUrl}/api/video/all-categories`, {
+                withCredentials: true
+            });
+
+            const categoryData = response.data;
+
+            setCategories(categoryData);
+
+            setLoading(false);
+        } catch (error) {
+            console.error('Error fetching category data:', error);
+            setLoading(false);
+        }
     };
+    const handleCheckboxChange = (categoryName: any) => {
+        // Toggle selection
+        if (selectedCategories.includes(categoryName)) {
+            setSelectedCategories(selectedCategories.filter(cat => cat !== categoryName));
+        } else {
+            setSelectedCategories([...selectedCategories, categoryName]);
+        }
+    };
+
+    useEffect(() => {
+        fetchCategories();
+    }, []);
 
     const submitForm = () => {
         const toast = Swal.mixin({
@@ -50,58 +95,103 @@ const AddVideo = () => {
         setValue(value);
     }, []);
 
-    const handleToggleImgType = () => {
-        // console.log(e.target.value);
-        setFileType(!fileType)
-        setUrlType(!urlType)
-    }
+    const handleAddVideo = async (values: any, { resetForm }: any) => {
+        let metaImageName = '';
+        if (metaImgFile) {
+            const formData = new FormData();
+            formData.append('file', values.meta_image);
+            try {
+                const response = await axios.post('/api/upload', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+                console.log('Meta image uploaded successfully');
+                metaImageName = response.data.fileName;
+            } catch (error) {
+                console.error('Error uploading meta image: ', error);
+            }
 
+        }
+        else {
+            metaImageName = values.meta_image_url;
+        }
+
+        const categoriesString = Array.isArray(selectedCategories) ? selectedCategories.join(', ') : selectedCategories;
+
+        const formDataFinal = {
+            video_title: values.video_title,
+            category: categoriesString,
+            uploader_name: values.uploader_name,
+            created_by: userGlobalData?.display_name,
+            published_by: userGlobalData?.display_name,
+            last_modified_by: userGlobalData?.display_name,
+            publish_status: selectedPublishStatus.value,
+            tags: values.tags,
+            meta_title: values.meta_title,
+            meta_description: values.meta_description,
+            meta_image: metaImageName,
+            focus_keyword: values.focus_keyword,
+            // Add other fields as needed
+        };
+        console.log(formDataFinal);
+
+
+        // Call upload video API with all the necessary data
+        try {
+            const response = await axios.post(`${apiUrl}/api/video/add-video`, formDataFinal, { withCredentials: true });
+            console.log('video added succesfully');
+            Swal.fire({
+                icon: 'success',
+                title: 'Video added successfully',
+                timer: 1000,
+                showConfirmButton: false
+            });
+            resetForm(); // Reset the form after successful submission
+
+            setSelectedPublishStatus("");
+            setSelectedCategories([]);
+        } catch (error: any) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops... Something went wrong!',
+                text: error.response?.data?.message || 'Failed to upload video',
+                timer: 3000,
+                showConfirmButton: true
+            });
+        }
+    }
     return (
         <>
             <h4 className="text-2xl font-semibold mb-8">Add New Video</h4>
-            <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-3 gap-x-6">
-                <div className="xl:col-span-3 lg:col-span-2 md:col-span-2">
-                    <Formik
-                        initialValues={{
-                            videoTitle: '',
-                        }}
-                        onSubmit={() => { }}
-                    >
-                        {({ touched }) => (
-                            <Form className="space-y-5">
+            <Formik
+                initialValues={{
+                    video_title: '',
+                    video_Url: '',
+                    uploader_name: '',
+                    tags: '',
+                    meta_title: '',
+                    meta_description: '',
+                    meta_image: null,
+                    meta_image_url: '',
+                    focus_keyword: '',
+                }}
+                onSubmit={(values, { resetForm }) => handleAddVideo(values, { resetForm })}
+                validationSchema={validationSchema}
+            >
+                {({ errors, touched, setFieldValue }) => (
+                    <Form className="space-y-5">
+                        <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-3 gap-x-6">
+                            <div className="xl:col-span-3 lg:col-span-2 md:col-span-2">
                                 <div>
                                     <label htmlFor="title">Title </label>
-                                    <Field name="videoTitle" type="text" id="title" placeholder="Enter Video Title" className="form-input h-12" />
-
+                                    <Field name="video_title" type="text" id="title" placeholder="Enter Video Title" className="form-input h-12" />
+                                    {errors.video_title && touched.video_title && <p className="text-red-500">{errors.video_title}</p>}
                                     <label htmlFor="URL" className="mt-4">URL</label>
-                                    <Field name="videoURL" type="text" id="URL" placeholder="Enter Video URL" className="form-input h-12" />
-
-                                    
+                                    <Field name="video_Url" type="text" id="URL" placeholder="Enter Video URL" className="form-input h-12" />
                                 </div>
-                                <button
-                                    type="submit"
-                                    className="btn btn-primary !mt-6"
-                                    onClick={() => {
-                                        if (touched.videoTitle) {
-                                            submitForm();
-                                        }
-                                    }}
-                                >
-                                    Publish
-                                </button>
-                            </Form>
-                        )}
-                    </Formik>
-                </div>
-                <div className="xl:col-span-1 lg:col-span-1 md:col-span-1 border dark:border-[#888EA8] border-[#e6e6e6] rounded-md mt-6 bg-white dark:bg-[#060818] h-fit pb-8">
-                    <Formik
-                        initialValues={{
-                            category: '',
-                        }}
-                        onSubmit={() => { }}
-                    >
-                        {({ }) => (
-                            <Form className="space-y-5">
+                            </div>
+                            <div className="xl:col-span-1 lg:col-span-1 md:col-span-1 border dark:border-[#888EA8] border-[#e6e6e6] rounded-md mt-6 bg-white dark:bg-[#060818] h-fit pb-8">
                                 <div>
                                     {/* general info */}
                                     <div className={`rounded-t-md bg-white dark:bg-black dark:myAccordian`}>
@@ -116,12 +206,12 @@ const AddVideo = () => {
                                         <AnimateHeight duration={50} height={active === 1 ? 'auto' : 0}>
                                             <div className="p-4 pt-2 font-semibold text-white-dark">
                                                 <div className="mb-3">
-                                                    <label htmlFor="fullName">Uploader Name</label>
-                                                    <Field name="reporter" type="text" id="reporter" placeholder="Enter uploader name" className="form-input h-12 mb-2" ></Field>
+                                                    <label htmlFor="uploader_name">Uploader Name</label>
+                                                    <Field name="uploader_name" type="text" id="uploader_name" placeholder="Enter uploader name" className="form-input h-12 mb-2" ></Field>
                                                 </div>
                                                 <div className="mb-3">
-                                                    <label htmlFor="fullName">Publish Status</label>
-                                                    <Select className='dark:mySelect mySelect' placeholder="Choose..." options={categoryOptions} isSearchable={false} />
+                                                    <label htmlFor="status">Publish Status</label>
+                                                    <Select onChange={setSelectedPublishStatus} className='dark:mySelect mySelect' placeholder="Choose..." options={categoryOptions} isSearchable={false} />
                                                 </div>
                                             </div>
                                         </AnimateHeight>
@@ -139,7 +229,7 @@ const AddVideo = () => {
                                         <AnimateHeight duration={50} height={active === 2 ? 'auto' : 0}>
                                             <div className="p-4 pt-2 font-semibold text-white-dark">
                                                 <h5 className="font-semibold text-[13px] text-black mb-1">ADD NEW TAG</h5>
-                                                <Field name="tag" type="text" id="tags" placeholder="Enter tag name" className="form-input h-12 mb-2" ></Field>
+                                                <Field name="tags" type="text" id="tags" placeholder="Enter tag name" className="form-input h-12 mb-2" ></Field>
                                                 <span className="text-[13px]">Separate with the comma</span>
                                             </div>
                                         </AnimateHeight>
@@ -157,34 +247,18 @@ const AddVideo = () => {
                                         </div>
                                         <AnimateHeight duration={50} height={active === 3 ? 'auto' : 0}>
                                             <div className="p-4 pt-2 font-semibold text-white-dark">
-                                                <label className="flex items-center gap-[6px]">
-                                                    <Field name="Sports" type="checkbox" id="Sports" className="h-4 w-4" />
-                                                    <span>Sports</span>
-                                                </label>
-                                                <label className="flex items-center gap-[6px]">
-                                                    <Field name="Politics" type="checkbox" id="Politics" className="h-4 w-4" />
-                                                    <span>Politics</span>
-                                                </label>
-                                                <label className="flex items-center gap-[6px]">
-                                                    <Field name="National" type="checkbox" id="National" className="h-4 w-4" />
-                                                    <span>National</span>
-                                                </label>
-                                                <label className="flex items-center gap-[6px]">
-                                                    <Field name="International" type="checkbox" id="International" className="h-4 w-4" />
-                                                    <span>International</span>
-                                                </label>
-                                                <label className="flex items-center gap-[6px]">
-                                                    <Field name="Business" type="checkbox" id="Business" className="h-4 w-4" />
-                                                    <span>Business</span>
-                                                </label>
-                                                <label className="flex items-center gap-[6px]">
-                                                    <Field name="Economy" type="checkbox" id="Economy" className="h-4 w-4" />
-                                                    <span>Economy</span>
-                                                </label>
-                                                <label className="flex items-center gap-[6px]">
-                                                    <Field name="Science" type="checkbox" id="Science" className="h-4 w-4" />
-                                                    <span>Science</span>
-                                                </label>
+                                                {categories.map(category => (
+                                                    <label key={category.cat_id} htmlFor={category.categoryName} className="flex items-center gap-[6px]">
+                                                        <input
+                                                            type="checkbox"
+                                                            id={category.cat_id}
+                                                            className="h-4 w-4"
+                                                            checked={selectedCategories.includes(category.categoryName)}
+                                                            onChange={() => handleCheckboxChange(category.categoryName)}
+                                                        />
+                                                        <span>{category.categoryName}</span>
+                                                    </label>
+                                                ))}
                                             </div>
                                         </AnimateHeight>
                                     </div>
@@ -201,12 +275,12 @@ const AddVideo = () => {
                                         <AnimateHeight duration={50} height={active === 5 ? 'auto' : 0}>
                                             <div className="p-4 pt-2 font-semibold">
                                                 <div className="mb-2">
-                                                    <label htmlFor="metaTitle">Meta Title</label>
-                                                    <Field name="metaTitle" type="text" id="metaTitle" placeholder="Enter Meta Title" className="form-input h-12 mb-2" ></Field>
+                                                    <label htmlFor="meta_title">Meta Title</label>
+                                                    <Field name="meta_title" type="text" id="meta_title" placeholder="Enter Meta Title" className="form-input h-12 mb-2" ></Field>
                                                 </div>
                                                 <div className="mb-2">
-                                                    <label htmlFor="metaDescription">Meta Description</label>
-                                                    <Field name="metaDescription" type="text" id="metaDescription" placeholder="Enter Meta Description" className="form-input h-12 mb-2" ></Field>
+                                                    <label htmlFor="meta_description">Meta Description</label>
+                                                    <Field name="meta_description" type="text" id="meta_description" placeholder="Enter Meta Description" className="form-input h-12 mb-2" ></Field>
                                                 </div>
                                                 <div className="mb-2">
                                                     <div className="flex justify-between items-center">
@@ -214,39 +288,42 @@ const AddVideo = () => {
                                                         <div className="flex items-center gap-2 mb-3">
                                                             <span>File</span>
                                                             <label className="relative mt-2">
-                                                                <input onChange={handleToggleImgType} type="checkbox" className="custom_switch absolute w-[35px] h-full opacity-0 z-10 cursor-pointer peer" id="custom_switch_checkbox1" />
+                                                                <input onChange={() => setMetaImgFile(!metaImgFile)} type="checkbox" className="custom_switch absolute w-[35px] h-full opacity-0 z-10 cursor-pointer peer" id="custom_switch_checkbox1" />
                                                                 <span className="w-[35px] outline_checkbox border-2 border-[#ebedf2] dark:border-white-dark block h-[18px] rounded-full before:absolute before:left-1 before:bg-[#ebedf2] dark:before:bg-white-dark before:bottom-1 before:w-[11px] before:h-[11px] before:rounded-full peer-checked:before:left-5 peer-checked:border-primary peer-checked:before:bg-primary before:transition-all before:duration-300"></span>
                                                             </label>
                                                             <span>URL</span>
                                                         </div>
                                                     </div>
 
-                                                    {
-                                                        fileType &&
-                                                        <Field name="feature-img" type="file" id="feature-img" placeholder="Set featured image" className="form-input h-12 mb-2" ></Field>
-                                                    }
-                                                    {
-                                                        urlType &&
-                                                        <Field name="feature-img" type="text" id="feature-img" placeholder="Enter Image URL" className="form-input h-12 mb-2" ></Field>
-                                                    }
+                                                    {metaImgFile ?
 
+                                                        <input name="meta_image" type="file" id="meta_image" className="form-input h-12 mb-2" onChange={(event: any) => { setFieldValue('meta_image', event.currentTarget.files[0]); }} />
+                                                        :
+                                                        <Field name="meta_image_url" type="text" id="meta_image_url" placeholder="Enter Image URL" className="form-input h-12 mb-2" />
+
+                                                    }
+                                                    {errors.meta_image && touched.meta_image && <p className="text-red-500">{errors.meta_image}</p>}
+                                                    {errors.meta_image && touched.meta_image && <p className="text-red-500">{errors.meta_image}</p>}
                                                 </div>
                                                 <div className="mb-2">
-                                                    <label htmlFor="focusKeyword">Focus Keyword</label>
-                                                    <Field name="focusKeyword" type="text" id="focusKeyword" placeholder="Enter Focus Keyword" className="form-input h-12 mb-2" ></Field>
+                                                    <label htmlFor="focus_keyword">Focus Keyword</label>
+                                                    <Field name="focus_keyword" type="text" id="focus_keyword" placeholder="Enter Focus Keyword" className="form-input h-12 mb-2" ></Field>
                                                 </div>
                                             </div>
                                         </AnimateHeight>
                                     </div>
                                 </div>
-                            </Form>
-                        )}
-                    </Formik >
-                </div >
-            </div >
+                            </div >
+                        </div >
+                        <button type="submit" className="btn btn-primary !mt-6">Publish</button>
+                    </Form>
+                )}
+            </Formik>
+
+
         </>
     )
 };
 
 
-export default AddVideo;
+export default withAuth(AddVideo);
