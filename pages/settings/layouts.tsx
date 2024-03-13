@@ -65,36 +65,7 @@ const Layout = () => {
             const categoryNames = categoryData.map((category: any) => category.categoryName);
             setCategoryOptions(categoryNames);
 
-            // Check if layoutData is empty
-            if (Object.keys(layoutData).length === 0 && layoutData.constructor === Object) {
-                // If layoutData is empty, set default initial values
-                setInitialValues({
-                category1: '',
-                category2: '',
-                category3: '',
-                category4: '',
-                category5: '',
-                category6: '',
-                category7: '',
-                category8: '',
-                category9: '',
-                category10: '',
-                category11: '',
-                category12: '',
-                category13: '',
-                category14: '',
-                category15: '',
-                category16: '',
-                category17: '',
-                category18: '',
-                category19: '',
-                category20: '',
-                category21: '',
-                });
-            } else {
-                // Set fetched layout data as initial values
-                setInitialValues(layoutData);
-            }
+            setInitialValues(layoutData);
 
             setLoading(false);
         } catch (error) {
