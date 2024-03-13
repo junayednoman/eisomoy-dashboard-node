@@ -46,74 +46,57 @@ const Layout = () => {
     const apiUrl = process.env.API_URL || 'https://eismoy-api.vercel.app';
 
     useEffect(() => {
-        fetchData();
-        fetchFormdata();
+        fetchDataAndFormdata();
     }, []);
 
-    const fetchFormdata = async () => {
-        setLoading(true);
+    const fetchDataAndFormdata = async () => {
         try {
-            const layoutResponse = await axios.get(`${apiUrl}/api/settings/layout-news`, {
-                withCredentials: true
-            });
-    
+            const [layoutResponse, categoryResponse] = await Promise.all([
+                axios.get(`${apiUrl}/api/settings/layout-news`, { withCredentials: true }),
+                axios.get(`${apiUrl}/api/news/all-categories`, { withCredentials: true })
+            ]);
+
             const layoutData = layoutResponse.data;
-    
+            const categoryData = categoryResponse.data;
+
+            // Set category options
+            const categoryNames = categoryData.map((category: any) => category.categoryName);
+            setCategoryOptions(categoryNames);
+
             // Check if layoutData is empty
             if (Object.keys(layoutData).length === 0 && layoutData.constructor === Object) {
                 // If layoutData is empty, set default initial values
                 setInitialValues({
-                    category1: '',
-                    category2: '',
-                    category3: '',
-                    category4: '',
-                    category5: '',
-                    category6: '',
-                    category7: '',
-                    category8: '',
-                    category9: '',
-                    category10: '',
-                    category11: '',
-                    category12: '',
-                    category13: '',
-                    category14: '',
-                    category15: '',
-                    category16: '',
-                    category17: '',
-                    category18: '',
-                    category19: '',
-                    category20: '',
-                    category21: '',
-                    // Set default values for other fields as needed
+                category1: '',
+                category2: '',
+                category3: '',
+                category4: '',
+                category5: '',
+                category6: '',
+                category7: '',
+                category8: '',
+                category9: '',
+                category10: '',
+                category11: '',
+                category12: '',
+                category13: '',
+                category14: '',
+                category15: '',
+                category16: '',
+                category17: '',
+                category18: '',
+                category19: '',
+                category20: '',
+                category21: '',
                 });
-                setLoading(false);
             } else {
                 // Set fetched layout data as initial values
                 setInitialValues(layoutData);
-                setLoading(false);
             }
-        } catch (error) {
-            console.error('Error fetching layout data:', error);
-            setLoading(false);
-        }
-    }
-
-    const fetchData = async () => {
-        setLoading(true);
-        try {
-            const response = await axios.get(`${apiUrl}/api/news/all-categories`, {
-                withCredentials: true
-            });
-
-            const categoryData = response.data;
-
-            // Extract category names for parent field options
-            const categoryNames = categoryData.map((category: any) => category.categoryName);
-            setCategoryOptions(categoryNames);
 
             setLoading(false);
         } catch (error) {
-            console.error('Error fetching category data:', error);
+            console.error('Error fetching data:', error);
             setLoading(false);
         }
     };
@@ -133,8 +116,7 @@ const Layout = () => {
                 showConfirmButton: false
             });
             resetForm();
-            fetchData();
-            fetchFormdata();
+            fetchDataAndFormdata();
         } catch (error: any) {
             console.error('Error updating layout news:', error);
             // Show error message from API response
