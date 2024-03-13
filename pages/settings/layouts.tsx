@@ -59,6 +59,8 @@ const Layout = () => {
             const layoutData = layoutResponse.data;
             const categoryData = categoryResponse.data;
 
+            console.log(layoutData);
+
             // Set category options
             const categoryNames = categoryData.map((category: any) => category.categoryName);
             setCategoryOptions(categoryNames);
@@ -100,7 +102,6 @@ const Layout = () => {
             setLoading(false);
         }
 
-        console.log(initialValues);
     };
 
 
