@@ -62,7 +62,7 @@ const HeaderAd = () => {
 
 
         const formDataFinal = {
-            ad_name: values.ad_name,
+            ad_name: "header ad",
             image: imageName,
             link: values.link,
             status: selectedAdStatus.value
@@ -101,7 +101,6 @@ const HeaderAd = () => {
             <h5 className="text-xl font-semibold dark:text-white-light mb-5">Header Ad</h5>
             <Formik
                 initialValues={{
-                    ad_name: '',
                     image: '',
                     img_url: '',
                     link: '',

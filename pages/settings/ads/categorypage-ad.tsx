@@ -64,38 +64,38 @@ const CategoryPageAd = () => {
 
 
         const formDataFinal = {
+            ad_name: "category ad",
             image: imageName,
             link: values.link,
             status: selectedAdStatus.value
         }
-        console.log('formDataFinal, ',formDataFinal);
+        console.log('formDataFinal, ', formDataFinal);
 
-        // try {
-        //     // Make API call for settings
-        //     const response = await axios.post(`${apiUrl}/api/settings/general`, formDataFinal, { withCredentials: true });
-        //     console.log('General settings updated:', response.data);
-        //     // Show success message
-        //     Swal.fire({
-        //         icon: 'success',
-        //         title: 'General settings updated successfully',
-        //         timer: 1000,
-        //         showConfirmButton: false
-        //     });
-        //     resetForm();
-        //     setSelectedAdStatus("");
-        // } catch (error: any) {
-        //     console.error('Error updating general settings:', error);
-        //     // Show error message from API response
-        //     Swal.fire({
-        //         icon: 'error',
-        //         title: 'Oops... Something went wrong!',
-        //         text: error.response?.data?.message || 'Failed to update general settings',
-        //         timer: 1000,
-        //         showConfirmButton: false
-        //     });
-
-        // }
-    };
+        try {
+            // Make API call for settings
+            const response = await axios.post(`${apiUrl}/api/ads/ad`, formDataFinal, { withCredentials: true });
+            console.log('category ad updated:', response.data);
+            // Show success message
+            Swal.fire({
+                icon: 'success',
+                title: 'Category ad updated successfully',
+                timer: 1000,
+                showConfirmButton: false
+            });
+            resetForm();
+            setSelectedAdStatus("");
+        } catch (error: any) {
+            console.error('Error updating category ad:', error);
+            // Show error message from API response
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops... Something went wrong!',
+                text: error.response?.data?.message || 'Failed to update category ad',
+                timer: 1000,
+                showConfirmButton: false
+            });
+        };
+    }
 
     return (
         <div>
@@ -146,7 +146,7 @@ const CategoryPageAd = () => {
                                 type="submit"
                                 className="btn btn-primary !mt-6"
                             >
-                               Update
+                                Update
                             </button>
                         </div>
                     </Form>)}
@@ -155,4 +155,4 @@ const CategoryPageAd = () => {
     );
 };
 
-export default CategoryPageAd;
+export default withAuth(CategoryPageAd);

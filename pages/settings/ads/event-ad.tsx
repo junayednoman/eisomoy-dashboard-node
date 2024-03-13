@@ -25,7 +25,7 @@ const EventAd = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const [isImageFile, setImageFileType] = useState<boolean>(true);
     const [selectedAdStatus, setSelectedAdStatus] = useState<any>("");
-    const [selectedAdNumber, setSelectedAdNumber] = useState<any>("");
+    const [selectedAdName, setSelectedAdName] = useState<any>("");
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(setPageTitle('Event Ad'));
@@ -67,38 +67,39 @@ const EventAd = () => {
             imageName = values.img_url;
         }
         const formDataFinal = {
-            ad_number: selectedAdNumber.value,
+            ad_name: selectedAdName.value.toLowerCase(),
             image: imageName,
             link: values.link,
             status: selectedAdStatus.value
         }
         console.log(formDataFinal);
 
-        // try {
-        //     // Make API call for settings
-        //     const response = await axios.post(`${apiUrl}/api/settings/general`, formDataFinal, { withCredentials: true });
-        //     console.log('General settings updated:', response.data);
-        //     // Show success message
-        //     Swal.fire({
-        //         icon: 'success',
-        //         title: 'General settings updated successfully',
-        //         timer: 1000,
-        //         showConfirmButton: false
-        //     });
-        //     resetForm();
-        //     setSelectedAdStatus("");
-        // } catch (error: any) {
-        //     console.error('Error updating general settings:', error);
-        //     // Show error message from API response
-        //     Swal.fire({
-        //         icon: 'error',
-        //         title: 'Oops... Something went wrong!',
-        //         text: error.response?.data?.message || 'Failed to update general settings',
-        //         timer: 1000,
-        //         showConfirmButton: false
-        //     });
+        try {
+            // Make API call for settings
+            const response = await axios.post(`${apiUrl}/api/ads/ad`, formDataFinal, { withCredentials: true });
+            console.log('Event ad updated:', response.data);
+            // Show success message
+            Swal.fire({
+                icon: 'success',
+                title: 'Event ad updated successfully',
+                timer: 1000,
+                showConfirmButton: false
+            });
+            resetForm();
+            setSelectedAdName("");
+            setSelectedAdStatus("");
+        } catch (error: any) {
+            console.error('Error updating Event ad:', error);
+            // Show error message from API response
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops... Something went wrong!',
+                text: error.response?.data?.message || 'Failed to update Event ad',
+                timer: 1000,
+                showConfirmButton: false
+            });
 
-        // }
+        }
     };
 
     return (
@@ -110,7 +111,6 @@ const EventAd = () => {
                     img_url: '',
                     link: '',
                     status: '',
-                    ad_number: '',
                 }}
                 onSubmit={(values, { resetForm }) => handleSubmit(values, { resetForm })}
                 validationSchema={validationSchema}
@@ -119,8 +119,8 @@ const EventAd = () => {
                     <Form>
                         <div className="xl:w-1/2 lg:w-[500px] w-full">
                             <div className='mb-4'>
-                                <label htmlFor="ad_number">Ad Number</label>
-                                <Select className='dark:mySelect mySelect' name="ad_number" id='ad_number' placeholder="Select Ad Number" options={adNumberOptions} onChange={setSelectedAdNumber} isSearchable={true} />
+                                <label htmlFor="ad_name">Ad Name</label>
+                                <Select className='dark:mySelect mySelect' name="ad_name" id='ad_name' placeholder="Select Ad Name" options={adNumberOptions} onChange={setSelectedAdName} isSearchable={true} />
                             </div>
                             <div className='mb-4'>
                                 <div className="flex items-center justify-between gap-4">
