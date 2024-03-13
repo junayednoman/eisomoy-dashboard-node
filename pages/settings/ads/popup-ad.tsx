@@ -20,7 +20,6 @@ const validationSchema = Yup.object().shape({
     })
 });
 
-
 const PopupAd = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const [isImageFile, setImageFileType] = useState<boolean>(true);
@@ -36,7 +35,6 @@ const PopupAd = () => {
     ];
 
     const apiUrl = process.env.API_URL || 'https://eismoy-api.vercel.app';
-
 
     // Form submit handler
     const handleSubmit = async (values: any, { resetForm }: any) => {
@@ -61,7 +59,6 @@ const PopupAd = () => {
         else {
             imageName = values.img_url;
         }
-
 
         const formDataFinal = {
             ad_name: "popup ad",
