@@ -25,7 +25,7 @@ const HomeAd = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const [isImageFile, setImageFileType] = useState<boolean>(true);
     const [selectedAdStatus, setSelectedAdStatus] = useState<any>("");
-    const [selectedAdNumber, setSelectedAdNumber] = useState<any>("");
+    const [selectedAdName, setSelectedAdName] = useState<any>("");
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(setPageTitle('Home Page Ad'));
@@ -74,38 +74,38 @@ const HomeAd = () => {
             imageName = values.img_url;
         }
         const formDataFinal = {
-            ad_number: selectedAdNumber.value,
+            ad_name: selectedAdName.value.toLowerCase(),
             image: imageName,
             link: values.link,
             status: selectedAdStatus.value
         }
-        // console.log(formDataFinal);
+        console.log(formDataFinal);
 
-        // try {
-        //     // Make API call for settings
-        //     const response = await axios.post(`${apiUrl}/api/ads/header-ad`, formDataFinal, { withCredentials: true });
-        //     console.log('Ad updated:', response.data);
-        //     // Show success message
-        //     Swal.fire({
-        //         icon: 'success',
-        //         title: 'home ad updated successfully',
-        //         timer: 1000,
-        //         showConfirmButton: false
-        //     });
-        //     resetForm();
-        //     setSelectedAdStatus("");
-        // } catch (error: any) {
-        //     console.error('Error updating home ad:', error);
-        //     // Show error message from API response
-        //     Swal.fire({
-        //         icon: 'error',
-        //         title: 'Oops... Something went wrong!',
-        //         text: error.response?.data?.message || 'Failed to update home ad',
-        //         timer: 1000,
-        //         showConfirmButton: false
-        //     });
+        try {
+            // Make API call for settings
+            const response = await axios.post(`${apiUrl}/api/ads/ad`, formDataFinal, { withCredentials: true });
+            console.log('Home ad updated:', response.data);
+            // Show success message
+            Swal.fire({
+                icon: 'success',
+                title: 'Home ad updated successfully',
+                timer: 1000,
+                showConfirmButton: false
+            });
+            resetForm();
+            setSelectedAdStatus("");
+        } catch (error: any) {
+            console.error('Error updating Home ad:', error);
+            // Show error message from API response
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops... Something went wrong!',
+                text: error.response?.data?.message || 'Failed to update header ad',
+                timer: 1000,
+                showConfirmButton: false
+            });
 
-        // }
+        }
     };
 
     return (
@@ -117,7 +117,6 @@ const HomeAd = () => {
                     img_url: '',
                     link: '',
                     status: '',
-                    ad_number: '',
                 }}
                 onSubmit={(values, { resetForm }) => handleSubmit(values, { resetForm })}
                 validationSchema={validationSchema}
@@ -126,8 +125,8 @@ const HomeAd = () => {
                     <Form>
                         <div className="xl:w-1/2 lg:w-[500px] w-full">
                             <div className='mb-4'>
-                                <label htmlFor="ad_number">Ad Number</label>
-                                <Select className='dark:mySelect mySelect' name="ad_number" id='ad_number' placeholder="Select Ad Number" options={adNumberOptions} onChange={setSelectedAdNumber} isSearchable={true} />
+                                <label htmlFor="ad_number">Ad Name</label>
+                                <Select className='dark:mySelect mySelect' name="ad_number" id='ad_number' placeholder="Select Ad Number" options={adNumberOptions} onChange={setSelectedAdName} isSearchable={true} />
                             </div>
                             <div className='mb-4'>
                                 <div className="flex items-center justify-between gap-4">
