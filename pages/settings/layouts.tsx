@@ -123,7 +123,7 @@ const Layout = () => {
     const handleSubmit = async (values: any, { resetForm }: any) => {
         try {
             // Make API call to add category
-            const response = await axios.post(`${apiUrl}/api/settings/layout-news`, values, { withCredentials: true });
+            const response = await axios.patch(`${apiUrl}/api/settings/layout-news`, values, { withCredentials: true });
             console.log('layout news updated:', response.data);
             // Show success message
             Swal.fire({
