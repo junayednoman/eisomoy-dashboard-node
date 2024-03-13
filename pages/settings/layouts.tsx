@@ -47,7 +47,7 @@ const Layout = () => {
 
     useEffect(() => {
         fetchDataAndFormdata();
-    }, []);
+    }, [initialValues]);
 
     const fetchDataAndFormdata = async () => {
         try {
@@ -101,6 +101,8 @@ const Layout = () => {
             console.error('Error fetching data:', error);
             setLoading(false);
         }
+
+        console.log(initialValues);
 
     };
 
