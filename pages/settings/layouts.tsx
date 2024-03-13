@@ -36,6 +36,7 @@ const Layout = () => {
 
     const [loading, setLoading] = useState(true);
     const [categoryOptions, setCategoryOptions] = useState<string[]>([]);
+    const [initialValues, setInitialValues] = useState<any>({});
 
     const dispatch = useDispatch();
     useEffect(() => {
@@ -46,7 +47,56 @@ const Layout = () => {
 
     useEffect(() => {
         fetchData();
+        fetchFormdata();
     }, []);
+
+    const fetchFormdata = async () => {
+        setLoading(true);
+        try {
+            const layoutResponse = await axios.get(`${apiUrl}/api/settings/layout-news`, {
+                withCredentials: true
+            });
+    
+            const layoutData = layoutResponse.data;
+    
+            // Check if layoutData is empty
+            if (Object.keys(layoutData).length === 0 && layoutData.constructor === Object) {
+                // If layoutData is empty, set default initial values
+                setInitialValues({
+                    category1: '',
+                    category2: '',
+                    category3: '',
+                    category4: '',
+                    category5: '',
+                    category6: '',
+                    category7: '',
+                    category8: '',
+                    category9: '',
+                    category10: '',
+                    category11: '',
+                    category12: '',
+                    category13: '',
+                    category14: '',
+                    category15: '',
+                    category16: '',
+                    category17: '',
+                    category18: '',
+                    category19: '',
+                    category20: '',
+                    category21: '',
+                    // Set default values for other fields as needed
+                });
+                setLoading(false);
+            } else {
+                // Set fetched layout data as initial values
+                setInitialValues(layoutData);
+                setLoading(false);
+            }
+        } catch (error) {
+            console.error('Error fetching layout data:', error);
+            setLoading(false);
+        }
+    }
 
     const fetchData = async () => {
         setLoading(true);
@@ -84,6 +134,7 @@ const Layout = () => {
             });
             resetForm();
             fetchData();
+            fetchFormdata();
         } catch (error: any) {
             console.error('Error updating layout news:', error);
             // Show error message from API response
@@ -105,29 +156,7 @@ const Layout = () => {
             <h5 className="text-xl font-semibold dark:text-white-light mb-5">Layouts</h5>
             <div>
                 <Formik
-                    initialValues={{
-                        category1: '',
-                        category2: '',
-                        category3: '',
-                        category4: '',
-                        category5: '',
-                        category6: '',
-                        category7: '',
-                        category8: '',
-                        category9: '',
-                        category10: '',
-                        category11: '',
-                        category12: '',
-                        category13: '',
-                        category14: '',
-                        category15: '',
-                        category16: '',
-                        category17: '',
-                        category18: '',
-                        category19: '',
-                        category20: '',
-                        category21: '',
-                    }}
+                    initialValues={initialValues}
                     onSubmit={(values, { resetForm }) => handleSubmit(values, { resetForm })}
                     validationSchema={validationSchema}
                 >
@@ -149,7 +178,7 @@ const Layout = () => {
                                             }
                                         }}
                                     />
-                                    {errors.category1 && touched.category1 && <p className="text-red-500">{errors.category1}</p>}
+                                    {errors.category1 && touched.category1 && <p className="text-red-500">{String(errors.category1)}</p>}
                                 </div>
 
                                 <div className="mb-4">
@@ -167,7 +196,7 @@ const Layout = () => {
                                             }
                                         }}
                                     />
-                                    {errors.category2 && touched.category2 && <p className="text-red-500">{errors.category2}</p>}
+                                    {errors.category2 && touched.category2 && <p className="text-red-500">{String(errors.category2)}</p>}
                                 </div>
 
                                 <div className="mb-4">
@@ -185,7 +214,7 @@ const Layout = () => {
                                             }
                                         }}
                                     />
-                                    {errors.category3 && touched.category3 && <p className="text-red-500">{errors.category3}</p>}
+                                    {errors.category3 && touched.category3 && <p className="text-red-500">{String(errors.category3)}</p>}
                                 </div>
 
                                 <div className="mb-4">
@@ -203,7 +232,7 @@ const Layout = () => {
                                             }
                                         }}
                                     />
-                                    {errors.category4 && touched.category4 && <p className="text-red-500">{errors.category4}</p>}
+                                    {errors.category4 && touched.category4 && <p className="text-red-500">{String(errors.category4)}</p>}
                                 </div>
 
                                 <div className="mb-4">
@@ -221,7 +250,7 @@ const Layout = () => {
                                             }
                                         }}
                                     />
-                                    {errors.category5 && touched.category5 && <p className="text-red-500">{errors.category5}</p>}
+                                    {errors.category5 && touched.category5 && <p className="text-red-500">{String(errors.category5)}</p>}
                                 </div>
 
                                 <div className="mb-4">
@@ -239,7 +268,7 @@ const Layout = () => {
                                             }
                                         }}
                                     />
-                                    {errors.category6 && touched.category6 && <p className="text-red-500">{errors.category6}</p>}
+                                    {errors.category6 && touched.category6 && <p className="text-red-500">{String(errors.category6)}</p>}
                                 </div>
 
                                 <div className="mb-4">
@@ -257,7 +286,7 @@ const Layout = () => {
                                             }
                                         }}
                                     />
-                                    {errors.category7 && touched.category7 && <p className="text-red-500">{errors.category7}</p>}
+                                    {errors.category7 && touched.category7 && <p className="text-red-500">{String(errors.category7)}</p>}
                                 </div>
 
                                 <div className="mb-4">
@@ -275,7 +304,7 @@ const Layout = () => {
                                             }
                                         }}
                                     />
-                                    {errors.category8 && touched.category8 && <p className="text-red-500">{errors.category8}</p>}
+                                    {errors.category8 && touched.category8 && <p className="text-red-500">{String(errors.category8)}</p>}
                                 </div>
 
                                 <div className="mb-4">
@@ -293,7 +322,7 @@ const Layout = () => {
                                             }
                                         }}
                                     />
-                                    {errors.category9 && touched.category9 && <p className="text-red-500">{errors.category9}</p>}
+                                    {errors.category9 && touched.category9 && <p className="text-red-500">{String(errors.category9)}</p>}
                                 </div>
 
                                 <div className="mb-4">
@@ -311,7 +340,7 @@ const Layout = () => {
                                             }
                                         }}
                                     />
-                                    {errors.category10 && touched.category10 && <p className="text-red-500">{errors.category10}</p>}
+                                    {errors.category10 && touched.category10 && <p className="text-red-500">{String(errors.category10)}</p>}
                                 </div>
 
                                 <div className="mb-4">
@@ -329,7 +358,7 @@ const Layout = () => {
                                             }
                                         }}
                                     />
-                                    {errors.category11 && touched.category11 && <p className="text-red-500">{errors.category11}</p>}
+                                    {errors.category11 && touched.category11 && <p className="text-red-500">{String(errors.category11)}</p>}
                                 </div>
 
                                 <div className="mb-4">
@@ -347,7 +376,7 @@ const Layout = () => {
                                             }
                                         }}
                                     />
-                                    {errors.category12 && touched.category12 && <p className="text-red-500">{errors.category12}</p>}
+                                    {errors.category12 && touched.category12 && <p className="text-red-500">{String(errors.category12)}</p>}
                                 </div>
 
 
@@ -366,7 +395,7 @@ const Layout = () => {
                                             }
                                         }}
                                     />
-                                    {errors.category13 && touched.category13 && <p className="text-red-500">{errors.category13}</p>}
+                                    {errors.category13 && touched.category13 && <p className="text-red-500">{String(errors.category13)}</p>}
                                 </div>
 
                                 <div className="mb-4">
@@ -384,7 +413,7 @@ const Layout = () => {
                                             }
                                         }}
                                     />
-                                    {errors.category14 && touched.category14 && <p className="text-red-500">{errors.category14}</p>}
+                                    {errors.category14 && touched.category14 && <p className="text-red-500">{String(errors.category14)}</p>}
                                 </div>
 
                                 <div className="mb-4">
@@ -402,7 +431,7 @@ const Layout = () => {
                                             }
                                         }}
                                     />
-                                    {errors.category15 && touched.category15 && <p className="text-red-500">{errors.category15}</p>}
+                                    {errors.category15 && touched.category15 && <p className="text-red-500">{String(errors.category15)}</p>}
                                 </div>
 
 
@@ -421,7 +450,7 @@ const Layout = () => {
                                             }
                                         }}
                                     />
-                                    {errors.category16 && touched.category16 && <p className="text-red-500">{errors.category16}</p>}
+                                    {errors.category16 && touched.category16 && <p className="text-red-500">{String(errors.category16)}</p>}
                                 </div>
 
                                 <div className="mb-4">
@@ -439,7 +468,7 @@ const Layout = () => {
                                             }
                                         }}
                                     />
-                                    {errors.category17 && touched.category17 && <p className="text-red-500">{errors.category17}</p>}
+                                    {errors.category17 && touched.category17 && <p className="text-red-500">{String(errors.category17)}</p>}
                                 </div>
 
                                 <div className="mb-4">
@@ -457,7 +486,7 @@ const Layout = () => {
                                             }
                                         }}
                                     />
-                                    {errors.category18 && touched.category18 && <p className="text-red-500">{errors.category18}</p>}
+                                    {errors.category18 && touched.category18 && <p className="text-red-500">{String(errors.category18)}</p>}
                                 </div>
 
                                 <div className="mb-4">
@@ -475,7 +504,7 @@ const Layout = () => {
                                             }
                                         }}
                                     />
-                                    {errors.category19 && touched.category19 && <p className="text-red-500">{errors.category19}</p>}
+                                    {errors.category19 && touched.category19 && <p className="text-red-500">{String(errors.category19)}</p>}
                                 </div>
 
                                 <div className="mb-4">
@@ -493,7 +522,7 @@ const Layout = () => {
                                             }
                                         }}
                                     />
-                                    {errors.category20 && touched.category20 && <p className="text-red-500">{errors.category20}</p>}
+                                    {errors.category20 && touched.category20 && <p className="text-red-500">{String(errors.category20)}</p>}
                                 </div>
 
                                 <div className="mb-4">
@@ -511,7 +540,7 @@ const Layout = () => {
                                             }
                                         }}
                                     />
-                                    {errors.category21 && touched.category21 && <p className="text-red-500">{errors.category21}</p>}
+                                    {errors.category21 && touched.category21 && <p className="text-red-500">{String(errors.category21)}</p>}
                                 </div>
 
 
@@ -530,4 +559,4 @@ const Layout = () => {
     );
 };
 
-export default Layout;
+export default withAuth(Layout);
