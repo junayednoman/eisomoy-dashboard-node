@@ -79,28 +79,28 @@ const HomeAd = () => {
             link: values.link,
             status: selectedAdStatus.value
         }
-        console.log(formDataFinal);
+        // console.log(formDataFinal);
 
         // try {
         //     // Make API call for settings
-        //     const response = await axios.post(`${apiUrl}/api/settings/general`, formDataFinal, { withCredentials: true });
-        //     console.log('General settings updated:', response.data);
+        //     const response = await axios.post(`${apiUrl}/api/ads/header-ad`, formDataFinal, { withCredentials: true });
+        //     console.log('Ad updated:', response.data);
         //     // Show success message
         //     Swal.fire({
         //         icon: 'success',
-        //         title: 'General settings updated successfully',
+        //         title: 'home ad updated successfully',
         //         timer: 1000,
         //         showConfirmButton: false
         //     });
         //     resetForm();
         //     setSelectedAdStatus("");
         // } catch (error: any) {
-        //     console.error('Error updating general settings:', error);
+        //     console.error('Error updating home ad:', error);
         //     // Show error message from API response
         //     Swal.fire({
         //         icon: 'error',
         //         title: 'Oops... Something went wrong!',
-        //         text: error.response?.data?.message || 'Failed to update general settings',
+        //         text: error.response?.data?.message || 'Failed to update home ad',
         //         timer: 1000,
         //         showConfirmButton: false
         //     });

@@ -68,31 +68,31 @@ const HeaderAd = () => {
         }
         console.log(formDataFinal);
 
-        // try {
-        //     // Make API call for settings
-        //     const response = await axios.post(`${apiUrl}/api/settings/general`, formDataFinal, { withCredentials: true });
-        //     console.log('General settings updated:', response.data);
-        //     // Show success message
-        //     Swal.fire({
-        //         icon: 'success',
-        //         title: 'General settings updated successfully',
-        //         timer: 1000,
-        //         showConfirmButton: false
-        //     });
-        //     resetForm();
-        //     setSelectedAdStatus("");
-        // } catch (error: any) {
-        //     console.error('Error updating general settings:', error);
-        //     // Show error message from API response
-        //     Swal.fire({
-        //         icon: 'error',
-        //         title: 'Oops... Something went wrong!',
-        //         text: error.response?.data?.message || 'Failed to update general settings',
-        //         timer: 1000,
-        //         showConfirmButton: false
-        //     });
+        try {
+            // Make API call for settings
+            const response = await axios.post(`${apiUrl}/api/ads/header-ad`, formDataFinal, { withCredentials: true });
+            console.log('Header ad updated:', response.data);
+            // Show success message
+            Swal.fire({
+                icon: 'success',
+                title: 'Header ad updated successfully',
+                timer: 1000,
+                showConfirmButton: false
+            });
+            resetForm();
+            setSelectedAdStatus("");
+        } catch (error: any) {
+            console.error('Error updating header ad:', error);
+            // Show error message from API response
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops... Something went wrong!',
+                text: error.response?.data?.message || 'Failed to update header ad',
+                timer: 1000,
+                showConfirmButton: false
+            });
 
-        // }
+        }
     };
 
     return (
