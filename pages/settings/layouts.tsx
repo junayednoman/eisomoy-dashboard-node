@@ -48,34 +48,64 @@ const Layout = () => {
     useEffect(() => {
         fetchDataAndFormdata();
     }, []);
-
+    
     const fetchDataAndFormdata = async () => {
         try {
             const [layoutResponse, categoryResponse] = await Promise.all([
                 axios.get(`${apiUrl}/api/settings/get-layout`, { withCredentials: true }),
                 axios.get(`${apiUrl}/api/news/all-categories`, { withCredentials: true })
             ]);
-
+    
             const layoutData = layoutResponse.data;
             const categoryData = categoryResponse.data;
-
+    
             console.log(layoutData);
-
+    
             // Set category options
             const categoryNames = categoryData.map((category: any) => category.categoryName);
             setCategoryOptions(categoryNames);
-
-            setInitialValues(layoutData);
-
+    
+            // Check if layoutData is empty
+            if (Object.keys(layoutData).length === 0 && layoutData.constructor === Object) {
+                // If layoutData is empty, set default initial values
+                setInitialValues({
+                    category1: '',
+                    category2: '',
+                    category3: '',
+                    category4: '',
+                    category5: '',
+                    category6: '',
+                    category7: '',
+                    category8: '',
+                    category9: '',
+                    category10: '',
+                    category11: '',
+                    category12: '',
+                    category13: '',
+                    category14: '',
+                    category15: '',
+                    category16: '',
+                    category17: '',
+                    category18: '',
+                    category19: '',
+                    category20: '',
+                    category21: '',
+                });
+            } else {
+                // Set fetched layout data as initial values
+                setInitialValues(layoutData);
+            }
+    
             setLoading(false);
+    
+            // Log the initial values after setting them
+            console.log('Initial Values:', initialValues);
         } catch (error) {
             console.error('Error fetching data:', error);
             setLoading(false);
         }
-
-        console.log(initialValues);
-
     };
+    
 
 
     // Form submit handler
